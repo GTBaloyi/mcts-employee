@@ -1,0 +1,106 @@
+<div class="page-header">
+    <h3 class="page-title">
+    <span class="page-title-icon bg-gradient-primary text-white mr-2">
+      <i class="mdi mdi-account-box-multiple"></i>
+    </span>
+        Clients
+    </h3>
+</div>
+<div class = row>
+    <div class="col-md-4 stretch-card grid-margin">
+        <div class="card bg-gradient-danger card-img-holder text-white">
+            <div class="card-body">
+                <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>
+                <h4 class="font-weight-normal mb-3">Total Number of Clients
+                    <i class="mdi mdi-chart-line mdi-24px float-right"></i>
+                </h4>
+                <h2 class="mb-5">30</h2>
+                <h6 class="card-text">Increased by 5 within a month</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 stretch-card grid-margin">
+        <div class="card bg-gradient-info card-img-holder text-white">
+            <div class="card-body">
+                <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>
+                <h4 class="font-weight-normal mb-3">Active Clients
+                    <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                </h4>
+                <h2 class="mb-5">27</h2>
+                <h6 class="card-text">Decreased by 10%</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 stretch-card grid-margin">
+        <div class="card bg-gradient-success card-img-holder text-white">
+            <div class="card-body">
+                <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>
+                <h4 class="font-weight-normal mb-3">Client Satisfaction
+                    <i class="mdi mdi-diamond mdi-24px float-right"></i>
+                </h4>
+                <h2 class="mb-5">75%</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-header">
+                <button type="button" class="btn btn-outline-primary btn-icon-text">
+                    <i class="mdi mdi-account-plus btn-icon-prepend"></i>
+                    New Client
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th class="text-primary">Client Email</th>
+                            <th class="text-primary">Company Name</th>
+                            <th class="text-primary">Registration Number</th>
+                            <th class="text-primary">Point of Contact</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let client of clients">
+                            <td>{{client.contactEmail}}</td>
+                            <td>{{client.companyName}}</td>
+                            <td>{{client.companyRegistrationNumber}}</td>
+                            <td>{{client.contactName}} {{client.contactSurname}}</td>
+                            <td>
+                                <button type="button" class="btn btn-outline-success btn-rounded btn-icon" (click)="openModal(exampleModalContent)">
+                                    <i class="mdi mdi-eye text-success"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-danger btn-rounded btn-icon">
+                                    <i class="mdi mdi-delete text-danger"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template class="modal fade" #exampleModalContent let-modal>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" (click)="modal.close()">Submit</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal" (click)="modal.close()">Cancel</button>
+            </div>
+        </div>
+    </ng-template>
+</div>

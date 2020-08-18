@@ -1,0 +1,146 @@
+<!--
+<div id="video_overlays"></div>
+
+<video autoplay muted loop id="myVideo" >
+    <source src="../../../assets/Casting.mp4" type="video/mp4">
+</video>
+
+
+<mat-card class="card" >
+
+
+    <div class="header" ></div>
+    <div class="line">
+    </div>
+
+    <mat-card-content >
+        <div class="column" fxLayout="column">
+            <div style="padding: 0 9%">
+                <img style="height: 100%; width: 100%" src="../../../assets/mtc.png">
+            </div>
+        </div>
+        <div class="column"  fxLayout="column">
+            <div style="padding: 0% 7% 0% 0%">
+                <mat-tab-group [disableRipple]="true" mat-align-tabs="center" #matgroup>
+                    <mat-tab label="Basic_Information">
+                        <ng-template mat-tab-label>
+                            <mat-icon class="tab-icon">folder_shared</mat-icon>
+                            Basic Information
+                        </ng-template>
+
+                        <mat-card>
+                            <mat-card-content>
+                                <div style="padding: 0% 2.5% 0% 0%">
+                                    <input matInput type="text" placeholder="Title" [(ngModel)]="user.title" [value]="user.title" [matAutocomplete]="auto">
+                                    <mat-autocomplete  #auto="matAutocomplete">
+                                        <mat-option *ngFor="let option of titles" [value]="option">{{option}}</mat-option>
+                                    </mat-autocomplete>
+                                    <input matInput type="text" placeholder="Name" [(ngModel)]="user.contactName" [value]="user.contactName" required>
+                                    <input matInput type="text" placeholder="Surname" [(ngModel)]="user.contactSurname" [value]="user.contactSurname" required>
+                                    <input matInput type="text" placeholder="Gender" [(ngModel)]="user.gender" [value]="user.gender" [matAutocomplete]="auto1">
+                                    <mat-autocomplete  #auto1="matAutocomplete">
+                                        <mat-option *ngFor="let option of gender" [value]="option">{{option}}</mat-option>
+                                    </mat-autocomplete>
+                                    <input matInput type="text" placeholder="Avatar" [(ngModel)]="user.avatar" [value]="user.avatar" disabled>
+                                </div>
+
+                            </mat-card-content>
+
+                            <mat-card-actions style="display: flex;">
+                                <button mat-button style="margin-left: 1.5%;" class="button" routerLink="/landing-page"> Cancel </button>
+                                <button mat-button class="button" (click)='matgroup.selectedIndex = 1'> Next </button>
+                            </mat-card-actions>
+                        </mat-card>
+                    </mat-tab>
+
+                    <mat-tab label="Address">
+                        <ng-template mat-tab-label>
+                            <mat-icon class="tab-icon">where_to_vote</mat-icon>
+                            Additional information
+                        </ng-template>
+
+                        <mat-card>
+                            <mat-card-content>
+                                <div style="padding: 0% 2.5% 0% 0%">
+                                    <input matInput type="text" placeholder="Company name" [(ngModel)]="user.companyName" [value]="user.companyName" required>
+                                    <input matInput type="text" placeholder="Registration number" [(ngModel)]="user.companyRegistrationNumber" [value]="user.companyRegistrationNumber" required>
+                                    <input matInput type="text" placeholder="Contact email" [(ngModel)]="user.contactEmail" [value]="user.contactEmail" required>
+                                    <input matInput type="text" placeholder="Contact number" [(ngModel)]="user.contactNumber" [value]="user.contactNumber" required>
+
+                                    <input matInput type="text" placeholder="Company size" [(ngModel)]="user.companyProfile" [value]="user.companyProfile" [matAutocomplete]="auto2">
+                                    <mat-autocomplete  #auto2="matAutocomplete">
+                                        <mat-option *ngFor="let option of companyProfile" [value]="option">{{option}}</mat-option>
+                                    </mat-autocomplete>
+                                </div>
+                            </mat-card-content>
+
+
+                            <mat-card-actions style="display: flex;">
+                                <button mat-button style="margin-left: 1.5%;" class="button" (click)='matgroup.selectedIndex = 0'> Back </button>
+                                <button mat-button class="button" (click)="singUp()"  > Submit </button>
+                            </mat-card-actions>
+                        </mat-card>
+                    </mat-tab>
+                </mat-tab-group>
+
+            </div>
+        </div>
+
+    </mat-card-content>
+</mat-card>
+
+<div *ngIf="isLoading | async" class="overlay">
+    <div class="spinner">
+        <img class="loader" src="../../../assets/wheel.gif">
+    </div>
+</div>-->
+
+<div class="d-flex align-items-center auth px-0">
+    <div class="row w-100 mx-0">
+        <div class="col-lg-4 mx-auto">
+            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                <div class="brand-logo">
+                    <img src="assets/images/logo.svg" alt="logo">
+                </div>
+                <h4>New here?</h4>
+                <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
+                <form class="pt-3">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-lg" id="exampleInputUsername1" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control form-control-lg" id="exampleFormControlSelect2">
+                            <option>Country</option>
+                            <option>United States of America</option>
+                            <option>United Kingdom</option>
+                            <option>India</option>
+                            <option>Germany</option>
+                            <option>Argentina</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                    <div class="mb-4">
+                        <div class="form-check">
+                            <label class="form-check-label text-muted">
+                                <input type="checkbox" class="form-check-input">
+                                <i class="input-helper"></i>
+                                I agree to all Terms & Conditions
+                            </label>
+                        </div>
+                    </div>42
+                    <div class="mt-3">
+                        <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" routerLink="/dashboard">SIGN UP</a>
+                    </div>
+                    <div class="text-center mt-4 font-weight-light">
+                        Already have an account? <a routerLink="/login" class="text-primary">Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
