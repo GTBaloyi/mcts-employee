@@ -1,0 +1,12 @@
+image: node:10
+pipelines:
+  default:
+    - step:
+        caches:
+          - node
+        script:
+          - npm install
+          - npm install -g @angular/cli
+          - ng build
+          - ls -ltr
+          
