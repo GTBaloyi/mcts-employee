@@ -13,18 +13,24 @@ import { QuotationItemEntity } from './quotationItemEntity';
 
 
 export interface QuotationModel { 
+    quote_id?: number;
     quote_reference?: string | null;
     date_generated?: string;
     quote_expiryDate?: string;
     email?: string | null;
     company_name?: string | null;
+    company_Registration?: string | null;
     bill_address?: string | null;
     phone_number?: string | null;
+    description?: string | null;
     items?: Array<QuotationItemEntity> | null;
     subTotal?: number;
     globalDiscount?: number;
     globalTax?: number;
     grand_total?: number;
     status?: string | null;
+    reason?: string | null;
+    generatedBy?: string | null;
+    approvedBy?: string | null;
 }
 

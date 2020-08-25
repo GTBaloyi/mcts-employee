@@ -21,8 +21,14 @@ export interface QuotationResponseModel {
     company_name?: string | null;
     bill_address?: string | null;
     phone_Number?: string | null;
+    sub_Total?: number;
+    vat?: number;
+    vat_Amount?: number;
+    discount?: number;
     grand_total?: number;
     items?: Array<QuotationItemEntity> | null;
     status?: string | null;
+    reason?: string | null;
+    description?: string | null;
 }
 

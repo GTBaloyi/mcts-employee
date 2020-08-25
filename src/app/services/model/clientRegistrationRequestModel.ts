@@ -23,5 +23,7 @@ export interface ClientRegistrationRequestModel {
     companyRegistrationNumber?: string | null;
     isCompanyPresent?: boolean;
     companyProfile?: string | null;
+    dateGenerated?: string;
+    userStatus?: number;
 }
 

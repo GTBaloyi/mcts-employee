@@ -6,11 +6,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import {DashboardComponent} from "../dashboard/dashboard.component";
 import {DashboardService} from "../../services/dashboard.service";
 import {ClientsComponent} from "../clients/clients.component";
-import {UserDialogComponent, UserLoginComponent} from "../user-login/user-login.component";
-import {ClientRegistrationComponent} from "../client-registration/client-registration.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {PasswordResetComponent} from "../password-reset/password-reset.component";
 import {FooterComponent} from "../../shared/footer/footer.component";
 import {SidebarComponent} from "../../shared/sidebar/sidebar.component";
 import {SpinnerComponent} from "../../shared/spinner/spinner.component";
@@ -19,17 +16,15 @@ import {AppRoutingModule} from "../../app-routing.module";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ChartsModule} from "ng2-charts";
 import {NavbarComponent} from "../../shared/navbar/navbar.component";
-import {ToastModule} from "ng-uikit-pro-standard";
+import {ToastrModule } from 'ngx-toastr';
+import {NgxPaginationModule} from "ngx-pagination";
+import {Ng2SearchPipeModule} from "ng2-search-filter";
 
 
 @NgModule({
   declarations: [
       DefaultComponent,
       DashboardComponent,
-      UserLoginComponent,
-      UserDialogComponent,
-      ClientRegistrationComponent,
-      PasswordResetComponent,
       NavbarComponent,
       SidebarComponent,
       FooterComponent,
@@ -49,7 +44,9 @@ import {ToastModule} from "ng-uikit-pro-standard";
       AppRoutingModule,
       NgbModule,
       ChartsModule,
-      ToastModule
+      ToastrModule.forRoot(),
+      NgxPaginationModule,
+      Ng2SearchPipeModule
 
   ],
   exports: [
@@ -64,7 +61,9 @@ import {ToastModule} from "ng-uikit-pro-standard";
       AppRoutingModule,
       NgbModule,
       ChartsModule,
-      ToastModule
+      ToastrModule,
+      NgxPaginationModule,
+      Ng2SearchPipeModule
 
   ],
   providers: [

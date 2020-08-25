@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {LoginResponseModel} from "../../services";
+import {EmployeeRequestModel, LoginResponseModel} from "../../services";
 
 @Component({
   selector: 'app-sidebar',
@@ -7,15 +7,16 @@ import {LoginResponseModel} from "../../services";
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  public uiBasicCollapsed = false;
+  public systemManagement = false;
+  public financesCollapsed = false;
   public samplePagesCollapsed = false;
-  private user : LoginResponseModel;
+  private employeeInformation : EmployeeRequestModel;
 
-  constructor() { }
+  constructor() {
+    this.employeeInformation  = JSON.parse(sessionStorage.getItem("userInformation"));
+  }
 
   ngOnInit() {
-    this.user  = JSON.parse(sessionStorage.getItem("loginInfo"));
-
     const body = document.querySelector('body');
 
     // add class 'hover-open' to sidebar navitem while hover in sidebar-icon-only menu

@@ -7,33 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-    constructor() { }
+
+    constructor() {
+    }
+
 
     ngOnInit() {
     }
 
     date: Date = new Date();
-
-    visitSaleChartData = [{
-        label: 'CHN',
-        data: [20, 40, 15, 35, 25, 50, 30, 20],
-        borderWidth: 1,
-        fill: false,
-    },
-        {
-            label: 'USA',
-            data: [40, 30, 20, 10, 50, 15, 35, 40],
-            borderWidth: 1,
-            fill: false,
-        },
-        {
-            label: 'UK',
-            data: [70, 10, 30, 40, 25, 50, 15, 30],
-            borderWidth: 1,
-            fill: false,
-        }];
-
-    visitSaleChartLabels = ["2013", "2014", "2014", "2015", "2016", "2017"];
 
     visitSaleChartOptions = {
         responsive: true,
@@ -54,7 +36,7 @@ export class DashboardComponent implements OnInit {
             }],
             xAxes: [{
                 gridLines: {
-                    display:false,
+                    display: false,
                     drawBorder: false,
                     color: 'rgba(0,0,0,1)',
                     zeroLineColor: 'rgba(235,237,242,1)'
@@ -69,63 +51,6 @@ export class DashboardComponent implements OnInit {
             }]
         }
     };
-
-    visitSaleChartColors = [
-        {
-            backgroundColor: [
-                'rgba(154, 85, 255, 1)',
-                'rgba(154, 85, 255, 1)',
-                'rgba(154, 85, 255, 1)',
-                'rgba(154, 85, 255, 1)',
-                'rgba(154, 85, 255, 1)',
-                'rgba(154, 85, 255, 1)',
-            ],
-            borderColor: [
-                'rgba(154, 85, 255, 1)',
-                'rgba(154, 85, 255, 1)',
-                'rgba(154, 85, 255, 1)',
-                'rgba(154, 85, 255, 1)',
-                'rgba(154, 85, 255, 1)',
-                'rgba(154, 85, 255, 1)',
-            ]
-        },
-        {
-            backgroundColor: [
-                'rgba(254, 112, 150, 1)',
-                'rgba(254, 112, 150, 1)',
-                'rgba(254, 112, 150, 1)',
-                'rgba(254, 112, 150, 1)',
-                'rgba(254, 112, 150, 1)',
-                'rgba(254, 112, 150, 1)',
-            ],
-            borderColor: [
-                'rgba(254, 112, 150, 1)',
-                'rgba(254, 112, 150, 1)',
-                'rgba(254, 112, 150, 1)',
-                'rgba(254, 112, 150, 1)',
-                'rgba(254, 112, 150, 1)',
-                'rgba(254, 112, 150, 1)',
-            ]
-        },
-        {
-            backgroundColor: [
-                'rgba(177, 148, 250, 1)',
-                'rgba(177, 148, 250, 1)',
-                'rgba(177, 148, 250, 1)',
-                'rgba(177, 148, 250, 1)',
-                'rgba(177, 148, 250, 1)',
-                'rgba(177, 148, 250, 1)',
-            ],
-            borderColor: [
-                'rgba(177, 148, 250, 1)',
-                'rgba(177, 148, 250, 1)',
-                'rgba(177, 148, 250, 1)',
-                'rgba(177, 148, 250, 1)',
-                'rgba(177, 148, 250, 1)',
-                'rgba(177, 148, 250, 1)',
-            ]
-        },
-    ];
 
     trafficChartData = [
         {
@@ -147,14 +72,14 @@ export class DashboardComponent implements OnInit {
     trafficChartColors = [
         {
             backgroundColor: [
-                'rgba(177, 148, 250, 1)',
-                'rgba(254, 112, 150, 1)',
-                'rgba(132, 217, 210, 1)'
+                'rgb(106,80,169)',
+                'rgb(222,21,75)',
+                'rgb(22,198,184)'
             ],
             borderColor: [
-                'rgba(177, 148, 250, .2)',
-                'rgba(254, 112, 150, .2)',
-                'rgba(132, 217, 210, .2)'
+                'rgba(106,80,169,0.2)',
+                'rgba(1222,21,75,0.2)',
+                'rgba(22,198,184,.2)'
             ]
         }
     ];

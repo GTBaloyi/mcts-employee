@@ -15,10 +15,10 @@ export interface QuotationItemEntity {
     id?: number;
     focusArea?: string | null;
     item?: string | null;
-    description?: string | null;
-    unit_Price?: string | null;
+    numberOfTests?: number;
+    unit_Price?: number;
     quantity?: number;
     total?: number;
-    quote_fk?: number;
+    quote_reference?: string | null;
 }
 

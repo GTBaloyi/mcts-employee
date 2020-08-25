@@ -31,7 +31,7 @@ import { Configuration }                                     from '../configurat
 })
 export class EmployeesService {
 
-    protected basePath = 'http://localhost:5001';
+    protected basePath = 'https://mcts-service.azurewebsites.net';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;

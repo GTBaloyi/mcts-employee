@@ -1,0 +1,278 @@
+<div class="page-header">
+    <button type="button" class="btn btn-gradient-primary btn-rounded btn-icon" routerLink="/quotation" >
+        <i class="mdi mdi-backspace icon-md"></i>
+    </button>
+
+    <h3 class="page-title">
+    <span class="page-title-icon bg-gradient-primary text-white mr-2">
+      <i class="mdi mdi-file-pdf"></i>
+    </span>
+        Quotation
+    </h3>
+</div>
+
+<div class="container-scroller">
+    <div class="card">
+        <form class="pt-3" #quotationForm="ngForm" (ngSubmit)="quotationForm.form.valid && updateQuotation(quotation)">
+            <div class="row">
+                <div class="form-group row" style="margin-left: 5%; width: 20%">
+                    <label>Quote reference</label>
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg" placeholder="Quote reference"
+                           name="company_name"
+                           [(ngModel)]="quotation.quote_reference"
+                           #reference="ngModel"
+                           [ngClass]="{ 'is-invalid': quotationForm.submitted && reference.invalid }"
+                           disabled
+                           required>
+                    <div *ngIf="quotationForm.submitted && reference.invalid" class="invalid-feedback">
+                        <div *ngIf=" reference.errors.required">Company name is required</div>
+                    </div>
+                </div>
+                <div class="form-group row" style="margin-left: 5%; width: 67%">
+                    <label>Company name</label>
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg" placeholder="Company name"
+                           name="company_name"
+                           [(ngModel)]="quotation.company_name"
+                           #companyName="ngModel"
+                           [ngClass]="{ 'is-invalid': quotationForm.submitted && companyName.invalid }"
+                           disabled
+                           required>
+                    <div *ngIf="quotationForm.submitted && companyName.invalid" class="invalid-feedback">
+                        <div *ngIf=" companyName.errors.required">Company name is required</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group row" style="margin-left: 5%; width: 43.5%">
+                    <label>Email address</label>
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg" placeholder="Email address"
+                           name="email"
+                           [(ngModel)]="quotation.email"
+                           #contactEmail="ngModel"
+                           [ngClass]="{ 'is-invalid': quotationForm.submitted && contactEmail.invalid }"
+                           disabled
+                           required>
+                    <div *ngIf="quotationForm.submitted && contactEmail.invalid" class="invalid-feedback">
+                        <div *ngIf=" contactEmail.errors.required">Email is required</div>
+                    </div>
+                </div>
+
+                <div class="form-group row" style="margin-left: 5%; width: 43.5%" >
+                    <label>Contact number</label>
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg"  placeholder="Contact number"
+                           [(ngModel)]="quotation.phone_Number"
+                           name="phone_number"
+                           #cellNumber="ngModel"
+                           [ngClass]="{ 'is-invalid': quotationForm.submitted && cellNumber.invalid }"
+                           disabled
+                           required>
+                    <div *ngIf="quotationForm.submitted && cellNumber.invalid" class="invalid-feedback">
+                        <div *ngIf=" cellNumber.errors.required">Phone number is required</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group row" style="margin-left: 5%; width: 43.5%">
+                    <label>Date created</label>
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg" placeholder="Date generated"
+                           name="date_generated"
+                           [ngModel]="quotation.date_generated | date:'MMMM d, y'"
+                           #dateGenerated="ngModel"
+                           [ngClass]="{ 'is-invalid': quotationForm.submitted && dateGenerated.invalid }"
+                           disabled
+                           required>
+                    <div *ngIf="quotationForm.submitted && dateGenerated.invalid" class="invalid-feedback">
+                        <div *ngIf=" dateGenerated.errors.required">Email is required</div>
+                    </div>
+                </div>
+
+                <div class="form-group row" style="margin-left: 5%; width: 43.5%" >
+                    <label>Expiry Date</label>
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg"  placeholder="Contact number"
+                           [ngModel]="quotation.quote_expiryDate | date:'MMMM d, y'"
+                           name="quote_expiryDate"
+                           #expiryDate="ngModel"
+                           [ngClass]="{ 'is-invalid': quotationForm.submitted && expiryDate.invalid }"
+                           disabled
+                           required>
+                    <div *ngIf="quotationForm.submitted && expiryDate.invalid" class="invalid-feedback">
+                        <div *ngIf=" expiryDate.errors.required">Phone number is required</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group row" style="margin-left: 5%; width: 90%">
+                    <label>Description</label>
+                    <textarea style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg"  placeholder="Description"
+                           [(ngModel)]="quotation.description"
+                           name="description"
+                           #description="ngModel"
+                           [ngClass]="{ 'is-invalid': quotationForm.submitted && description.invalid }"
+                           disabled
+                           required>
+                    </textarea>
+                    <div *ngIf="quotationForm.submitted && description.invalid" class="invalid-feedback">
+                        <div *ngIf=" description.errors.required">Company registration is required</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group row" style="margin-left: 5%; width: 90%">
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg"  placeholder="Address"
+                           [(ngModel)]="quotation.bill_address"
+                           name="bill_address"
+                           #billAddress="ngModel"
+                           [ngClass]="{ 'is-invalid': quotationForm.submitted && billAddress.invalid }"
+                           disabled
+                           required>
+                    <div *ngIf="quotationForm.submitted && billAddress.invalid" class="invalid-feedback">
+                        <div *ngIf=" billAddress.errors.required">Bill address is required</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group row" style="margin-left: 5%; width: 90%">
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg"  placeholder="Reason"
+                           [(ngModel)]="quotation.reason"
+                           name="reason"
+                           #reason="ngModel"
+                           [ngClass]="{ 'is-invalid': quotationForm.submitted && reason.invalid }"
+                           disabled
+                           required>
+                    <div *ngIf="quotationForm.submitted && reason.invalid" class="invalid-feedback">
+                        <div *ngIf=" reason.errors.required">Bill address is required</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive" style="margin-left: 3%; width: 94%">
+
+                <table class="table table-striped" >
+                    <thead>
+                    <tr>
+                        <th colspan="4">Add products to the table.</th>
+                    </tr>
+                    <tr>
+                        <th>Focus area</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let product of quotation.items; let i = index;">
+                        <td style="width: 40%; border: solid  #fff 1px">
+                            {{product.focusArea}}
+                        </td>
+                        <td style="width: 35%; border: solid  #fff 1px" class="text-success">
+                            {{product.item}}
+                        </td>
+                        <td style="width: 15%; border: solid  #fff 1px" class="text-danger">
+                            {{product.quantity}}
+                        </td>
+                        <td style="width: 10%">
+                            <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon" (click)="deleteItem(i)">
+                                <i class="mdi mdi-delete icon-md"></i>
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 40%; border: solid  #fff 1px">
+                            <select class="form-control form-control-lg"
+                                    [(ngModel)]="selectedFocusArea"
+                                    name="selectedFocusArea"
+                                    #focusArea="ngModel"
+                                    [ngClass]="{ 'is-invalid': quotationForm.submitted && focusArea.invalid }"
+                                    required>
+                                <option *ngFor="let focusArea of focusAreas" [value]="focusArea.name">{{focusArea.name}}</option>
+                                <div *ngIf="quotationForm.submitted && focusArea.invalid" class="invalid-feedback">
+                                    <div *ngIf=" focusArea.errors.required">Focus area is required</div>
+                                </div>
+                            </select>
+                        </td>
+                        <td style="width: 35%; border: solid  #fff 1px">
+                            <select class="form-control form-control-lg"
+                                    [(ngModel)]="selectedProduct"
+                                    name="selectedProduct"
+                                    #product="ngModel"
+                                    [ngClass]="{ 'is-invalid': quotationForm.submitted && product.invalid }"
+                                    required>
+                                <option *ngFor="let product of products" [value]="product.item">{{product.item}}</option>
+                                <div *ngIf="quotationForm.submitted && product.invalid" class="invalid-feedback">
+                                    <div *ngIf=" product.errors.required">Product is required</div>
+                                </div>
+                            </select>
+                        </td>
+                        <td style="width: 15%; border: solid  #fff 1px">
+                            <input type="number" class="form-control"
+                                   [ngModel]="selectedQuantity"
+                                   name="selectedQuantity"
+                                   #quantity="ngModel"
+                                   [ngClass]="{ 'is-invalid': quotationForm.submitted && quantity.invalid }"
+                                   required>
+                            <div *ngIf="quotationForm.submitted && quantity.invalid" class="invalid-feedback">
+                                <div *ngIf=" quantity.errors.required">Quantity is required</div>
+                            </div>
+                        </td>
+                        <td style="width: 10%; border: solid  #fff 1px">
+                            <button type="button" class="btn btn-gradient-primary btn-rounded btn-icon" (click)="addItem()">
+                                <i class="mdi mdi-plus-box icon-md"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                     <tr>
+                         <td colspan="2">SUBTOTAL</td>
+                         <td colspan="2">R {{quotation.sub_Total}}</td>
+                     </tr>
+                     <tr>
+                         <td colspan="2">VAT 15%</td>
+                         <td colspan="2">R {{quotation.vat_Amount}}</td>
+                     </tr>
+                    <tr>
+                        <td colspan="2">GRAND TOTAL</td>
+                        <td colspan="2">R {{quotation.grand_total}}</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+
+
+            <div class="row" *ngIf="quotation.status != 'Accepted'">
+                <button style="margin: 3%; width: 44%" type="button" class="btn btn-gradient-success" data-dismiss="modal" routerLink="/quotation">
+                    Cancel
+                </button>
+                <button *ngIf="quotation.status == 'Pending' && employeeInformation.position !== 'Manager'" style="margin: 3%; width: 44%" type="submit" class="btn btn-gradient-primary" data-dismiss="modal">
+                    Generate quote
+                </button>
+
+                <button *ngIf="quotation.status !== 'Pending' && employeeInformation.position !== 'Manager'" style="margin: 3%; width: 44%" type="submit" class="btn btn-gradient-primary" data-dismiss="modal">
+                    Save
+                </button>
+
+                <button *ngIf="quotation.status !== 'Pending' && employeeInformation.position == 'Manager'" style="margin: 3%; width: 44%" type="submit" class="btn btn-gradient-primary" data-dismiss="modal">
+                    Accept Quote
+                </button>
+
+                <button *ngIf="quotation.status == 'Pending' && employeeInformation.position == 'Manager'" style="margin: 3%; width: 44%" type="submit" class="btn btn-gradient-primary" data-dismiss="modal">
+                    Generate Quote
+                </button>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div *ngIf="isLoading | async" class="overlay">
+    <div class="spinner">
+        <img class="loader" src="../../../assets/wheel.gif">
+    </div>
+</div>

@@ -2,8 +2,7 @@
 
 @import '../../../styles.scss';
 .sidebar {
-  min-height: calc(100vh - #{$navbar-height});
-  background: $sidebar-bg;
+  background: $theme-gradient;
   font-family: $type1-regular;
   padding: 0;
   width: $sidebar-width-lg;
@@ -36,7 +35,7 @@
         @include align-items(center);
         white-space: nowrap;
         padding:$sidebar-menu-padding-y 0 $sidebar-menu-padding-y 0;
-        color: $sidebar-menu-color;
+        color: #ffffff;
         @include transition-duration(0.45s);
         transition-property: color;
         -webkit-transition-property: color;
@@ -53,7 +52,7 @@
               margin-left: 0;
               margin-right: auto;
             }
-            color: $sidebar-menu-icon-color;
+            color: #ffffff;
             &:before {
               vertical-align: middle;
             }
@@ -68,7 +67,7 @@
               margin-left: 0;
               margin-right: auto;
             }
-            color: $sidebar-menu-arrow-color;
+            color: #ffffff;
             &:before{
               content: "\f141";
               font-size: inherit;
@@ -111,7 +110,7 @@
         .nav-link {
           .menu-title {
             color: $sidebar-menu-active-color;
-            font-family: $type1-medium;            
+            font-family: $type1-medium;
           }
           i {
             color: theme-color(primary);
@@ -120,7 +119,8 @@
       }
 
       &:hover{
-        background: $sidebar-menu-hover-bg;
+        background: $sidebar-menu-hover-color;
+        color: $sidebar-menu-active-color!important;
       }
       &.nav-profile {
         .nav-link {
@@ -177,7 +177,8 @@
         &:hover {
           &:not(.nav-category):not(.nav-profile) {
             > .nav-link {
-              color: $sidebar-menu-hover-color;
+              background: $sidebar-menu-hover-color;
+              color: $sidebar-menu-active-color!important;
             }
           }
         }
@@ -191,7 +192,7 @@
       .nav-item {
         padding: 0;
         .nav-link {
-          color: $sidebar-submenu-color;
+          color: #FFFFFF;
           padding: $sidebar-submenu-item-padding;
           position: relative;
           font-size: $sidebar-submenu-font-size;
@@ -210,7 +211,7 @@
             }
             top:50%;
             @include transform(translateY(-50%));
-            color: lighten($sidebar-submenu-color, 10%);
+            color: #FFFFFF;
             font-size: .75rem;
           }
           &.active {
@@ -245,7 +246,7 @@
           .nav-link {
             display: block;
             padding-left: .5rem;
-            padding-right: .5rem;            
+            padding-right: .5rem;
             text-align: center;
             position: static;
             .menu-title,
@@ -280,7 +281,6 @@
               .menu-title {
                 @include display-flex;
                 @include align-items(center);
-                background: $sidebar-menu-hover-bg;
                 padding: 0.5rem 1.4rem;
                 left: $sidebar-width-icon;
                 position: absolute;
@@ -291,7 +291,7 @@
                 z-index: 1;
                 line-height: 1.8;
                 -webkit-box-shadow: 4px 0px 7px 0px rgba(182, 185, 189, 0.25);
-                        box-shadow: 4px 0px 7px 0px rgba(182, 185, 189, 0.25);              
+                box-shadow: 4px 0px 7px 0px rgba(182, 185, 189, 0.25);
                 &:after {
                   display: none;
                 }
@@ -300,13 +300,13 @@
             .collapse,
             .collapsing {
               display: block;
-              background: $icon-only-menu-bg-light;
+              background: $black;
               @include border-radius(0 0 5px 0);
               position: absolute;
               left: $sidebar-width-icon;
               width: $icon-only-collapse-width;
               -webkit-box-shadow: 4px 4px 7px 0px rgba(182, 185, 189, 0.25);
-                      box-shadow: 4px 4px 7px 0px rgba(182, 185, 189, 0.25);
+              box-shadow: 4px 4px 7px 0px rgba(182, 185, 189, 0.25);
             }
           }
           &.nav-profile {
@@ -346,8 +346,6 @@
     }
   }
 }
-// Sidebar icon only layout end
-
 
 /* style for off-canvas menu*/
 @media screen and (max-width: 991px) {
@@ -365,4 +363,13 @@
       right: 0;
     }
   }
+}
+
+.style18 {
+  margin-top: 2%;
+  height: 100%;
+  border-style: solid;
+  border-color: #23275b;
+  border-width: 1px 0 0 0;
+  border-radius: 20px;
 }

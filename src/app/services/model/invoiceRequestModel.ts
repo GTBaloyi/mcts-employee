@@ -16,16 +16,19 @@ export interface InvoiceRequestModel {
     reference?: string | null;
     invoice_date?: string;
     date_due?: string;
-    title?: string | null;
-    description?: string | null;
-    vat_number?: string | null;
-    bill_to_id?: number;
-    vat?: string | null;
-    terms?: string | null;
-    total?: number;
+    daysBeforeExpiry?: number;
+    quotation_Reference?: string | null;
+    vat_percentage?: number;
+    bill_address?: string | null;
+    vat?: number;
+    discount?: number;
     subtotal?: number;
     quantity?: number;
-    total_due?: number;
-    user_id?: number;
+    grand_total?: number;
+    company_registration?: string | null;
+    generatedBy?: string | null;
+    approvedBy?: string | null;
+    amountDue?: number;
+    amountPayed?: number;
 }
 

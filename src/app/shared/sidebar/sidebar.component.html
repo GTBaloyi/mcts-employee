@@ -1,76 +1,72 @@
-<nav class="sidebar sidebar-offcanvas" id="sidebar">
+<nav class="sidebar sidebar-offcanvas" id="sidebar" >
   <ul class="nav">
     <li class="nav-item nav-profile">
-      <a href="javascript:;" class="nav-link">
+      <a class="nav-link">
         <div class="nav-profile-text">
-          <span class="font-weight-bold mb-2">{{user.name}} {{user.surname}}</span>
-          <span class="text-secondary text-small">Administrator</span>
+          <span class="font-weight-bold mb-2">{{employeeInformation.name}} {{employeeInformation.surname}}</span>
+          <span class="text-secondary text-small">{{employeeInformation.position}}</span>
         </div>
-        <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+        <i class="mdi mdi-bookmark-check bg-gradient-success nav-profile-badge"></i>
       </a>
     </li>
-    <li class="nav-item" [ngClass]="{ 'active': dashboard.isActive }">
+    <li class="nav-item style18" [ngClass]="{ 'active': dashboard.isActive }">
       <a class="nav-link" routerLink="/dashboard" routerLinkActive #dashboard="routerLinkActive">
         <span class="menu-title">Dashboard</span>
         <i class="mdi mdi-home menu-icon"></i>
       </a>
     </li>
-    <li class="nav-item" [ngClass]="{ 'active': clients.isActive }">
+    <li class="nav-item style18" [ngClass]="{ 'active': clients.isActive }">
       <a class="nav-link" routerLink="/clients" routerLinkActive #clients="routerLinkActive">
         <span class="menu-title">Clients</span>
         <i class="mdi mdi-account-box-multiple menu-icon"></i>
       </a>
     </li>
-    <li class="nav-item" [ngClass]="{ 'active': forms.isActive }">
-      <a class="nav-link" routerLink="forms/basic-elements" routerLinkActive #forms="routerLinkActive">
-        <span class="menu-title">Enquiries</span>
-        <i class="mdi mdi-information-variant menu-icon"></i>
-      </a>
-    </li>
-    <li class="nav-item" >
-      <a class="nav-link" (click)="uiBasicCollapsed = !uiBasicCollapsed" [attr.aria-expanded]="uiBasicCollapsed" aria-controls="ui-basic">
+
+    <li class="nav-item style18" [ngClass]="{'active' : invoices.isActive || quotation.isActive || payments.isActive}" >
+      <a class="nav-link" (click)="financesCollapsed = !financesCollapsed" [attr.aria-expanded]="financesCollapsed" aria-controls="ui-basic">
         <span class="menu-title">Finances</span>
         <i class="menu-arrow"></i>
         <i class="mdi mdi-finance menu-icon"></i>
       </a>
-      <div class="collapse" id="finance" [ngbCollapse]="!uiBasicCollapsed">
+      <div class="collapse" id="finance" [ngbCollapse]="!financesCollapsed">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" routerLink="basic-ui/buttons" routerLinkActive="active" #buttons="routerLinkActive">Invoices</a></li>
-          <li class="nav-item"> <a class="nav-link" routerLink="basic-ui/badges" routerLinkActive="active" #badges="routerLinkActive">Quotation</a></li>
-          <li class="nav-item"> <a class="nav-link" routerLink="basic-ui/breadcrumbs" routerLinkActive="active" #breadcrumbs="routerLinkActive">Payment</a></li>
+          <li class="nav-item"> <a class="nav-link" routerLink="/invoices" routerLinkActive="active" #invoices="routerLinkActive">Invoices</a></li>
+          <li class="nav-item"> <a class="nav-link" routerLink="/quotation" routerLinkActive="active" #quotation="routerLinkActive">Quotation</a></li>
+          <li class="nav-item"> <a class="nav-link" routerLink="/payments" routerLinkActive="active" #payments="routerLinkActive">Payment</a></li>
         </ul>
       </div>
     </li>
 
-    <li class="nav-item" [ngClass]="{ 'active': forms.isActive }">
-      <a class="nav-link" routerLink="forms/basic-elements" routerLinkActive #forms="routerLinkActive">
+    <li class="nav-item style18" [ngClass]="{ 'active': projects.isActive }">
+      <a class="nav-link" routerLink="/projects" routerLinkActive #projects="routerLinkActive">
         <span class="menu-title">Projects</span>
         <i class="mdi mdi-database menu-icon"></i>
       </a>
     </li>
-    <li class="nav-item" [ngClass]="{ 'active': forms.isActive }">
-      <a class="nav-link" routerLink="forms/basic-elements" routerLinkActive #forms="routerLinkActive">
-        <span class="menu-title">Product Management</span>
-        <i class="mdi mdi-store menu-icon"></i>
-      </a>
-    </li>
-    <li class="nav-item" [ngClass]="{ 'active': charts.isActive }">
-      <a class="nav-link" routerLink="charts/chartjs" routerLinkActive #charts="routerLinkActive">
+    <li class="nav-item style18" [ngClass]="{ 'active': reports.isActive }" >
+      <a class="nav-link" routerLink="/reports" routerLinkActive #reports="routerLinkActive">
         <span class="menu-title">Reports</span>
         <i class="mdi mdi-chart-pie menu-icon"></i>
       </a>
     </li>
-    <li class="nav-item" [ngClass]="{ 'active': tables.isActive }">
-      <a class="nav-link" routerLink="tables/basic-table" routerLinkActive #tables="routerLinkActive">
+    <li class="nav-item style18" [ngClass]="{ 'active': virtualOffice.isActive }">
+      <a class="nav-link" routerLink="/virtualOffice" routerLinkActive #virtualOffice="routerLinkActive">
         <span class="menu-title">MCIT Virtual Office</span>
         <i class="mdi mdi-office-building menu-icon"></i>
       </a>
     </li>
-    <li class="nav-item" [ngClass]="{ 'active': icons.isActive }">
-      <a class="nav-link" routerLink="icons/mdi" routerLinkActive #icons="routerLinkActive">
+
+    <li class="nav-item style18" [ngClass]="{'active' : employess.isActive}" >
+      <a class="nav-link" (click)="systemManagement = !systemManagement" [attr.aria-expanded]="systemManagement" aria-controls="ui-basic">
         <span class="menu-title">System Management</span>
-        <i class="mdi mdi-settings-box menu-icon"></i>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-finance menu-icon"></i>
       </a>
+      <div class="collapse" id="systemManagement" [ngbCollapse]="!systemManagement">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" routerLink="/employees" routerLinkActive="active" #employess="routerLinkActive">Manage Employess</a></li>
+        </ul>
+      </div>
     </li>
   </ul>
 </nav>

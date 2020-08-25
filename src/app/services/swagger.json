@@ -557,7 +557,24 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceResponseModel"
+                }
+              }
+            }
           }
         }
       }
@@ -610,19 +627,18 @@
         }
       }
     },
-    "/api/Invoice/invoice/{id}": {
+    "/api/Invoice/invoice/{companyRegistration}": {
       "get": {
         "tags": [
           "Invoice"
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "companyRegistration",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -632,17 +648,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/InvoiceResponseModel"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InvoiceResponseModel"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/InvoiceResponseModel"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InvoiceResponseModel"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/InvoiceResponseModel"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InvoiceResponseModel"
+                  }
                 }
               }
             }
@@ -963,6 +988,54 @@
       }
     },
     "/api/Quotation/update-quote": {
+      "put": {
+        "tags": [
+          "Quotation"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuotationModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuotationModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuotationModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuotationResponseModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuotationResponseModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuotationResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Quotation/generate-quote": {
       "put": {
         "tags": [
           "Quotation"
@@ -1355,6 +1428,14 @@
           "companyProfile": {
             "type": "string",
             "nullable": true
+          },
+          "dateGenerated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "userStatus": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -1572,31 +1653,27 @@
             "type": "string",
             "format": "date-time"
           },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "vat_number": {
-            "type": "string",
-            "nullable": true
-          },
-          "bill_to_id": {
+          "daysBeforeExpiry": {
             "type": "integer",
             "format": "int32"
           },
+          "quotation_Reference": {
+            "type": "string",
+            "nullable": true
+          },
+          "vat_percentage": {
+            "type": "number",
+            "format": "double"
+          },
+          "bill_address": {
+            "type": "string",
+            "nullable": true
+          },
           "vat": {
-            "type": "string",
-            "nullable": true
+            "type": "number",
+            "format": "double"
           },
-          "terms": {
-            "type": "string",
-            "nullable": true
-          },
-          "total": {
+          "discount": {
             "type": "number",
             "format": "double"
           },
@@ -1608,13 +1685,67 @@
             "type": "integer",
             "format": "int32"
           },
-          "total_due": {
+          "grand_total": {
             "type": "number",
             "format": "double"
           },
-          "user_id": {
+          "company_registration": {
+            "type": "string",
+            "nullable": true
+          },
+          "generatedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "amountDue": {
+            "type": "number",
+            "format": "double"
+          },
+          "amountPayed": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "QuotationItemEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
             "type": "integer",
             "format": "int32"
+          },
+          "focusArea": {
+            "type": "string",
+            "nullable": true
+          },
+          "item": {
+            "type": "string",
+            "nullable": true
+          },
+          "numberOfTests": {
+            "type": "number",
+            "format": "double"
+          },
+          "unit_Price": {
+            "type": "number",
+            "format": "double"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          },
+          "quote_reference": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1638,31 +1769,22 @@
             "type": "string",
             "format": "date-time"
           },
-          "title": {
-            "type": "string",
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuotationItemEntity"
+            },
             "nullable": true
           },
-          "description": {
+          "vat_percentage": {
+            "type": "number",
+            "format": "double"
+          },
+          "bill_address": {
             "type": "string",
             "nullable": true
-          },
-          "vat_number": {
-            "type": "string",
-            "nullable": true
-          },
-          "bill_to_id": {
-            "type": "integer",
-            "format": "int32"
           },
           "vat": {
-            "type": "string",
-            "nullable": true
-          },
-          "terms": {
-            "type": "string",
-            "nullable": true
-          },
-          "total": {
             "type": "number",
             "format": "double"
           },
@@ -1670,17 +1792,29 @@
             "type": "number",
             "format": "double"
           },
-          "quantity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "total_due": {
+          "grand_totoal": {
             "type": "number",
             "format": "double"
           },
-          "user_id": {
-            "type": "integer",
-            "format": "int32"
+          "company_registration": {
+            "type": "string",
+            "nullable": true
+          },
+          "generatedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount_due": {
+            "type": "number",
+            "format": "double"
+          },
+          "amount_payed": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -1725,47 +1859,13 @@
         },
         "additionalProperties": false
       },
-      "QuotationItemEntity": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "focusArea": {
-            "type": "string",
-            "nullable": true
-          },
-          "item": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "unit_Price": {
-            "type": "string",
-            "nullable": true
-          },
-          "quantity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "total": {
-            "type": "number",
-            "format": "double"
-          },
-          "quote_fk": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
       "QuotationModel": {
         "type": "object",
         "properties": {
+          "quote_id": {
+            "type": "integer",
+            "format": "int32"
+          },
           "quote_reference": {
             "type": "string",
             "nullable": true
@@ -1786,11 +1886,19 @@
             "type": "string",
             "nullable": true
           },
+          "company_Registration": {
+            "type": "string",
+            "nullable": true
+          },
           "bill_address": {
             "type": "string",
             "nullable": true
           },
           "phone_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
             "type": "string",
             "nullable": true
           },
@@ -1818,6 +1926,18 @@
             "format": "double"
           },
           "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "generatedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedBy": {
             "type": "string",
             "nullable": true
           }
@@ -1859,6 +1979,22 @@
             "type": "string",
             "nullable": true
           },
+          "sub_Total": {
+            "type": "number",
+            "format": "double"
+          },
+          "vat": {
+            "type": "number",
+            "format": "double"
+          },
+          "vat_Amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "discount": {
+            "type": "number",
+            "format": "double"
+          },
           "grand_total": {
             "type": "number",
             "format": "double"
@@ -1871,6 +2007,14 @@
             "nullable": true
           },
           "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
             "type": "string",
             "nullable": true
           }

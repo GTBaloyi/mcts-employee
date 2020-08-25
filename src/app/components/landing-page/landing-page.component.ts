@@ -1,10 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbDropdownConfig} from "@ng-bootstrap/ng-bootstrap";
 import {Subject} from "rxjs";
-import {LoginResponseModel, UsersService} from "../../services";
+import {EmployeeRequestModel, EmployeesService, LoginResponseModel, UsersService} from "../../services";
 import {AuthGuard} from "../../services/auth.guard";
 import {Router} from "@angular/router";
-import {ClientRegistrationRequestModel} from "../../services/model/models";
+import {NgForm} from "@angular/forms";
+import { ToastrService } from 'ngx-toastr';
+
+
+export interface LoginForm {
+    email: string;
+    password: any;
+}
 
 @Component({
   selector: 'app-landing-page',
@@ -14,17 +21,17 @@ import {ClientRegistrationRequestModel} from "../../services/model/models";
 export class LandingPageComponent implements OnInit {
 
     isLoading = new Subject<boolean>();
-    private username: string;
-    private password: string;
-    private errorPassword: boolean= false;
+    private login: LoginForm = <LoginForm>{};
     private user: LoginResponseModel;
-    private titles: Array<string> = ['Mr', 'Mrs', 'Miss', 'Ms', 'Sir', 'Dr'];
-    private gender: Array<string> = ['Male', 'Female', 'Other'];
-    private companyProfile: Array<string> = ['Small', 'Large', 'HEIs/Science Council', 'Techno/Star-Entrepreneur'];
-    private result: ClientRegistrationRequestModel;
-    private Newuser: ClientRegistrationRequestModel = <ClientRegistrationRequestModel>{} ;
+    private userInformation : EmployeeRequestModel;
 
-    constructor(config: NgbDropdownConfig, private usersService: UsersService, private authGuard: AuthGuard, private router: Router) {
+
+    constructor(config: NgbDropdownConfig,
+                private usersService: UsersService,
+                private authGuard: AuthGuard,
+                private router: Router,
+                private toastr: ToastrService,
+                private employeesService: EmployeesService) {
         config.placement = 'bottom-right';
     }
 
@@ -32,102 +39,71 @@ export class LandingPageComponent implements OnInit {
 
     }
 
-
-    public signIn(username: string, password: string) {
-
-        if(username == '' && password == ''){
-            //this.showCustomToast('Please enter a username and password');
-        }else if(username == ''){
-            //this.showCustomToast('Please enter a username');
-
-        }else if( password == ''){
-            //this.showCustomToast('Please enter a password');
-
-        }
-
-        if (username != '' && password != ''){
-            this.isLoading.next(true);
-
-            this.usersService.apiUsersLoginGet(username, password).subscribe(
-
-                (data: LoginResponseModel) => {
-                    this.user = data;
-                    if (this.user != null) {
-                        this.user.loggedIn = true;
-                        sessionStorage.setItem('loginInfo', JSON.stringify(data));
-                    }
-
-                },
-                error => {
-                    console.log(error);
-                    this.errorPassword = true;
-                    //this.showError();
-                    this.isLoading.next(false);
-
-                },
-                () => {
-                    this.authGuard.userValidation(this.user, password, username);
-                    if(this.user.userStatus == 1){
-                        //this.showSuccess();
-                    }else if(this.user.userStatus == 3){
-                        //this.openDialog();
-                    }
-                    this.isLoading.next(false);
-                    this.router.navigateByUrl('/dashboard');
-
-                }
-            )
-        }
-
-    }
-
-    singUp() {
-
-        this.Newuser.isCompanyPresent = true;
-        this.Newuser.avatar = '';
-
+    public signIn(loginForm: NgForm) {
         this.isLoading.next(true);
-        this.usersService.apiUsersClientRegistrationPost(this.Newuser).subscribe(
-            (data: any) => {
-                this.result = data;
+        this.usersService.apiUsersLoginGet(loginForm.value.email, loginForm.value.password).subscribe(
+            (data: LoginResponseModel) => {
+                this.user = data;
+                if (this.user != null) {
+                    this.user.loggedIn = true;
+                    sessionStorage.setItem('loginInfo', JSON.stringify(data));
+                }
             },
             error => {
                 console.log(error);
-                //this.showError();
+                this.showError();
                 this.isLoading.next(false);
             },
             () => {
-                //this.showSuccess();
                 this.isLoading.next(false);
-                this.router.navigateByUrl('/landing-page');
+                this.authGuard.userValidation(this.user,loginForm.value.password, loginForm.value.email);
+
+                if(this.user.accessLevel == 3 || this.user.accessLevel == 2) {
+                    this.showSuccess();
+                    this.getEmployeeInformation(loginForm.value.email);
+                    sessionStorage.setItem('username', JSON.stringify(loginForm.value.email));
+                    this.router.navigateByUrl('/dashboard');
+                }else{
+                    this.showCustomToast();
+                }
 
             }
-        )
+        );
     }
 
-    /*showSuccess() {
-        this.toastService.show('Process successfully completed', {
-            classname: 'bg-success text-light',
-            delay: 2000 ,
-            autohide: true,
-            headertext: 'Toast Header'
+    public getEmployeeInformation(employeeID: string) {
+
+        this.employeesService.apiEmployeesEmployeeNumberGet(employeeID).subscribe(
+
+            (data: EmployeeRequestModel) => {
+                this.userInformation = data;
+            },
+            error => {
+
+            },
+            () => {
+                sessionStorage.setItem('userInformation', JSON.stringify(this.userInformation));
+            }
+        );
+    }
+
+    showSuccess() {
+        this.toastr.success('Process successfully completed', 'Success', {
+            timeOut: 5000,
         });
     }
 
     showError() {
-        this.toastService.show('Opps, an error occurred. Please try again.', {
-            classname: 'bg-danger text-light',
-            delay: 2000 ,
-            autohide: true,
-            headertext: 'Error!!!'
+        this.toastr.error('Ops, an error occurred. Please try again.', 'Error!!!', {
+            timeOut: 5000,
         });
     }
 
-    showCustomToast(customTpl) {
-        this.toastService.show(customTpl, {
-            classname: 'bg-info text-light',
-            delay: 3000,
-            autohide: true
-        });
-    }*/
+    showCustomToast() {
+        this.toastr.info(
+            'If this problem persists please contact \n the administrator to have your account activated.', 'Login Failed', {
+                timeOut: 5000,
+            });
+    }
+
 }
