@@ -19,17 +19,6 @@ export class ClientsComponent implements OnInit {
     private numberOfClients: number = 0;
     private numberOfClientsSatisfaction: number = 0
 
-    /*colors: any[] = [
-        {
-            "userStatus": "3",
-            "color": '#ffc107'
-        },
-        {
-            "userStatus": "4",
-            "color": '#dc3545'
-        },
-
-    ];*/
 
     private config: any;
     private filter : string;
@@ -69,13 +58,16 @@ export class ClientsComponent implements OnInit {
         this.clientService.apiClientsGet().subscribe(
             (data: ClientRegistrationRequestModel[] )=>{
                 this.clients = data;
-
-
             },
             err =>{
                 this.showError()
             },
             ()=>{
+                this.numberOfClients = 0;
+                this.numberOfActiveClients = 0;
+                this.numberOfInactiveClients = 0;
+                this.numberOfClientsSatisfaction = 0;
+
                 this.inactiveClients();
                 this.getActiveClients();
                 this.getClientsOfMonth();
@@ -99,7 +91,7 @@ export class ClientsComponent implements OnInit {
     inactiveClients(){
         for(let client of this.clients){
             if(client.userStatus != 1){
-                this.numberOfInactiveClients = this.numberOfInactiveClients + 1;
+                this.numberOfInactiveClients = this.numberOfInactiveClients+1;
             }
         }
     }
@@ -107,7 +99,7 @@ export class ClientsComponent implements OnInit {
     getActiveClients(){
         for(let client of this.clients){
             if(client.userStatus == 1){
-                this.numberOfActiveClients = this.numberOfActiveClients + 1;
+                this.numberOfActiveClients = this.numberOfActiveClients+1;
             }
         }
     }
@@ -160,6 +152,30 @@ export class ClientsComponent implements OnInit {
 
     removeClient(editClient){
         this.isLoading.next(true);
+        editClient.userStatus = 4;
+
+        this.clientService.apiClientsUpdateClientPut(editClient).subscribe(
+            () => {
+            },
+            error => {
+                if(error.status == 200){
+                    this.modalService.dismissAll();
+                    this.getClients();
+                }else{
+                    console.log(error);
+                    this.showError();
+                }
+            },
+            () => {
+                this.modalService.dismissAll();
+                this.getClients();
+            }
+        );
+
+    }
+
+    lockAccount(editClient){
+        this.isLoading.next(true);
         editClient.userStatus = 3;
 
         this.clientService.apiClientsUpdateClientPut(editClient).subscribe(
@@ -181,6 +197,31 @@ export class ClientsComponent implements OnInit {
         );
 
     }
+
+    unlockAccount(editClient){
+        this.isLoading.next(true);
+        editClient.userStatus = 1;
+
+        this.clientService.apiClientsUpdateClientPut(editClient).subscribe(
+            () => {
+            },
+            error => {
+                if(error.status == 200){
+                    this.modalService.dismissAll();
+                    this.getClients();
+                }else{
+                    console.log(error);
+                    this.showError();
+                }
+            },
+            () => {
+                this.modalService.dismissAll();
+                this.getClients();
+            }
+        );
+
+    }
+
 
 
     openModal(value: any, data: any) {

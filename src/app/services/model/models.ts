@@ -10,6 +10,8 @@ export * from './focusAreaModel';
 export * from './invoiceRequestModel';
 export * from './invoiceResponseModel';
 export * from './loginResponseModel';
+export * from './projectInformationRequestModel';
+export * from './projectInformationResponseModel';
 export * from './quotationItemEntity';
 export * from './quotationModel';
 export * from './quotationResponseModel';

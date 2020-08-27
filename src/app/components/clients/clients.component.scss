@@ -10,10 +10,21 @@
 }
 
 
+.active{
+  color: #000000;
+}
+
 .deactivated{
   color: $danger;
 }
 
 .suspended{
   color: $warning;
+}
+
+.box{
+  width: 100%;
+  color: #fff;
+  width:15px;
+  height:15px;
 }

@@ -19,6 +19,7 @@ export interface QuotationResponseModel {
     quote_expiryDate?: string;
     email?: string | null;
     company_name?: string | null;
+    company_registration?: string | null;
     bill_address?: string | null;
     phone_Number?: string | null;
     sub_Total?: number;

@@ -37,7 +37,7 @@
                     <tbody *ngIf="quotations.length != 0">
                     <tr *ngFor="let quotation of quotations | paginate: config | filter: filter">
                         <td>{{quotation.quote_reference}}</td>
-                        <td>{{quotation.date_generated | date:'MMMM d, y'}}</td>
+                        <td>{{quotation.date_generated | date:'yyyy-MM-dd'}}</td>
                         <td>{{quotation.company_name}}</td>
                         <td>{{quotation.email}}</td>
                         <td>{{quotation.phone_Number}}</td>

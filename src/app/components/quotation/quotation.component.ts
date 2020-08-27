@@ -15,14 +15,11 @@ export class QuotationComponent implements OnInit {
   isLoading = new Subject<boolean>();
   private config: any;
   private filter : string;
-  private showAddQuotation: boolean;
   private focusAreas: Array<any> = [];
   private selectedFocusArea: string;
   private products: Array<any> = [];
   private selectedProduct: string;
   private selectedQuantity: number;
-  private newProduct: QuotationItemEntity  = {};
-  private quotation: QuotationModel= <QuotationModel> {};
   private quotations: Array<QuotationResponseModel>= [];
   private productsArray: Array<QuotationItemEntity> = [];
   private employeeInformation : EmployeeRequestModel;
@@ -79,40 +76,6 @@ export class QuotationComponent implements OnInit {
         }
     )
   }
-
-  requestQuotation(quotation){
-    this.isLoading.next(true);
-
-    let date = moment().format("YYYY-MM-DD");
-
-    quotation.quote_reference = '';
-    quotation.date_generated = date.toString();
-    quotation.quote_expiryDate = date.toString();
-    quotation.items = this.productsArray;
-    if(this.employeeInformation.position == 'General Staff'){
-      quotation.status = 'Pending Manager Approval';
-    }else{
-      quotation.status = 'Pending Client Approval';
-    }
-
-    quotation.approvedBy = this.employeeInformation.surname +" "+ this.employeeInformation.name
-
-    this.quotationService.apiQuotationCreateQuotePost(quotation).subscribe (
-        (data: any) => {
-        },
-        error => {
-            console.log(error);
-            this.isLoading.next(false);
-            this.showError();
-        },
-        () => {
-          this.isLoading.next(false);
-          this.showSuccess();
-        }
-    )
-
-  }
-
 
   getQuotation(){
     this.isLoading.next(true);

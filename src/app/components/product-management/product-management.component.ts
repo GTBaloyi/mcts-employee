@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-product-management',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./product-management.component.scss']
 })
 export class ProductManagementComponent implements OnInit {
+  isLoading = new Subject<boolean>();
 
   constructor() { }
 

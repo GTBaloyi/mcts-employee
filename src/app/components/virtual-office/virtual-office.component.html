@@ -6,3 +6,11 @@
         Virtual Office
     </h3>
 </div>
+
+
+
+<div *ngIf="isLoading | async" class="overlay">
+    <div class="spinner">
+        <img class="loader" src="../../../assets/wheel.gif">
+    </div>
+</div>

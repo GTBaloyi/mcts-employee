@@ -34,7 +34,7 @@
                     </thead>
                     <tbody *ngIf="employees.length != 0">
                     <tr *ngFor="let employee of employees | paginate: config | filter: filter">
-                        <td>{{employee.createdOn | date:'MMMM d, y'}}</td>
+                        <td>{{employee.createdOn | date:'yyyy-MM-dd'}}</td>
                         <td>{{employee.employeeNumber}}</td>
                         <td>{{employee.name}}</td>
                         <td>{{employee.surname}}</td>
@@ -64,7 +64,7 @@
                                             <div style="width: 100%">
                                                 <div class="form-group">
                                                     <input style="border: solid  #23275b 1px" class="form-control form-control-lg" type="text" placeholder="Date created"
-                                                           [ngModel]="employeeUpdate.createdOn | date:'MMMM d, y'"
+                                                           [ngModel]="employeeUpdate.createdOn | date:'yyyy-MM-dd'"
                                                            (ngModelChange)="employeeUpdate.createdOn = $event"
                                                            name="createdOn"
                                                            disabled>
@@ -300,4 +300,10 @@
         </div>
     </div>
 
+</div>
+
+<div *ngIf="isLoading | async" class="overlay">
+    <div class="spinner">
+        <img class="loader" src="../../../assets/wheel.gif">
+    </div>
 </div>

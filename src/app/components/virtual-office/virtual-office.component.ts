@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-virtual-office',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./virtual-office.component.scss']
 })
 export class VirtualOfficeComponent implements OnInit {
+  isLoading = new Subject<boolean>();
 
   constructor() { }
 

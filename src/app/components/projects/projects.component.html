@@ -6,3 +6,46 @@
         Projects
     </h3>
 </div>
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Date created</th>
+                            <th>Project name</th>
+                            <th>Project number</th>
+                            <th>Progress</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let project of projects; let i = index">
+                            <td>{{i}}</td>
+                            <td>{{project.createdOn}}</td>
+                            <td>{{project.projectName}}</td>
+                            <td>{{project.projectNumber}}</td>
+                            <td style="color: #000">
+                                10%
+                                <div class="progress">
+                                    <div class="progress-bar bg-gradient-success" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="isLoading | async" class="overlay">
+    <div class="spinner">
+        <img class="loader" src="../../../assets/wheel.gif">
+    </div>
+</div>

@@ -34,7 +34,7 @@ export class EmployeesComponent implements OnInit {
     this.getPosition();
     this.getEmployees();
 
-    let date = moment().format("YYYY-MM-DD");
+    let date = moment().format("yyyy-MM-DD");
     this.AddEmployee.createdOn = date
     this.AddEmployee.position = 'General Staff';
 

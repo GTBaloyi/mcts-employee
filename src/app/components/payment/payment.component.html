@@ -1,4 +1,3 @@
-
 <div class="page-header">
     <h3 class="page-title">
     <span class="page-title-icon bg-gradient-primary text-white mr-2">
@@ -6,4 +5,11 @@
     </span>
         Payments
     </h3>
+</div>
+
+
+<div *ngIf="isLoading | async" class="overlay">
+    <div class="spinner">
+        <img class="loader" src="../../../assets/wheel.gif">
+    </div>
 </div>

@@ -7,7 +7,7 @@
     <span class="page-title-icon bg-gradient-primary text-white mr-2">
       <i class="mdi mdi-file-pdf"></i>
     </span>
-        Quotation
+        Edit Quotation
     </h3>
 </div>
 
@@ -18,14 +18,14 @@
                 <div class="form-group row" style="margin-left: 5%; width: 20%">
                     <label>Quote reference</label>
                     <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg" placeholder="Quote reference"
-                           name="company_name"
+                           name="quote_reference"
                            [(ngModel)]="quotation.quote_reference"
                            #reference="ngModel"
                            [ngClass]="{ 'is-invalid': quotationForm.submitted && reference.invalid }"
                            disabled
                            required>
                     <div *ngIf="quotationForm.submitted && reference.invalid" class="invalid-feedback">
-                        <div *ngIf=" reference.errors.required">Company name is required</div>
+                        <div *ngIf=" reference.errors.required">Quote reference is required</div>
                     </div>
                 </div>
                 <div class="form-group row" style="margin-left: 5%; width: 67%">
@@ -39,6 +39,21 @@
                            required>
                     <div *ngIf="quotationForm.submitted && companyName.invalid" class="invalid-feedback">
                         <div *ngIf=" companyName.errors.required">Company name is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group row" style="margin-left: 5%; width: 90%">
+                    <label>Company registration</label>
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg" placeholder="Company registration"
+                           name="Registration"
+                           [(ngModel)]="quotation.company_registration"
+                           #Registration="ngModel"
+                           [ngClass]="{ 'is-invalid': quotationForm.submitted && Registration.invalid }"
+                           disabled
+                           required>
+                    <div *ngIf="quotationForm.submitted && Registration.invalid" class="invalid-feedback">
+                        <div *ngIf=" Registration.errors.required">Company registration is required</div>
                     </div>
                 </div>
             </div>
@@ -78,7 +93,7 @@
                     <label>Date created</label>
                     <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg" placeholder="Date generated"
                            name="date_generated"
-                           [ngModel]="quotation.date_generated | date:'MMMM d, y'"
+                           [ngModel]="quotation.date_generated | date:'yyyy-MM-dd'"
                            #dateGenerated="ngModel"
                            [ngClass]="{ 'is-invalid': quotationForm.submitted && dateGenerated.invalid }"
                            disabled
@@ -90,8 +105,8 @@
 
                 <div class="form-group row" style="margin-left: 5%; width: 43.5%" >
                     <label>Expiry Date</label>
-                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg"  placeholder="Contact number"
-                           [ngModel]="quotation.quote_expiryDate | date:'MMMM d, y'"
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg"  placeholder="Expiry date"
+                           [ngModel]="quotation.quote_expiryDate | date:'yyyy-MM-dd'"
                            name="quote_expiryDate"
                            #expiryDate="ngModel"
                            [ngClass]="{ 'is-invalid': quotationForm.submitted && expiryDate.invalid }"
@@ -122,6 +137,7 @@
 
             <div class="row">
                 <div class="form-group row" style="margin-left: 5%; width: 90%">
+                    <label>Address</label>
                     <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg"  placeholder="Address"
                            [(ngModel)]="quotation.bill_address"
                            name="bill_address"
@@ -137,6 +153,7 @@
 
             <div class="row">
                 <div class="form-group row" style="margin-left: 5%; width: 90%">
+                    <label>Reason</label>
                     <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg"  placeholder="Reason"
                            [(ngModel)]="quotation.reason"
                            name="reason"
@@ -157,23 +174,37 @@
                     <tr>
                         <th colspan="4">Add products to the table.</th>
                     </tr>
+
                     <tr>
                         <th>Focus area</th>
                         <th>Product</th>
                         <th>Quantity</th>
+                        <th>Number of Test</th>
+                        <th>Unit price</th>
+                        <th>Total</th>
                         <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr *ngFor="let product of quotation.items; let i = index;">
-                        <td style="width: 40%; border: solid  #fff 1px">
+                        <td style="width: 20%; border: solid  #fff 1px">
                             {{product.focusArea}}
                         </td>
-                        <td style="width: 35%; border: solid  #fff 1px" class="text-success">
+                        <td style="width: 20%; border: solid  #fff 1px" class="text-success">
                             {{product.item}}
                         </td>
-                        <td style="width: 15%; border: solid  #fff 1px" class="text-danger">
+
+                        <td style="border: solid  #fff 1px" class="text-danger">
                             {{product.quantity}}
+                        </td>
+                        <td style="border: solid  #fff 1px" class="text-danger">
+                            {{product.numberOfTests}}
+                        </td>
+                        <td style="border: solid  #fff 1px" class="text-danger">
+                           R {{product.unit_Price}}
+                        </td>
+                        <td style="border: solid  #fff 1px" class="text-danger">
+                           R {{product.total}}
                         </td>
                         <td style="width: 10%">
                             <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon" (click)="deleteItem(i)">
@@ -183,11 +214,12 @@
                     </tr>
 
                     <tr>
-                        <td style="width: 40%; border: solid  #fff 1px">
+                        <td style="width: 20%; border: solid  #fff 1px">
                             <select class="form-control form-control-lg"
                                     [(ngModel)]="selectedFocusArea"
                                     name="selectedFocusArea"
                                     #focusArea="ngModel"
+                                    (ngModelChange)="getProducts(selectedFocusArea)"
                                     [ngClass]="{ 'is-invalid': quotationForm.submitted && focusArea.invalid }"
                                     required>
                                 <option *ngFor="let focusArea of focusAreas" [value]="focusArea.name">{{focusArea.name}}</option>
@@ -196,7 +228,7 @@
                                 </div>
                             </select>
                         </td>
-                        <td style="width: 35%; border: solid  #fff 1px">
+                        <td style="width: 20%; border: solid  #fff 1px">
                             <select class="form-control form-control-lg"
                                     [(ngModel)]="selectedProduct"
                                     name="selectedProduct"
@@ -209,15 +241,51 @@
                                 </div>
                             </select>
                         </td>
-                        <td style="width: 15%; border: solid  #fff 1px">
+                        <td style="border: solid  #fff 1px">
                             <input type="number" class="form-control"
-                                   [ngModel]="selectedQuantity"
+                                   [(ngModel)]="selectedQuantity"
                                    name="selectedQuantity"
                                    #quantity="ngModel"
+                                   [min]="0"
                                    [ngClass]="{ 'is-invalid': quotationForm.submitted && quantity.invalid }"
                                    required>
                             <div *ngIf="quotationForm.submitted && quantity.invalid" class="invalid-feedback">
                                 <div *ngIf=" quantity.errors.required">Quantity is required</div>
+                            </div>
+                        </td>
+                        <td style="border: solid  #fff 1px">
+                            <input type="number" class="form-control"
+                                   [(ngModel)]="selectedNumberOfTest"
+                                   name="selectedNumberOfTest"
+                                   [min]="0"
+                                   #numberOfTest="ngModel"
+                                   [ngClass]="{ 'is-invalid': quotationForm.submitted && numberOfTest.invalid }">
+                            <div *ngIf="quotationForm.submitted && quantity.invalid" class="invalid-feedback">
+                                <div *ngIf=" numberOfTest.errors.required">Number of tests is required</div>
+                            </div>
+                        </td>
+                        <td style="border: solid  #fff 1px">
+                            <input type="number" class="form-control"
+                                   [(ngModel)]="selectedUnitPrice"
+                                   name="selectedUnitPrice"
+                                   #unitPrice="ngModel"
+                                   [ngClass]="{ 'is-invalid': quotationForm.submitted && unitPrice.invalid }"
+                                   disabled
+                                   required>
+                            <div *ngIf="quotationForm.submitted && unitPrice.invalid" class="invalid-feedback">
+                                <div *ngIf=" unitPrice.errors.required">Unit price is required</div>
+                            </div>
+                        </td>
+                        <td style="border: solid  #fff 1px">
+                            <input type="number" class="form-control"
+                                   [(ngModel)]="selectedProductTotal"
+                                   name="selectedProductTotal"
+                                   #productTotal="ngModel"
+                                   [ngClass]="{ 'is-invalid': quotationForm.submitted && productTotal.invalid }"
+                                   disabled
+                                   required>
+                            <div *ngIf="quotationForm.submitted && productTotal.invalid" class="invalid-feedback">
+                                <div *ngIf=" productTotal.errors.required">Total is required</div>
                             </div>
                         </td>
                         <td style="width: 10%; border: solid  #fff 1px">
@@ -228,20 +296,44 @@
                     </tr>
                     </tbody>
                     <tfoot>
-                     <tr>
-                         <td colspan="2">SUBTOTAL</td>
-                         <td colspan="2">R {{quotation.sub_Total}}</td>
-                     </tr>
-                     <tr>
-                         <td colspan="2">VAT 15%</td>
-                         <td colspan="2">R {{quotation.vat_Amount}}</td>
-                     </tr>
-                    <tr>
-                        <td colspan="2">GRAND TOTAL</td>
-                        <td colspan="2">R {{quotation.grand_total}}</td>
-                    </tr>
+                         <tr>
+                             <td colspan="3">DISCOUNT %</td>
+                             <td colspan="4">
+                                 <div class="row">
+                                     <div class="form-group row" style="margin-left: 5%; width: 90%; margin-top: 5%">
+                                         <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg"  placeholder="Discount percentage"
+                                                [(ngModel)]="quotation.discount"
+                                                name="discount"
+                                                [min]="0"
+                                                [max]="100"
+                                                #discount="ngModel"
+                                                [ngClass]="{ 'is-invalid': quotationForm.submitted && discount.invalid }"
+                                                required>
+                                         <div *ngIf="quotationForm.submitted && reason.invalid" class="invalid-feedback" style="font-weight: normal; font-size: small; color: #FFF">
+                                             <div *ngIf=" discount.errors.required">discount percentage is required</div>
+                                             <div *ngIf=" discount.errors.max">discount percentage invalid</div>
+                                             <div *ngIf=" discount.errors.min">discount percentage invalid</div>
+                                         </div>
+                                     </div>
+                                </div>
+                             </td>
+                         </tr>
+                         <tr>
+
+                             <td colspan="3">SUBTOTAL</td>
+                             <td colspan="4">R {{quotation.sub_Total}}</td>
+                         </tr>
+                         <tr>
+                             <td colspan="3">VAT 15%</td>
+                             <td colspan="4">R {{quotation.vat_Amount}}</td>
+                         </tr>
+                        <tr>
+                            <td colspan="3">GRAND TOTAL</td>
+                            <td colspan="4">R {{quotation.grand_total}}</td>
+                        </tr>
                     </tfoot>
                 </table>
+
             </div>
 
 

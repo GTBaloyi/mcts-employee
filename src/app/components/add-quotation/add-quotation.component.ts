@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import {Subject} from "rxjs";
 import {
+  ClientRegistrationRequestModel,
+  ClientsService,
   EmployeeRequestModel, ProductsService,
   QuotationItemEntity,
-  QuotationModel,
-  QuotationResponseModel,
+  QuotationModel, QuotationResponseModel,
   QuotationService
 } from "../../services";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import moment = require('moment');
+import {NgbDate} from "@ng-bootstrap/ng-bootstrap";
+
 
 
 @Component({
@@ -20,9 +23,6 @@ import moment = require('moment');
 export class AddQuotationComponent implements OnInit {
 
   isLoading = new Subject<boolean>();
-  private config: any;
-  private filter : string;
-  private showAddQuotation: boolean;
   private focusAreas: Array<any> = [];
   private selectedFocusArea: string;
   private products: Array<any> = [];
@@ -30,13 +30,13 @@ export class AddQuotationComponent implements OnInit {
   private selectedQuantity: number;
   private newProduct: QuotationItemEntity  = {};
   private quotation: QuotationModel= <QuotationModel> {};
-  private quotations: Array<QuotationResponseModel>= [];
-  private productsArray: Array<QuotationItemEntity> = [];
   private employeeInformation : EmployeeRequestModel;
+  private date: NgbDate;
 
-  constructor(private quotationService: QuotationService, private productsService: ProductsService, private router: Router,private toastr: ToastrService) {
+  constructor(private quotationService: QuotationService, private clientService: ClientsService, private productsService: ProductsService, private router: Router,private toastr: ToastrService) {
     this.employeeInformation  = JSON.parse(sessionStorage.getItem("userInformation"));
   }
+
   ngOnInit() {
     this.selectedFocusArea = 'Physical Metallurgy';
     this.selectedProduct = 'Non Testing Act (Phys)';
@@ -45,14 +45,12 @@ export class AddQuotationComponent implements OnInit {
     this.getFocusArea();
     this.getProducts(this.selectedFocusArea)
 
-    let date = moment().format("YYYY-MM-DD");
+    let date = moment().format("yyyy-MM-DD");
     this.quotation.date_generated = date.toString();
+    this.quotation.items = [];
+    this.quotation.description = '';
+    this.quotation.reason = '';
 
-    this.config = {
-      itemsPerPage: 5,
-      currentPage: 1,
-      totalItems: this.quotations.length
-    };
   }
 
 
@@ -67,14 +65,12 @@ export class AddQuotationComponent implements OnInit {
         () => {
         }
     )
-
   }
 
   getProducts(focusArea: any){
 
     this.selectedFocusArea = focusArea;
     this.products = [];
-
 
     this.productsService.apiProductsProductsFocusAreaGet(focusArea).subscribe (
         (data: any ) => {
@@ -103,51 +99,61 @@ export class AddQuotationComponent implements OnInit {
 
   requestQuotation(){
     this.isLoading.next(true);
-    let date = moment().format("YYYY-MM-DD");
 
+    this.quotation.quote_expiryDate = moment(new Date(this.date.year, this.date.month, this.date.day)).format("yyyy-MM-DD");
+    this.quotation.discount = this.quotation.discount /100;
     this.quotation.quote_reference = '';
-    this.quotation.date_generated = date.toString();
-    this.quotation.quote_expiryDate = date.toString();
+    this.quotation.vatAmount = 0;
     this.quotation.subTotal = 0;
-    this.quotation.globalDiscount = 0;
-    this.quotation.globalTax = 0;
     this.quotation.grand_total = 0;
-    this.quotation.items = this.quotation.items;
     this.quotation.status = 'Pending';
+
 
     this.quotationService.apiQuotationCreateQuotePost(this.quotation).subscribe(
         (data: any) => {
-          data;
         },
         error => {
           if (error.status == 200) {
-            this.isLoading.next(false);
-            this.showSuccess();
+
+            this.quotationService.apiQuotationQuoteReferenceQuoteReferenceGet(error.error.text).subscribe(
+                (data: any) => {
+                  this.quotation = data
+                },
+                error => {
+                    console.log(error);
+                    this.isLoading.next(false);
+                    this.showError();
+                },
+                () => {
+                  this.updateQuotation(this.quotation);
+                }
+            );
 
           } else {
             console.log(error);
             this.isLoading.next(false);
             this.showError();
           }
-        },
-        () => {
-          this.updateQuotation(this.quotation);
         }
     )
   }
 
 
   updateQuotation(quotation){
+
+
     this.isLoading.next(true);
 
     if(this.employeeInformation.position == 'General Staff'){
       quotation.status = 'Pending Manager Approval';
       quotation.generatedBy = this.employeeInformation.surname +' '+ this.employeeInformation.name +' '+ ' ( ' + this.employeeInformation.email+ ')'
+      quotation.approvedBy = '';
     }else{
       quotation.status = 'Pending Client Approval';
+      quotation.generatedBy = this.employeeInformation.surname +' '+ this.employeeInformation.name +' '+ ' ( ' + this.employeeInformation.email+ ')'
       quotation.approvedBy = this.employeeInformation.surname +' '+ this.employeeInformation.name +' '+ ' ( ' + this.employeeInformation.email+ ')'
-
     }
+
 
     this.quotationService.apiQuotationGenerateQuotePut(quotation).subscribe (
         (data: any) => {

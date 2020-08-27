@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {EmployeeRequestModel, LoginResponseModel} from "../../services";
+import {EmployeeRequestModel, EmployeesService, LoginResponseModel, QuotationModel} from "../../services";
 
 @Component({
   selector: 'app-sidebar',
@@ -10,13 +10,21 @@ export class SidebarComponent implements OnInit {
   public systemManagement = false;
   public financesCollapsed = false;
   public samplePagesCollapsed = false;
-  private employeeInformation : EmployeeRequestModel;
+  private email: string;
+  private employeeInformation : EmployeeRequestModel= <EmployeeRequestModel> {};
 
-  constructor() {
-    this.employeeInformation  = JSON.parse(sessionStorage.getItem("userInformation"));
+
+  constructor(private employeesService: EmployeesService) {
   }
 
   ngOnInit() {
+
+    this.email  = JSON.parse(sessionStorage.getItem("username"));
+
+    if(this.email != null) {
+      this.getEmployeeInformation(this.email);
+    }
+
     const body = document.querySelector('body');
 
     // add class 'hover-open' to sidebar navitem while hover in sidebar-icon-only menu
@@ -34,4 +42,17 @@ export class SidebarComponent implements OnInit {
     });
   }
 
+  public getEmployeeInformation(employeeID: string) {
+    this.employeesService.apiEmployeesEmployeeNumberGet(employeeID).subscribe(
+        (data: EmployeeRequestModel) => {
+          this.employeeInformation = data;
+          sessionStorage.setItem('userInformation', JSON.stringify(this.employeeInformation));
+        },
+        error => {
+
+        },
+        () => {
+        }
+    );
+  }
 }

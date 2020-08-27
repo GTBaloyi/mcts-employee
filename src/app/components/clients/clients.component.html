@@ -69,7 +69,7 @@
                         </tr>
                         </thead>
                         <tbody *ngIf="clients.length != 0">
-                        <tr *ngFor="let client of clients | paginate: config | filter: filter" [ngClass]="{'deactivated': client.userStatus == 4, 'suspended': client.userStatus == 3}" >
+                        <tr *ngFor="let client of clients | paginate: config | filter: filter" [ngClass]="{'deactivated': client.userStatus == 4, 'suspended': client.userStatus == 3}">
                             <td >{{client.contactEmail}}</td>
                             <td>{{client.companyName}}</td>
                             <td>{{client.companyRegistrationNumber}}</td>
@@ -80,7 +80,17 @@
                                     <i class="mdi mdi-grease-pencil"></i>
                                 </button>
 
-                                <button type="button" class="btn  btn-social-icon btn-outline-youtube"
+                                <button *ngIf="client.userStatus == 3 || client.userStatus == 4 ||  client.userStatus == 2" type="button" class="btn btn-social-icon btn-outline-youtube"
+                                    (click)="unlockAccount(client)">
+                                    <i class="mdi mdi-lock-open-outline"></i>
+                                </button>
+
+                                <button *ngIf="client.userStatus == 1" type="button" class="btn btn-social-icon btn-outline-twitter"
+                                    (click)="lockAccount(client)">
+                                    <i class="mdi mdi-lock"></i>
+                                </button>
+
+                                <button *ngIf="client.userStatus != 4" type="button" class="btn  btn-social-icon btn-outline-youtube"
                                         (click)="openModal(deleteClient, client)">
                                     <i class="mdi mdi-delete"></i>
                                 </button>
@@ -379,4 +389,9 @@
             </div>
         </div>
     </ng-template>
+</div>
+<div *ngIf="isLoading | async" class="overlay">
+    <div class="spinner">
+        <img class="loader" src="../../../assets/wheel.gif">
+    </div>
 </div>

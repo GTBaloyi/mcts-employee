@@ -30,8 +30,7 @@ export class LandingPageComponent implements OnInit {
                 private usersService: UsersService,
                 private authGuard: AuthGuard,
                 private router: Router,
-                private toastr: ToastrService,
-                private employeesService: EmployeesService) {
+                private toastr: ToastrService) {
         config.placement = 'bottom-right';
     }
 
@@ -60,29 +59,12 @@ export class LandingPageComponent implements OnInit {
 
                 if(this.user.accessLevel == 3 || this.user.accessLevel == 2) {
                     this.showSuccess();
-                    this.getEmployeeInformation(loginForm.value.email);
                     sessionStorage.setItem('username', JSON.stringify(loginForm.value.email));
                     this.router.navigateByUrl('/dashboard');
                 }else{
                     this.showCustomToast();
                 }
 
-            }
-        );
-    }
-
-    public getEmployeeInformation(employeeID: string) {
-
-        this.employeesService.apiEmployeesEmployeeNumberGet(employeeID).subscribe(
-
-            (data: EmployeeRequestModel) => {
-                this.userInformation = data;
-            },
-            error => {
-
-            },
-            () => {
-                sessionStorage.setItem('userInformation', JSON.stringify(this.userInformation));
             }
         );
     }

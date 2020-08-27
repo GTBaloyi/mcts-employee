@@ -25,8 +25,8 @@ export interface QuotationModel {
     description?: string | null;
     items?: Array<QuotationItemEntity> | null;
     subTotal?: number;
-    globalDiscount?: number;
-    globalTax?: number;
+    discount?: number;
+    vatAmount?: number;
     grand_total?: number;
     status?: string | null;
     reason?: string | null;
