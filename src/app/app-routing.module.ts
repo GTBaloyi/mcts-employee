@@ -15,6 +15,7 @@ import {PaymentComponent} from "./components/payment/payment.component";
 import {EmployeesComponent} from "./components/employees/employees.component";
 import {ViewQuotationComponent} from "./components/view-quotation/view-quotation.component";
 import {AddQuotationComponent} from "./components/add-quotation/add-quotation.component";
+import {ViewInvoicePdfComponent} from "./components/view-invoice-pdf/view-invoice-pdf.component";
 
 const routes: Routes = [
     {
@@ -38,6 +39,8 @@ const routes: Routes = [
             {path: 'employees', component: EmployeesComponent},
             {path: 'view-quotation', component: ViewQuotationComponent},
             {path: 'add-quotation', component: AddQuotationComponent},
+            {path: 'view-invoice-pdf', component: ViewInvoicePdfComponent},
+
         ],
         canActivate: [AuthGuard]
     }

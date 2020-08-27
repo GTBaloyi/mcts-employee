@@ -20,6 +20,7 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { EmployeesComponent } from './components/employees/employees.component';
 import { ViewQuotationComponent } from './components/view-quotation/view-quotation.component';
 import { AddQuotationComponent } from './components/add-quotation/add-quotation.component'
+import {ViewInvoicePdfComponent} from "./components/view-invoice-pdf/view-invoice-pdf.component";
 
 @NgModule({
     imports: [
@@ -43,7 +44,8 @@ import { AddQuotationComponent } from './components/add-quotation/add-quotation.
         PaymentComponent,
         EmployeesComponent,
         ViewQuotationComponent,
-        AddQuotationComponent
+        AddQuotationComponent,
+        ViewInvoicePdfComponent
     ],
     providers: [
         {provide: BASE_API_URL, useValue: environment.BASE_API_URL},
