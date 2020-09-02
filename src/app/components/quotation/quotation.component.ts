@@ -12,6 +12,11 @@ import moment = require('moment');
   styleUrls: ['./quotation.component.scss']
 })
 export class QuotationComponent implements OnInit {
+
+  heading = 'Quotation';
+  subheading = 'Create and view all client quotations';
+  icon = 'pe-7s-note2 icon-gradient bg-tempting-azure';
+
   isLoading = new Subject<boolean>();
   private config: any;
   private filter : string;
@@ -118,7 +123,6 @@ export class QuotationComponent implements OnInit {
 
   addQuotation() {
     this.router.navigateByUrl('/add-quotation');
-
   }
 
   updateQuotation(quotation : QuotationResponseModel){

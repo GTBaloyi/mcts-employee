@@ -1,305 +1,297 @@
-<div class="page-header">
-    <h3 class="page-title">
-    <span class="page-title-icon bg-gradient-primary text-white mr-2">
-      <i class="mdi mdi-receipt"></i>
-    </span>
-        Employees
-    </h3>
-</div>
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
 
-<div class="col-lg-12 grid-margin stretch-card">
-    <div class="card">
-        <div class="card-header">
-            <button type="button" class="btn btn-gradient-success btn-icon-text"
-                    (click) = "showAddEmployeeModel()">
-                <i class="mdi mdi-account-plus btn-icon-prepend"></i>
-                New Employee
-            </button>
+<div class="main-card mb-3 card">
+    <div class="card-header">
+        <button type="button" class="btn btn-dark btn-icon-text"
+                (click) ="openModal(showAddEmployee, '')">
+            <i class="pe-7s-add-user btn-icon-wrapper"></i>
+            New Employee
+        </button>
+    </div>
+    <div class="table-responsive">
+        <div class="form-group">
+            <input style="border: solid  #05b5d4 1px; width: 95%; margin: 2%" type="text" class="form-control" placeholder="Search Here" [(ngModel)]="filter">
         </div>
-        <div class="card-body">
-            <div class="form-group">
-                <input style="border: solid  #05b5d4 1px" type="text" class="form-control" placeholder="Search Here" [(ngModel)]="filter">
-            </div>
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Created on</th>
-                        <th>Employee number</th>
-                        <th>Name</th>
-                        <th>Surname</th>
-                        <th>Position</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody *ngIf="employees.length != 0">
-                    <tr *ngFor="let employee of employees | paginate: config | filter: filter">
-                        <td>{{employee.createdOn | date:'yyyy-MM-dd'}}</td>
-                        <td>{{employee.employeeNumber}}</td>
-                        <td>{{employee.name}}</td>
-                        <td>{{employee.surname}}</td>
-                        <td>{{employee.position}}</td>
-                        <td>
-                            <div class="template-demo">
-                                <button type="button" class="btn btn-social-icon btn-outline-facebook"
-                                        (click) = "showUpdateEmployeeModel(employee)">
-                                    <i class="mdi mdi-grease-pencil"></i>
-                                </button>
-                                <!--<button type="button" class="btn btn-social-icon btn-outline-youtube">
-                                    <i class="mdi mdi-lock"></i>
-                                </button>
-                                <button type="button" class="btn btn-social-icon btn-outline-twitter">
-                                    <i class="mdi mdi-lock-open-outline"></i>
-                                </button>-->
-                            </div>
-                        </td>
-                        <div [style.display]="showUpdateEmployee ? 'block' : 'none'" class="modal" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content"  style="background-color: #ffffff; -webkit-box-shadow: inset 0 0 10px #23275b;box-shadow: inset 0 0 10px #23275b;">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="myModalLabel" style="font-weight: bolder" >Update Employee Record</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form class="pt-3"  #employeeUpdateForm="ngForm" (ngSubmit)="employeeUpdateForm.form.valid && UpdateEmployees(employeeUpdate)">
-                                            <div style="width: 100%">
-                                                <div class="form-group">
-                                                    <input style="border: solid  #23275b 1px" class="form-control form-control-lg" type="text" placeholder="Date created"
-                                                           [ngModel]="employeeUpdate.createdOn | date:'yyyy-MM-dd'"
-                                                           (ngModelChange)="employeeUpdate.createdOn = $event"
-                                                           name="createdOn"
-                                                           disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div style="margin-left: 4%; width: 45%">
-                                                    <div class="form-group">
-                                                        <input style="border: solid  #23275b 1px" class="form-control form-control-lg" type="text" placeholder="Name"
-                                                               [(ngModel)]="employeeUpdate.name"
-                                                               name="name"
-                                                               #name="ngModel"
-                                                               [ngClass]="{ 'is-invalid': employeeUpdateForm.submitted && name.invalid }"
-                                                               required>
-                                                        <div *ngIf=" employeeUpdateForm.submitted && name.invalid" class="invalid-feedback">
-                                                            <div *ngIf="name.errors.required">Name is required</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div style="margin-left: 2%; width: 45%">
-                                                    <div class="form-group">
-                                                        <input style="border: solid  #23275b 1px" class="form-control form-control-lg" type="text" placeholder="Surname"
-                                                               [(ngModel)]="employeeUpdate.surname"
-                                                               name="surname"
-                                                               #surname="ngModel"
-                                                               [ngClass]="{ 'is-invalid': employeeUpdateForm.submitted && surname.invalid }"
-                                                               required>
-                                                        <div *ngIf=" employeeUpdateForm.submitted && surname.invalid" class="invalid-feedback">
-                                                            <div *ngIf="surname.errors.required">Surname is required</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
 
-                                            <div class="row">
-                                                <div style="margin-left: 4%; width: 45%">
-                                                    <div class="form-group">
-                                                        <input style="border: solid  #23275b 1px" class="form-control form-control-lg" type="text" placeholder="Employee ID"
-                                                               [(ngModel)]="employeeUpdate.employeeNumber"
-                                                               name="employeeNumber"
-                                                               #empID="ngModel"
-                                                               [ngClass]="{ 'is-invalid': employeeUpdateForm.submitted && empID.invalid }"
-                                                               disabled
-                                                               required>
-                                                        <div *ngIf=" employeeUpdateForm.submitted && empID.invalid" class="invalid-feedback">
-                                                            <div *ngIf="empID.errors.required">Update Employee Record</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div style="margin-left: 2%; width: 45%">
-                                                    <div class="form-group">
-                                                        <select style="border: solid  #23275b 1px" type="text"
-                                                                [(ngModel)]="employeeUpdate.position"
-                                                                name="position"
-                                                                class="form-control form-control-lg">
-                                                            <option *ngFor="let option of positions" [value]="option.position">{{option.position}}</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div style="width: 100%">
-                                                <div class="form-group">
-                                                    <input style="border: solid  #23275b 1px" class="form-control form-control-lg" type="text" placeholder="Email address"
-                                                           [(ngModel)]="employeeUpdate.email"
-                                                           name="email"
-                                                           #email="ngModel"
-                                                           [ngClass]="{ 'is-invalid': employeeUpdateForm.submitted && email.invalid }"
-                                                           required>
-                                                    <div *ngIf="employeeUpdateForm.submitted && email.invalid" class="invalid-feedback">
-                                                        <div *ngIf="email.errors.required">Email is required</div>
-                                                        <div *ngIf="email.errors.email">Must be a valid email address</div>
-                                                    </div>
-                                                </div>
-                                            </div>
+        <table class="align-middle mb-0 table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center">Created on</th>
+                    <th class="text-center">Employee number</th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Surname</th>
+                    <th class="text-center">Position</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="employees.length != 0">
+            <tr *ngFor="let employee of employees | paginate: config | filter: filter">
+                <td class="text-center">{{employee.createdOn | date:'yyyy-MM-dd'}}</td>
+                <td class="text-center">{{employee.employeeNumber}}</td>
+                <td class="text-center">{{employee.name}}</td>
+                <td class="text-center">{{employee.surname}}</td>
+                <td class="text-center">{{employee.position}}</td>
+                <td class="text-center">
+                    <div class="template-demo">
+                        <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-dark"
+                            (click)="openModal(showUpdateEmployee, employee)">
+                            <i class="pe-7s-pen btn-icon-wrapper"></i>
+                        </button>
 
-                                            <div style="width: 100%">
-                                                <div class="form-group">
-                                                    <input style="border: solid  #23275b 1px" class="form-control form-control-lg" type="text" placeholder="Cell Number"
-                                                           [(ngModel)]="employeeUpdate.cell"
-                                                           name="cell"
-                                                           #number="ngModel"
-                                                           [ngClass]="{ 'is-invalid': employeeUpdateForm.submitted && number.invalid }"
-                                                           required>
-                                                    <div *ngIf="employeeUpdateForm.submitted && number.invalid" class="invalid-feedback">
-                                                        <div *ngIf="number.errors.required">Cellnumber is required</div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                        <!--<button class="mr-2 btn-icon btn-icon-only btn btn-outline-warning">
+                            <i class="pe-7s-unlock btn-icon-wrapper btn-outline-warning"></i>
+                        </button>
 
-                                            <div style="width: 100%">
-                                                <div class="form-group">
-                                                    <input style="border: solid  #23275b 1px" class="form-control form-control-lg" type="text" placeholder="Address"
-                                                           [(ngModel)]="employeeUpdate.address"
-                                                           name="address"
-                                                           #address="ngModel"
-                                                           [ngClass]="{ 'is-invalid': employeeUpdateForm.submitted && address.invalid }"
-                                                           required>
-                                                    <div *ngIf="employeeUpdateForm.submitted && address.invalid" class="invalid-feedback">
-                                                        <div *ngIf="address.errors.required">Address is required</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-gradient-danger" data-dismiss="modal" (click) = "hideUpdateEmployeeModel()">Cancel</button>
-                                                <button type="submit" class="btn btn-gradient-success" data-dismiss="modal">Update</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="text" *ngIf="employees.length == 0">
-                    No Records Found!
-                </div>
-            </div>
+                        <button class="mr-2 btn-icon btn-icon-only btn btn-warning">
+                            <i class="pe-7s-lock btn-icon-wrapper"></i>
+                        </button>-->
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="text" *ngIf="employees.length == 0">
+            No Records Found!
         </div>
-        <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+        <pagination-controls (pageChange)="pageChanged($event)" style="margin-top: 5%"></pagination-controls>
     </div>
 
-    <div [style.display]="showAddEmployee ? 'block' : 'none'" class="modal" id="imagemodal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content"  style="background-color: #ffffff; -webkit-box-shadow: inset 0 0 10px #23275b;box-shadow: inset 0 0 10px #23275b;">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel1" style="font-weight: bolder" >Add New Employee</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="pt-3"  #employeeAddForm="ngForm" (ngSubmit)="employeeAddForm.form.valid && AddEmployees(employeeAddForm)">
-                        <div style="width: 100%">
+    <ng-template class="modal fade" #showUpdateEmployee let-modal>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="card-title" id="exampleModalLabel3">Update Employee Record</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="pt-3"  #employeeUpdateForm="ngForm" (ngSubmit)="employeeUpdateForm.form.valid && UpdateEmployees(employeeUpdate)">
+                    <div style="width: 100%">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Date created"
+                                   [ngModel]="employeeUpdate.createdOn | date:'yyyy-MM-dd'"
+                                   (ngModelChange)="employeeUpdate.createdOn = $event"
+                                   name="createdOn"
+                                   disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div style="margin-left: 3%; width: 46%">
                             <div class="form-group">
-                                <input style="border: solid  #23275b 1px" class="form-control form-control-lg" type="text" placeholder="Date created"
-                                       [(ngModel)]="AddEmployee.createdOn"
-                                       name="createdOn"
-                                       #date="ngModel"
-                                       [ngClass]="{ 'is-invalid': employeeAddForm.submitted && date.invalid }"
-                                       disabled>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div style="margin-left: 4%; width: 45%">
-                                <div class="form-group">
-                                    <input style="border: solid  #23275b 1px" class="form-control form-control-lg" type="text" placeholder="Name"
-                                           [(ngModel)]="AddEmployee.name"
-                                           name="name"
-                                           #name="ngModel"
-                                           [ngClass]="{ 'is-invalid': employeeAddForm.submitted && name.invalid }"
-                                           required>
-                                    <div *ngIf=" employeeAddForm.submitted && name.invalid" class="invalid-feedback">
-                                        <div *ngIf="name.errors.required">Name is required</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="margin-left: 2%; width: 45%">
-                                <div class="form-group">
-                                    <input style="border: solid  #23275b 1px" class="form-control form-control-lg" type="text" placeholder="Surname"
-                                           [(ngModel)]="AddEmployee.surname"
-                                           name="surname"
-                                           #surname="ngModel"
-                                           [ngClass]="{ 'is-invalid': employeeAddForm.submitted && surname.invalid }"
-                                           required>
-                                    <div *ngIf=" employeeAddForm.submitted && surname.invalid" class="invalid-feedback">
-                                        <div *ngIf="surname.errors.required">Surname is required</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div style="margin-left: 4%; width: 45%">
-                                <div class="form-group">
-                                    <input style="border: solid  #23275b 1px" class="form-control form-control-lg" type="text" placeholder="Cellnumber"
-                                           [(ngModel)]="AddEmployee.cell"
-                                           name="cell"
-                                           #number="ngModel"
-                                           [ngClass]="{ 'is-invalid': employeeAddForm.submitted && number.invalid }"
-                                           required>
-                                    <div *ngIf="employeeAddForm.submitted && number.invalid" class="invalid-feedback">
-                                        <div *ngIf="number.errors.required">Cellnumber is required</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="margin-left: 2%; width: 45%">
-                                <div class="form-group">
-                                    <select style="border: solid  #23275b 1px" type="text"
-                                            [(ngModel)]="AddEmployee.position"
-                                            name="position"
-                                            class="form-control form-control-lg">
-                                        <option *ngFor="let option of positions" [value]="option.position">{{option.position}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="width: 100%">
-                            <div class="form-group">
-                                <input style="border: solid  #23275b 1px" class="form-control form-control-lg" type="text" placeholder="Email address"
-                                       [(ngModel)]="AddEmployee.email"
-                                       name="email"
-                                       #email="ngModel"
-                                       [ngClass]="{ 'is-invalid': employeeAddForm.submitted && email.invalid }"
+                                <input class="form-control" type="text" placeholder="Name"
+                                       [(ngModel)]="employeeUpdate.name"
+                                       name="name"
+                                       #name="ngModel"
+                                       [ngClass]="{ 'is-invalid': employeeUpdateForm.submitted && name.invalid }"
                                        required>
-                                <div *ngIf="employeeAddForm.submitted && email.invalid" class="invalid-feedback">
-                                    <div *ngIf="email.errors.required">Email is required</div>
-                                    <div *ngIf="email.errors.email">Must be a valid email address</div>
+                                <div *ngIf=" employeeUpdateForm.submitted && name.invalid" class="invalid-feedback">
+                                    <div *ngIf="name.errors.required">Name is required</div>
                                 </div>
                             </div>
                         </div>
-
-                        <div style="width: 100%">
+                        <div style="margin-left: 2%; width: 46%">
                             <div class="form-group">
-                                <input style="border: solid  #23275b 1px" class="form-control form-control-lg" type="text" placeholder="Address"
-                                       [(ngModel)]="AddEmployee.address"
-                                       name="address"
-                                       #address="ngModel"
-                                       [ngClass]="{ 'is-invalid': employeeAddForm.submitted && address.invalid }"
+                                <input class="form-control" type="text" placeholder="Surname"
+                                       [(ngModel)]="employeeUpdate.surname"
+                                       name="surname"
+                                       #surname="ngModel"
+                                       [ngClass]="{ 'is-invalid': employeeUpdateForm.submitted && surname.invalid }"
                                        required>
-                                <div *ngIf="employeeAddForm.submitted && address.invalid" class="invalid-feedback">
-                                    <div *ngIf="address.errors.required">Address is required</div>
+                                <div *ngIf=" employeeUpdateForm.submitted && surname.invalid" class="invalid-feedback">
+                                    <div *ngIf="surname.errors.required">Surname is required</div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-gradient-danger" data-dismiss="modal" (click) = "hideAddEmployeeModel()">Cancel</button>
-                            <button type="submit" class="btn btn-gradient-success" data-dismiss="modal">Add</button>
+                    <div class="row">
+                        <div style="margin-left: 3%; width: 46%">
+                            <div class="form-group">
+                                <input class="form-control" type="text" placeholder="Employee ID"
+                                       [(ngModel)]="employeeUpdate.employeeNumber"
+                                       name="employeeNumber"
+                                       #empID="ngModel"
+                                       [ngClass]="{ 'is-invalid': employeeUpdateForm.submitted && empID.invalid }"
+                                       disabled
+                                       required>
+                                <div *ngIf=" employeeUpdateForm.submitted && empID.invalid" class="invalid-feedback">
+                                    <div *ngIf="empID.errors.required">Update Employee Record</div>
+                                </div>
+                            </div>
                         </div>
-                    </form>
-                </div>
+                        <div style="margin-left: 2%; width: 46%">
+                            <div class="form-group">
+                                <select type="text"
+                                        [(ngModel)]="employeeUpdate.position"
+                                        name="position"
+                                        class="form-control ">
+                                    <option *ngFor="let option of positions" [value]="option.position">{{option.position}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 100%">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Email address"
+                                   [(ngModel)]="employeeUpdate.email"
+                                   name="email"
+                                   #email="ngModel"
+                                   [ngClass]="{ 'is-invalid': employeeUpdateForm.submitted && email.invalid }"
+                                   required>
+                            <div *ngIf="employeeUpdateForm.submitted && email.invalid" class="invalid-feedback">
+                                <div *ngIf="email.errors.required">Email is required</div>
+                                <div *ngIf="email.errors.email">Must be a valid email address</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="width: 100%">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Cell Number"
+                                   [(ngModel)]="employeeUpdate.cell"
+                                   name="cell"
+                                   #number="ngModel"
+                                   [ngClass]="{ 'is-invalid': employeeUpdateForm.submitted && number.invalid }"
+                                   required>
+                            <div *ngIf="employeeUpdateForm.submitted && number.invalid" class="invalid-feedback">
+                                <div *ngIf="number.errors.required">Cellnumber is required</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="width: 100%">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Address"
+                                   [(ngModel)]="employeeUpdate.address"
+                                   name="address"
+                                   #address="ngModel"
+                                   [ngClass]="{ 'is-invalid': employeeUpdateForm.submitted && address.invalid }"
+                                   required>
+                            <div *ngIf="employeeUpdateForm.submitted && address.invalid" class="invalid-feedback">
+                                <div *ngIf="address.errors.required">Address is required</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="modal.close()">Cancel</button>
+                        <button type="submit" class="btn btn-info" data-dismiss="modal">Update</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
+    </ng-template>
 
+    <ng-template class="modal fade" #showAddEmployee let-modal>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="card-title" id="exampleModalLabel2">Add Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="pt-3"  #employeeAddForm="ngForm" (ngSubmit)="employeeAddForm.form.valid && AddEmployees(employeeAddForm)">
+                    <div style="width: 100%">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Date created"
+                                   [(ngModel)]="AddEmployee.createdOn"
+                                   name="createdOn"
+                                   #date="ngModel"
+                                   [ngClass]="{ 'is-invalid': employeeAddForm.submitted && date.invalid }"
+                                   disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div style="margin-left: 3%; width: 46%">
+                            <div class="form-group">
+                                <input class="form-control" type="text" placeholder="Name"
+                                       [(ngModel)]="AddEmployee.name"
+                                       name="name"
+                                       #name="ngModel"
+                                       [ngClass]="{ 'is-invalid': employeeAddForm.submitted && name.invalid }"
+                                       required>
+                                <div *ngIf=" employeeAddForm.submitted && name.invalid" class="invalid-feedback">
+                                    <div *ngIf="name.errors.required">Name is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-left: 2%; width: 46%">
+                            <div class="form-group">
+                                <input  class="form-control" type="text" placeholder="Surname"
+                                       [(ngModel)]="AddEmployee.surname"
+                                       name="surname"
+                                       #surname="ngModel"
+                                       [ngClass]="{ 'is-invalid': employeeAddForm.submitted && surname.invalid }"
+                                       required>
+                                <div *ngIf=" employeeAddForm.submitted && surname.invalid" class="invalid-feedback">
+                                    <div *ngIf="surname.errors.required">Surname is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div style="margin-left: 3%; width: 46%">
+                            <div class="form-group">
+                                <input class="form-control" type="text" placeholder="Cellnumber"
+                                       [(ngModel)]="AddEmployee.cell"
+                                       name="cell"
+                                       #number="ngModel"
+                                       [ngClass]="{ 'is-invalid': employeeAddForm.submitted && number.invalid }"
+                                       required>
+                                <div *ngIf="employeeAddForm.submitted && number.invalid" class="invalid-feedback">
+                                    <div *ngIf="number.errors.required">Cellnumber is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-left: 2%; width: 46%">
+                            <div class="form-group">
+                                <select type="text"
+                                        [(ngModel)]="AddEmployee.position"
+                                        name="position"
+                                        class="form-control">
+                                    <option *ngFor="let option of positions" [value]="option.position">{{option.position}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 100%">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Email address"
+                                   [(ngModel)]="AddEmployee.email"
+                                   name="email"
+                                   #email="ngModel"
+                                   [ngClass]="{ 'is-invalid': employeeAddForm.submitted && email.invalid }"
+                                   required>
+                            <div *ngIf="employeeAddForm.submitted && email.invalid" class="invalid-feedback">
+                                <div *ngIf="email.errors.required">Email is required</div>
+                                <div *ngIf="email.errors.email">Must be a valid email address</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="width: 100%">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Address"
+                                   [(ngModel)]="AddEmployee.address"
+                                   name="address"
+                                   #address="ngModel"
+                                   [ngClass]="{ 'is-invalid': employeeAddForm.submitted && address.invalid }"
+                                   required>
+                            <div *ngIf="employeeAddForm.submitted && address.invalid" class="invalid-feedback">
+                                <div *ngIf="address.errors.required">Address is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="modal.close()">Cancel</button>
+                        <button type="submit" class="btn btn-info" data-dismiss="modal">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-template>
 </div>
 
 <div *ngIf="isLoading | async" class="overlay">

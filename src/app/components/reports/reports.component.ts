@@ -9,6 +9,10 @@ import {Subject} from "rxjs";
 export class ReportsComponent implements OnInit {
   isLoading = new Subject<boolean>();
 
+  heading = 'Reports';
+  subheading = 'View and generate reports';
+  icon = 'pe-7s-home icon-gradient bg-tempting-azure';
+
   constructor() { }
 
   ngOnInit() {

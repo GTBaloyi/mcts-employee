@@ -1,0 +1,56 @@
+<div class="app-header header-shadow">
+    <div style="width: 0%;" >
+        <img width="240px" src="./assets/images/logo-inverse.png">
+    </div>
+    <div class="app-header__content">
+        <div class="app-header-left">
+
+            <a routerLink="/dashboard" routerLinkActive="btn-link active-item" [routerLinkActiveOptions]="{exact: true}">
+                <span class="btn btn-link p-0 mr-2">Dashboard</span>
+            </a>
+
+            <a routerLink="/clients" routerLinkActive="btn-link active-item">
+                <span class="btn btn-link  p-0 mr-2">Clients</span>
+            </a>
+
+            <div class="btn-group" ngbDropdown placement="bottom-right">
+                <button type="button" class="btn btn-link p-0 mr-2" ngbDropdownToggle>Finances</button>
+                <div ngbDropdownMenu>
+                    <a routerLink="/invoices" routerLinkActive="active-item"  class="dropdown-item">Invoices</a>
+                    <a routerLink="/quotation" routerLinkActive="active-item" class="dropdown-item">Quotation</a>
+                    <a routerLink="/payments" routerLinkActive="active-item" class="dropdown-item">Payments</a>
+                </div>
+            </div>
+            <a routerLink="/projects" routerLinkActive="btn-link active-item">
+                <span class="btn btn-link p-0 mr-2">Projects</span>
+            </a>
+            <a routerLink="/reports" routerLinkActive="btn-link active-item">
+                <span class="btn btn-link p-0 mr-2">Reports</span>
+            </a>
+            <a routerLink="/virtualOffice" routerLinkActive="btn-link active-item">
+                <span class="btn btn-link p-0 mr-2">Virtual Office</span>
+            </a>
+            <div class="btn-group" ngbDropdown placement="bottom-right">
+                <button type="button" class="btn btn-link p-0 mr-2" ngbDropdownToggle>System management</button>
+                <div ngbDropdownMenu>
+                    <a routerLink="/employees" routerLinkActive="active-item" class="dropdown-item">Manage employees</a>
+                </div>
+            </div>
+        </div>
+        <div class="app-header-right">
+            <a class="font-icon-wrapper">
+                <div class="font-icon-lg">
+                    <i class="pe-7s-bell icon-gradient bg-heavy-rain"></i>
+                    <div class="ml-auto badge badge-warning">2</div>
+                </div>
+            </a>
+            <a class="font-icon-wrapper">
+                <div class="font-icon-lg">
+                    <i class="pe-7s-mail icon-gradient bg-heavy-rain"></i>
+                    <div class="ml-auto badge badge-warning">15</div>
+                </div>
+            </a>
+            <app-user-box></app-user-box>
+        </div>
+    </div>
+</div>

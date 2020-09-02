@@ -1,68 +1,55 @@
-<div class="page-header">
-    <h3 class="page-title">
-    <span class="page-title-icon bg-gradient-primary text-white mr-2">
-      <i class="mdi mdi-file-pdf"></i>
-    </span>
-        Quotations
-    </h3>
-</div>
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
 
 
-<div class="col-lg-12 grid-margin stretch-card">
-    <div class="card">
-        <div class="card-header">
-            <button type="button" class="btn btn-gradient-primary btn-icon-text"
-                    (click) = "addQuotation()">
-                <i class="mdi mdi-plus btn-icon-prepend"></i>
-                Add Quotation
-            </button>
-        </div>
-        <div class="card-body">
-            <div class="form-group">
-                <input style="border: solid  #05b5d4 1px" type="text" class="form-control" placeholder="Search Here" [(ngModel)]="filter">
-            </div>
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Reference</th>
-                        <th>Created on</th>
-                        <th>Company name</th>
-                        <th>Email address</th>
-                        <th>Phone number</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody *ngIf="quotations.length != 0">
-                    <tr *ngFor="let quotation of quotations | paginate: config | filter: filter">
-                        <td>{{quotation.quote_reference}}</td>
-                        <td>{{quotation.date_generated | date:'yyyy-MM-dd'}}</td>
-                        <td>{{quotation.company_name}}</td>
-                        <td>{{quotation.email}}</td>
-                        <td>{{quotation.phone_Number}}</td>
-                        <td>{{quotation.status}}</td>
-                        <td>
-                            <div class="template-demo">
-                                <button type="button" class="btn btn-social-icon btn-outline-facebook"
-                                        (click) = "updateQuotation(quotation)">
-                                    <i class="mdi mdi-grease-pencil"></i>
-                                </button>
-
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="text" *ngIf="quotations.length == 0">
-                    No Records Found!
-                </div>
-            </div>
-        </div>
-        <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+<div class="main-card mb-3 card">
+    <div class="card-header">
+        <button type="button" class="btn btn-dark btn-icon-text"
+                (click)="addQuotation()">
+            <i class="pe-7s-news-paper btn-icon-wrapper"></i>
+            Add Quotation
+        </button>
     </div>
+    <div class="table-responsive">
+        <div class="form-group">
+            <input style="border: solid  #05b5d4 1px; width: 95%; margin: 2%" type="text" class="form-control" placeholder="Search Here" [(ngModel)]="filter">
+        </div>
 
-
+        <table class="align-middle mb-0 table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center">Reference</th>
+                    <th class="text-center">Created on</th>
+                    <th class="text-center">Company name</th>
+                    <th class="text-center">Email address</th>
+                    <th class="text-center">Phone number</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="quotations.length != 0">
+                <tr *ngFor="let quotation of quotations | paginate: config | filter: filter">
+                    <td class="text-center">{{quotation.quote_reference}}</td>
+                    <td class="text-center">{{quotation.date_generated | date:'yyyy-MM-dd'}}</td>
+                    <td class="text-center">{{quotation.company_name}}</td>
+                    <td class="text-center">{{quotation.email}}</td>
+                    <td class="text-center">{{quotation.phone_Number}}</td>
+                    <td class="text-center">{{quotation.status}}</td>
+                    <td class="text-center">
+                        <div class="template-demo">
+                            <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-dark"
+                                    (click) = "updateQuotation(quotation)">
+                                <i class="pe-7s-pen btn-icon-wrapper"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text" *ngIf="quotations.length == 0">
+        No Records Found!
+    </div>
+    <pagination-controls (pageChange)="pageChanged($event)" style="margin-top: 5%"></pagination-controls>
 </div>
 
 <div *ngIf="isLoading | async" class="overlay">

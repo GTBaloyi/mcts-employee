@@ -1,5 +1,3 @@
-@import '../../../styles.scss';
-
 .card {
   height: 100%;
   opacity: 98%;
@@ -27,7 +25,7 @@
 .invoice header {
   padding: 10px 0;
   margin-bottom: 20px;
-  border-bottom: 1px solid #3989c6
+  border-bottom: 1px solid #043183
 }
 
 .invoice .company-details {
@@ -57,7 +55,7 @@
 
 .invoice .invoice-details .invoice-id {
   margin-top: 0;
-  color: #23275b
+  color: #000000
 }
 
 .invoice main {
@@ -72,7 +70,7 @@
 
 .invoice main .notices {
   padding-left: 6px;
-  border-left: 6px solid #3989c6
+  border-left: 6px solid #043183
 }
 
 .invoice main .notices .notice {
@@ -101,7 +99,7 @@
 .invoice table td h3 {
   margin: 0;
   font-weight: 400;
-  color: #3989c6;
+  color: #043183;
   font-size: 1.2em
 }
 
@@ -113,7 +111,7 @@
 .invoice table .no {
   color: #fff;
   font-size: 1.6em;
-  background: $theme-gradient
+  background: #043183;
 }
 
 .invoice table .unit {
@@ -121,7 +119,7 @@
 }
 
 .invoice table .total {
-  background: $theme-gradient;
+  background: #043183;
   color: #fff
 }
 
@@ -144,9 +142,9 @@
 }
 
 .invoice table tfoot tr:last-child td {
-  color: $theme-gradient;
+  color: #043183;
   font-size: 1.4em;
-  border-top: 1px solid #3989c6
+  border-top: 1px solid #043183
 }
 
 .invoice table tfoot tr td:first-child {

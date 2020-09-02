@@ -1,18 +1,14 @@
-<div class="container-scroller">
-    <app-navbar *ngIf="showNavbar"></app-navbar>
-    <div class="container-fluid page-body-wrapper">
-        <app-sidebar *ngIf="showSidebar"></app-sidebar>
-        <div class="main-panel" [ngClass]="{ 'main-panel-only' : !showSidebar }">
-            <div class="content-wrapper">
-                <app-spinner *ngIf="isLoading"></app-spinner>
-                <div contentAnimate *ngIf="!isLoading" class="h-100">
-                    <router-outlet></router-outlet>
-                </div>
-            </div>
-            <app-footer *ngIf="showFooter"></app-footer>
-            <!-- partial -->
+<div [ngClass]="{
+'header-menu-open' : globals.toggleHeaderMobile,
+'fixed-footer' : globals.toggleFixedFooter
+}" [class]="'app-container app-theme-white'">
+    <app-header></app-header >
+    <div class="app-main__inner" cdkScrollable>
+        <div [@Dashboard]="o.isActivated ? o.activatedRoute : ''">
+            <router-outlet #o="outlet"></router-outlet>
+
         </div>
-        <!-- main-panel ends -->
     </div>
-    <!-- page-body-wrapper ends -->
+    <app-footer></app-footer>
 </div>
+<ngx-loading-bar [color]="'var(--primary)'"></ngx-loading-bar>

@@ -2,18 +2,11 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import moment = require('moment');
 import html2canvas from "html2canvas";
 import jsPDF from 'jspdf';
-import {
-  ClientRegistrationRequestModel,
-  InvoiceRequestModel, InvoiceResponseModel,
-  InvoiceService,
-  ProductsService,
-  QuotationResponseModel,
-  QuotationService
-} from "../../services";
+import {EmployeeRequestModel, InvoiceResponseModel, ProductsService, QuotationResponseModel, QuotationService} from "../../services";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {Subject} from "rxjs";
-
+import nodemailer from 'nodemailer';
 
 @Component({
   selector: 'app-view-invoice-pdf',
@@ -21,25 +14,25 @@ import {Subject} from "rxjs";
   styleUrls: ['./view-invoice-pdf.component.scss']
 })
 export class ViewInvoicePdfComponent implements OnInit {
+  heading = 'Invoices';
+  subheading = 'View and manage all client invoices';
+  icon = 'pe-7s-note2 icon-gradient bg-tempting-azure';
 
   @ViewChild('pdfTable', {static: false}) pdfTable: ElementRef;
   isLoading = new Subject<boolean>();
   invoice: InvoiceResponseModel = <InvoiceResponseModel>'';
   quotation: QuotationResponseModel = <QuotationResponseModel>'';
-  private userInformation : ClientRegistrationRequestModel =  <ClientRegistrationRequestModel>'' ;
+  private userInformation : EmployeeRequestModel =  <EmployeeRequestModel>'' ;
   private showModal: boolean;
 
 
   constructor(private quotationService: QuotationService,
               private productsService: ProductsService,
               private router: Router,
-              private toastr: ToastrService,
-              private invoiceService: InvoiceService) {
+              private toastr: ToastrService) {
 
       this.invoice = JSON.parse(sessionStorage.getItem("viewInvoice"));
-      console.log('invoice: ', this.invoice);
-
-    this.userInformation  = JSON.parse(sessionStorage.getItem("userInformation"));
+      this.userInformation  = JSON.parse(sessionStorage.getItem("userInformation"));
 
   }
 
@@ -68,8 +61,34 @@ export class ViewInvoicePdfComponent implements OnInit {
 
       pdf.save('Invoice-'+date+'.pdf');
 
+      pdf.email();
+
       this.isLoading.next(false);
     });
+  }
+
+  public emailPDF() {
+    var pdfBase64;
+    this.isLoading.next(true);
+
+    let date = moment().format("yyyy-MM-DD");
+    let data = document.getElementById('pdfTable');
+
+    html2canvas(data).then(canvas => {
+      let imgWidth = 200;
+      let pageHeight = 395;
+      let imgHeight = canvas.height * imgWidth / canvas.width;
+      let heightLeft = imgHeight;
+
+      const contentDataURL = canvas.toDataURL('image/png');
+      let pdf = new jsPDF('p', 'mm', 'a4');
+      let position = 3;
+
+      pdfBase64 = pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+
+    });
+
+    this.isLoading.next(false);
   }
 
 

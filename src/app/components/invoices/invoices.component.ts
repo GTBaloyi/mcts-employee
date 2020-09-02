@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Subject} from "rxjs";
 import {
-  ClientRegistrationRequestModel,
   EmployeeRequestModel,
   InvoiceRequestModel,
   InvoiceService
@@ -15,6 +14,10 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./invoices.component.scss']
 })
 export class InvoicesComponent implements OnInit {
+  heading = 'Invoices';
+  subheading = 'View and manage all client invoices';
+  icon = 'pe-7s-note2 icon-gradient bg-tempting-azure';
+
 
   isLoading = new Subject<boolean>();
   private invoices: Array<InvoiceRequestModel> = [];

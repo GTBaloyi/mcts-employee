@@ -13,6 +13,11 @@ import moment = require('moment');
   styleUrls: ['./clients.component.scss']
 })
 export class ClientsComponent implements OnInit {
+    heading = 'Clients';
+    subheading = 'Dashboard to manage clients';
+    icon = 'pe-7s-users icon-gradient bg-tempting-azure';
+
+
 
     private numberOfActiveClients: number = 0;
     private numberOfInactiveClients: number = 0;

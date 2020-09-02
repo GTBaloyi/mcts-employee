@@ -21,13 +21,20 @@ import {NgbDate} from "@ng-bootstrap/ng-bootstrap";
   styleUrls: ['./add-quotation.component.scss']
 })
 export class AddQuotationComponent implements OnInit {
+  heading = 'Quotation';
+  subheading = 'Creat and view all client quotations';
+  icon = 'pe-7s-note2 icon-gradient bg-tempting-azure';
 
   isLoading = new Subject<boolean>();
   private focusAreas: Array<any> = [];
   private selectedFocusArea: string;
   private products: Array<any> = [];
   private selectedProduct: string;
+  private quotationID: string;
   private selectedQuantity: number;
+  private selectedNumberOfTest: number = 0;
+  private selectedUnitPrice: number = 0;
+  private selectedProductTotal: number = 0;
   private newProduct: QuotationItemEntity  = {};
   private quotation: QuotationModel= <QuotationModel> {};
   private employeeInformation : EmployeeRequestModel;
@@ -85,7 +92,16 @@ export class AddQuotationComponent implements OnInit {
   }
 
   addItem() {
-    this.newProduct = {id:0, focusArea: this.selectedFocusArea, item: this.selectedProduct, quantity: this.selectedQuantity, total: 0};
+
+    this.newProduct = {
+      id:0,
+      focusArea: this.selectedFocusArea,
+      item: this.selectedProduct,
+      numberOfTests: this.selectedNumberOfTest,
+      unit_Price: this.selectedUnitPrice,
+      quantity: this.selectedQuantity,
+      total: this.selectedProductTotal,
+      quote_reference: this.quotation.quote_reference};
     this.quotation.items.push(this.newProduct);
     this.toastr.success('New row added successfully', 'New product');
     return true;
@@ -114,7 +130,7 @@ export class AddQuotationComponent implements OnInit {
         },
         error => {
           if (error.status == 200) {
-
+            this.quotationID = error.error.text;
             this.quotationService.apiQuotationQuoteReferenceQuoteReferenceGet(error.error.text).subscribe(
                 (data: any) => {
                   this.quotation = data
@@ -131,8 +147,6 @@ export class AddQuotationComponent implements OnInit {
 
           } else {
             console.log(error);
-            this.isLoading.next(false);
-            this.showError();
           }
         }
     )
@@ -140,20 +154,11 @@ export class AddQuotationComponent implements OnInit {
 
 
   updateQuotation(quotation){
-
-
     this.isLoading.next(true);
 
-    if(this.employeeInformation.position == 'General Staff'){
-      quotation.status = 'Pending Manager Approval';
-      quotation.generatedBy = this.employeeInformation.surname +' '+ this.employeeInformation.name +' '+ ' ( ' + this.employeeInformation.email+ ')'
-      quotation.approvedBy = '';
-    }else{
-      quotation.status = 'Pending Client Approval';
-      quotation.generatedBy = this.employeeInformation.surname +' '+ this.employeeInformation.name +' '+ ' ( ' + this.employeeInformation.email+ ')'
-      quotation.approvedBy = this.employeeInformation.surname +' '+ this.employeeInformation.name +' '+ ' ( ' + this.employeeInformation.email+ ')'
-    }
-
+    quotation.status = 'Pending Manager Approval';
+    quotation.generatedBy = this.employeeInformation.email;
+    quotation.approvedBy = '';
 
     this.quotationService.apiQuotationGenerateQuotePut(quotation).subscribe (
         (data: any) => {
@@ -165,8 +170,21 @@ export class AddQuotationComponent implements OnInit {
         },
         () => {
           this.isLoading.next(false);
-          this.showSuccess();
-          this.router.navigateByUrl('/quotation');
+
+            this.quotationService.apiQuotationQuoteReferenceQuoteReferenceGet(this.quotationID).subscribe(
+                (data: any) => {
+                  this.quotation = data
+                },
+                error => {
+                  console.log(error);
+                  this.isLoading.next(false);
+                  this.showError();
+                },
+                () => {
+                  sessionStorage.setItem('viewQuotation', JSON.stringify(this.quotation));
+                  this.router.navigateByUrl('/view-quotation');
+                }
+            );
 
         }
     )

@@ -1,23 +1,21 @@
-<div class="page-header">
-    <button type="button" class="btn btn-gradient-primary btn-rounded btn-icon" routerLink="/quotation" >
-        <i class="mdi mdi-backspace icon-md"></i>
-    </button>
-
-    <h3 class="page-title">
-    <span class="page-title-icon bg-gradient-primary text-white mr-2">
-      <i class="mdi mdi-file-pdf"></i>
-    </span>
-        Add Quotation
-    </h3>
-</div>
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
 
 <div class="container-scroller">
-    <div class="card" style="padding-top: 8%">
+    <div class="toolbar hidden-print">
+        <div class="text-right">
+            <button type="button" class="btn btn-dark" routerLink="/quotation" style="margin-right: 1%">
+                <i class="pe-7s-back btn-icon-wrapper"></i>
+                Back
+            </button>
+        </div>
+        <hr>
+    </div>
+    <div class="card" style="padding-top: 2%">
         <form class="pt-3" #quotationForm="ngForm" (ngSubmit)="quotationForm.form.valid && requestQuotation()">
             <div class="row">
                 <div class="form-group row" style="margin-left: 5%; width: 90%">
                     <label>Company name</label>
-                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg" placeholder="Company name"
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control " placeholder="Company name"
                            name="company_name"
                            [(ngModel)]="quotation.company_name"
                            #companyName="ngModel"
@@ -31,7 +29,7 @@
             <div class="row">
                 <div class="form-group row" style="margin-left: 5%; width: 90%">
                     <label>Company registration</label>
-                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg" placeholder="Company registration"
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control" placeholder="Company registration"
                            name="Registration"
                            [(ngModel)]="quotation.company_Registration"
                            #Registration="ngModel"
@@ -45,7 +43,7 @@
             <div class="row">
                 <div class="form-group row" style="margin-left: 5%; width: 43.5%">
                     <label>Email address</label>
-                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg" placeholder="Email address"
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control" placeholder="Email address"
                            name="email"
                            [(ngModel)]="quotation.email"
                            #contactEmail="ngModel"
@@ -56,9 +54,9 @@
                     </div>
                 </div>
 
-                <div class="form-group row" style="margin-left: 5%; width: 43.5%" >
+                <div class="form-group row" style="margin-left: 4%; width: 43.5%" >
                     <label>Contact number</label>
-                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg"  placeholder="Contact number"
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control"  placeholder="Contact number"
                            [(ngModel)]="quotation.phone_number"
                            name="phone_number"
                            #cellNumber="ngModel"
@@ -73,7 +71,7 @@
             <div class="row">
                 <div class="form-group row" style="margin-left: 5%; width: 43.5%">
                     <label>Date created</label>
-                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg" placeholder="Date generated"
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control" placeholder="Date generated"
                            name="date_generated"
                            [ngModel]="quotation.date_generated"
                            #dateGenerated="ngModel"
@@ -85,14 +83,15 @@
                     </div>
                 </div>
 
-                <div class="form-group row" style="margin-left: 5%; width: 43.5%" >
+                <div class="form-group row" style="margin-left: 4%; width: 43.5%" >
                     <label>Expiry Date</label>
-                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg"  placeholder="Expiry date"
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control "  placeholder="Expiry date"
                            [(ngModel)]="date"
                            [ngClass]="{ 'is-invalid': quotationForm.submitted && expiryDate.invalid }"
                            ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()"
                            name="quote_expiryDate"
                            #expiryDate="ngModel"
+                           autocomplete="off"
                            required>
                     <div *ngIf="quotationForm.submitted && expiryDate.invalid" class="invalid-feedback">
                         <div *ngIf=" expiryDate.errors.required">Expiry date is required</div>
@@ -103,7 +102,7 @@
             <div class="row">
                 <div class="form-group row" style="margin-left: 5%; width: 90%">
                     <label>Description</label>
-                    <textarea style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg"  placeholder="Description"
+                    <textarea style="border: solid  #23275b 1px" type="text" class="form-control"  placeholder="Description"
                               [(ngModel)]="quotation.description"
                               name="description"
                               #description="ngModel"
@@ -118,7 +117,7 @@
 
             <div class="row">
                 <div class="form-group row" style="margin-left: 5%; width: 90%">
-                    <input style="border: solid  #23275b 1px" type="text" class="form-control form-control-lg"  placeholder="Address"
+                    <input style="border: solid  #23275b 1px" type="text" class="form-control"  placeholder="Address"
                            [(ngModel)]="quotation.bill_address"
                            name="bill_address"
                            #billAddress="ngModel"
@@ -134,37 +133,48 @@
 
                 <table class="table table-striped" >
                     <thead>
-                    <tr>
-                        <th colspan="4">Add products to the table.</th>
-                    </tr>
-                    <tr>
-                        <th>Focus area</th>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Action</th>
-                    </tr>
+                        <tr>
+                            <th>Focus area</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Number of Test</th>
+                            <th>Unit price</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
                     </thead>
+
                     <tbody>
                     <tr *ngFor="let product of quotation.items; let i = index;">
-                        <td style="width: 40%; border: solid  #fff 1px">
+                        <td style="width: 20%; border: solid  #fff 1px">
                             {{product.focusArea}}
                         </td>
-                        <td style="width: 35%; border: solid  #fff 1px" class="text-success">
+                        <td style="width: 20%; border: solid  #fff 1px" class="text-black-50">
                             {{product.item}}
                         </td>
-                        <td style="width: 15%; border: solid  #fff 1px" class="text-danger">
+
+                        <td style="border: solid  #fff 1px" class="text-black-50">
                             {{product.quantity}}
                         </td>
+                        <td style="border: solid  #fff 1px" class="text-black-50">
+                            {{product.numberOfTests}}
+                        </td>
+                        <td style="border: solid  #fff 1px" class="text-black-50">
+                            R {{product.unit_Price}}
+                        </td>
+                        <td style="border: solid  #fff 1px" class="text-black-50">
+                            R {{product.total}}
+                        </td>
                         <td style="width: 10%">
-                            <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon" (click)="deleteItem(i)">
-                                <i class="mdi mdi-delete icon-md"></i>
+                            <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-dark" (click)="deleteItem(i)">
+                                <i class="pe-7s-trash btn-icon-wrapper"></i>
                             </button>
                         </td>
                     </tr>
 
                     <tr>
-                        <td style="width: 40%; border: solid  #fff 1px">
-                            <select class="form-control form-control-lg"
+                        <td style="width: 20%; border: solid  #fff 1px">
+                            <select class="form-control"
                                     [(ngModel)]="selectedFocusArea"
                                     name="selectedFocusArea"
                                     #focusArea="ngModel"
@@ -177,8 +187,8 @@
                                 </div>
                             </select>
                         </td>
-                        <td style="width: 35%; border: solid  #fff 1px">
-                            <select class="form-control form-control-lg"
+                        <td style="width: 20%; border: solid  #fff 1px">
+                            <select class="form-control "
                                     [(ngModel)]="selectedProduct"
                                     name="selectedProduct"
                                     #product="ngModel"
@@ -190,72 +200,106 @@
                                 </div>
                             </select>
                         </td>
-                        <td style="width: 15%; border: solid  #fff 1px">
+                        <td style="border: solid  #fff 1px">
                             <input type="number" class="form-control"
                                    [(ngModel)]="selectedQuantity"
                                    name="selectedQuantity"
-                                   [min]="1"
                                    #quantity="ngModel"
+                                   [min]="0"
                                    [ngClass]="{ 'is-invalid': quotationForm.submitted && quantity.invalid }"
                                    required>
                             <div *ngIf="quotationForm.submitted && quantity.invalid" class="invalid-feedback">
                                 <div *ngIf=" quantity.errors.required">Quantity is required</div>
                             </div>
                         </td>
+                        <td style="border: solid  #fff 1px">
+                            <input type="number" class="form-control"
+                                   [(ngModel)]="selectedNumberOfTest"
+                                   name="selectedNumberOfTest"
+                                   [min]="0"
+                                   #numberOfTest="ngModel"
+                                   [ngClass]="{ 'is-invalid': quotationForm.submitted && numberOfTest.invalid }">
+                            <div *ngIf="quotationForm.submitted && quantity.invalid" class="invalid-feedback">
+                                <div *ngIf=" numberOfTest.errors.required">Number of tests is required</div>
+                            </div>
+                        </td>
+                        <td style="border: solid  #fff 1px">
+                            <input type="number" class="form-control"
+                                   [(ngModel)]="selectedUnitPrice"
+                                   name="selectedUnitPrice"
+                                   #unitPrice="ngModel"
+                                   [ngClass]="{ 'is-invalid': quotationForm.submitted && unitPrice.invalid }"
+                                   disabled
+                                   required>
+                            <div *ngIf="quotationForm.submitted && unitPrice.invalid" class="invalid-feedback">
+                                <div *ngIf=" unitPrice.errors.required">Unit price is required</div>
+                            </div>
+                        </td>
+                        <td style="border: solid  #fff 1px">
+                            <input type="number" class="form-control"
+                                   [(ngModel)]="selectedProductTotal"
+                                   name="selectedProductTotal"
+                                   #productTotal="ngModel"
+                                   [ngClass]="{ 'is-invalid': quotationForm.submitted && productTotal.invalid }"
+                                   disabled
+                                   required>
+                            <div *ngIf="quotationForm.submitted && productTotal.invalid" class="invalid-feedback">
+                                <div *ngIf=" productTotal.errors.required">Total is required</div>
+                            </div>
+                        </td>
                         <td style="width: 10%; border: solid  #fff 1px">
-                            <button type="button" class="btn btn-gradient-primary btn-rounded btn-icon" (click)="addItem()">
-                                <i class="mdi mdi-plus-box icon-md"></i>
+                            <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-dark" (click)="addItem()">
+                                <i class="pe-7s-plus btn-icon-wrapper"></i>
                             </button>
                         </td>
                     </tr>
                     </tbody>
                     <tfoot>
-                    <tr>
-                        <td colspan="2">DISCOUNT %</td>
-                        <td colspan="2">
-                            <div class="row">
-                                <div class="form-group row" style="margin-left: 5%; width: 90%; margin-top: 5%">
-                                    <input style="border: solid  #23275b 1px" type="number" class="form-control form-control-lg"  placeholder="Discount percentage"
-                                           [(ngModel)]="quotation.discount"
-                                           name="discount"
-                                           [min]="0"
-                                           [max]="100"
-                                           #discount="ngModel"
-                                           [ngClass]="{ 'is-invalid': quotationForm.submitted && discount.invalid }"
-                                           required>
-                                    <div *ngIf="quotationForm.submitted && discount.invalid" class="invalid-feedback" style="font-weight: normal; font-size: small; color: #FFF">
-                                        <div *ngIf=" discount.errors.required">Discount percentage is required</div>
+                        <tr>
+                            <td colspan="3">DISCOUNT %</td>
+                            <td colspan="4">
+                                <div class="row">
+                                    <div class="form-group row" style="margin-left: 5%; width: 90%; margin-top: 0%">
+                                        <input style="border: solid  #23275b 1px" type="text" class="form-control"  placeholder="Discount percentage"
+                                               [(ngModel)]="quotation.discount"
+                                               name="discount"
+                                               [min]="0"
+                                               [max]="100"
+                                               #discount="ngModel"
+                                               [ngClass]="{ 'is-invalid': quotationForm.submitted && discount.invalid }"
+                                               required>
+                                        <div *ngIf="quotationForm.submitted && discount.invalid" class="invalid-feedback" style="font-weight: normal; font-size: small; color: #FFF">
+                                            <div *ngIf=" discount.errors.required">discount percentage is required</div>
+                                            <div *ngIf=" discount.errors.max">discount percentage invalid</div>
+                                            <div *ngIf=" discount.errors.min">discount percentage invalid</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">SUBTOTAL</td>
-                        <td colspan="2">R {{quotation.subTotal}}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">VAT 15%</td>
-                        <td colspan="2">R {{quotation.vatAmount}}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">GRAND TOTAL</td>
-                        <td colspan="2">R {{quotation.grand_total}}</td>
-                    </tr>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">SUBTOTAL</td>
+                            <td colspan="4">R {{quotation.subTotal}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">VAT 15%</td>
+                            <td colspan="4">R {{quotation.vatAmount}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">GRAND TOTAL</td>
+                            <td colspan="4">R {{quotation.grand_total}}</td>
+                        </tr>
                     </tfoot>
                 </table>
             </div>
 
-
-
-            <div class="row" *ngIf="quotation.status != 'Accepted'">
-                <button style="margin: 3%; width: 44%" type="button" class="btn btn-gradient-success" data-dismiss="modal" routerLink="/quotation">
+            <div class="row">
+                <button style="margin: 3%; width: 44%" type="button" class="btn btn-light" data-dismiss="modal" routerLink="/quotation">
                     Cancel
                 </button>
-                <button  style="margin: 3%; width: 44%" type="submit" class="btn btn-gradient-primary" data-dismiss="modal">
-                    Create quote
+                <button style="margin: 3%; width: 44%" type="submit" class="btn btn-dark" data-dismiss="modal">
+                    Generate quote
                 </button>
-
             </div>
         </form>
     </div>

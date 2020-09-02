@@ -1,5 +1,3 @@
-@import '../../../styles.scss';
-
 .text{
   color: #9c9c9c;
   font-family: "Helvetica Neue", Arial, sans-serif;
@@ -9,22 +7,3 @@
   width: 100%;
 }
 
-
-.active{
-  color: #000000;
-}
-
-.deactivated{
-  color: $danger;
-}
-
-.suspended{
-  color: $warning;
-}
-
-.box{
-  width: 100%;
-  color: #fff;
-  width:15px;
-  height:15px;
-}

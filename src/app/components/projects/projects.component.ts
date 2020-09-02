@@ -12,6 +12,10 @@ import {ToastrService} from "ngx-toastr";
 export class ProjectsComponent implements OnInit {
     isLoading = new Subject<boolean>();
 
+    heading = 'Projects';
+    subheading = 'View and manage projects';
+    icon = 'pe-7s-home icon-gradient bg-tempting-azure';
+
     private projects: Array<ProjectInformationResponseModel> = [];
     private userInformation : ClientRegistrationRequestModel =  <ClientRegistrationRequestModel>'' ;
 

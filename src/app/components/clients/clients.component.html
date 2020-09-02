@@ -1,395 +1,417 @@
-<div class="page-header">
-    <h3 class="page-title">
-    <span class="page-title-icon bg-gradient-primary text-white mr-2">
-      <i class="mdi mdi-account-box-multiple"></i>
-    </span>
-        Clients
-    </h3>
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
+
+<div class="mb-3 card">
+    <div class="no-gutters row">
+        <div class="col-sm-6 col-md-4 col-xl-4">
+            <div class="card no-shadow rm-border bg-transparent widget-chart text-left">
+                <div class="icon-wrapper rounded-circle">
+                    <div class="icon-wrapper-bg opacity-10 bg-warning"></div>
+                    <i class="pe-7s-album text-white opacity-8"></i></div>
+                <div class="widget-chart-content">
+                    <div class="widget-subheading">Total Number of Clients</div>
+                    <div class="widget-numbers">{{clients.length}}</div>
+                    <div class="widget-description opacity-8 text-primary">
+                        Increased by
+                        <div class="d-inline text-info pr-1">
+                            <fa name="angle-down"></fa>
+                            <span class="pl-1">{{numberOfClients}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="divider m-0 d-md-none d-sm-block"></div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-xl-4">
+            <div class="card no-shadow rm-border bg-transparent widget-chart text-left">
+                <div class="icon-wrapper rounded-circle">
+                    <div class="icon-wrapper-bg opacity-9 bg-warning"></div>
+                    <i class="pe-7s-portfolio text-white"></i></div>
+                <div class="widget-chart-content">
+                    <div class="widget-subheading">Active Clients</div>
+                    <div class="widget-numbers"><span>{{numberOfActiveClients}}</span></div>
+                    <div class="widget-description opacity-8 text-primary">
+                        Inactive clients
+                        <span class="text-info pl-1">
+                        <fa name="angle-down"></fa>
+                        <span class="pl-1">{{numberOfInactiveClients}}</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="divider m-0 d-md-none d-sm-block"></div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-xl-4">
+            <div class="card no-shadow rm-border bg-transparent widget-chart text-left">
+                <div class="icon-wrapper rounded-circle">
+                    <div class="icon-wrapper-bg opacity-9 bg-warning"></div>
+                    <i class="pe-7s-light text-white"></i></div>
+                <div class="widget-chart-content">
+                    <div class="widget-subheading">Client Satisfaction</div>
+                    <div class="widget-numbers"><span>{{numberOfClientsSatisfaction}}%</span></div>
+                    <div class="widget-description text-primary">
+                        Increased by
+                        <span class="text-info pl-1">
+                        <fa name="angle-up"></fa>
+                        <span class="pl-1">0%</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class = row>
-    <div class="col-md-4 stretch-card grid-margin">
-        <div class="card bg-gradient-danger card-img-holder text-white">
-            <div class="card-body">
-                <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>
-                <h4 class="font-weight-normal mb-3">Total Number of Clients
-                    <i class="mdi mdi-chart-line mdi-24px float-right"></i>
-                </h4>
-                <h2 class="mb-5">{{clients.length}}</h2>
-                <h6 class="card-text">Increased by {{numberOfClients}} within a month</h6>
-            </div>
-        </div>
+
+<div class="main-card mb-3 card">
+    <div class="card-header">
+        <button type="button" class="btn btn-dark btn-icon-text"
+                (click)="openModal(AddClient, '')">
+            <i class="pe-7s-add-user btn-icon-wrapper"></i>
+
+            New Client
+        </button>
     </div>
-    <div class="col-md-4 stretch-card grid-margin">
-        <div class="card bg-gradient-info card-img-holder text-white">
-            <div class="card-body">
-                <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>
-                <h4 class="font-weight-normal mb-3">Active Clients
-                    <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
-                </h4>
-                <h2 class="mb-5">{{numberOfActiveClients}}</h2>
-                <h6 class="card-text">Inactive clients {{numberOfInactiveClients}}</h6>
-            </div>
+    <div class="table-responsive">
+        <div class="form-group">
+            <input style="border: solid  #05b5d4 1px; width: 95%; margin: 2%" type="text" class="form-control" placeholder="Search Here" [(ngModel)]="filter">
         </div>
+
+        <table class="align-middle mb-0 table table-striped table-hover">
+            <thead>
+            <tr>
+                <th class="text-center">Client Email</th>
+                <th>Company Name</th>
+                <th class="text-center">Registration Number</th>
+                <th class="text-center">Point of Contact</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Action</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="clients.length != 0">
+            <tr *ngFor="let client of clients | paginate: config | filter: filter">
+                <td class="text-center">{{client.contactEmail}}</td>
+                <td class="text-center">{{client.companyName}}</td>
+                <td class="text-center">{{client.companyRegistrationNumber}}</td>
+                <td class="text-center">{{client.contactName}} {{client.contactSurname}}</td>
+                <td class="text-center">
+                    <div class="badge badge-success" *ngIf="client.userStatus == 1">Active</div>
+                    <div class="badge badge-info" *ngIf="client.userStatus == 2">No active</div>
+                    <div class="badge badge-warning" *ngIf="client.userStatus == 3">Suspended</div>
+                    <div class="badge badge-danger" *ngIf="client.userStatus == 4">Deactivated</div>
+                </td>
+                <td class="text-center">
+                    <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-dark"
+                            (click)="openModal(EditClient, client)">
+                        <i class="pe-7s-pen btn-icon-wrapper"></i>
+                    </button>
+
+                    <button *ngIf="client.userStatus == 3 || client.userStatus == 4 || client.userStatus == 2" class="mr-2 btn-icon btn-icon-only btn btn-outline-warning"
+                            (click)="unlockAccount(client)">
+                        <i class="pe-7s-unlock btn-icon-wrapper btn-outline-warning"></i>
+                    </button>
+
+                    <button *ngIf="client.userStatus == 1 || client.userStatus == 4" class="mr-2 btn-icon btn-icon-only btn btn-warning"
+                            (click)="lockAccount(client)">
+                        <i class="pe-7s-lock btn-icon-wrapper"></i>
+                    </button>
+
+                    <button *ngIf="client.userStatus == 1 || client.userStatus == 2 || client.userStatus == 3" class="mr-2 btn-icon btn-icon-only btn  btn-outline-danger"
+                            (click)="openModal(deleteClient, client)">
+                        <i class="pe-7s-trash btn-icon-wrapper"> </i>
+                    </button>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
     </div>
-    <div class="col-md-4 stretch-card grid-margin">
-        <div class="card bg-gradient-success card-img-holder text-white">
-            <div class="card-body">
-                <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>
-                <h4 class="font-weight-normal mb-3">Client Satisfaction
-                    <i class="mdi mdi-diamond mdi-24px float-right"></i>
-                </h4>
-                <h2 class="mb-5">{{numberOfClientsSatisfaction}}%</h2>
-            </div>
-        </div>
+    <div class="text" *ngIf="clients.length == 0">
+        No Records Found!
     </div>
+    <pagination-controls (pageChange)="pageChanged($event)" style="margin-top: 5%"></pagination-controls>
 </div>
-<div class="row">
-    <div class="col-lg-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-header">
-                <button type="button" class="btn btn-gradient-success btn-icon-text"
-                    (click)="openModal(AddClient, '')">
-                    <i class="mdi mdi-account-plus btn-icon-prepend"></i>
-                    New Client
-                </button>
-            </div>
-            <div class="card-body">
+
+<ng-template class="modal fade" #EditClient let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit Client</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form class="pt-3"  #EditClientForm="ngForm" (ngSubmit)="EditClientForm.form.valid && updateClient(editClient)">
+                <div class="row">
+                    <div style="margin-left: 3.5%; width: 15%">
+                        <div class="form-group">
+                            <select  type="text"
+                                    [(ngModel)]="editClient.title"
+                                    name="title"
+                                    #title="ngModel"
+                                    [ngClass]="{ 'is-invalid': EditClientForm.submitted && title.invalid }"
+                                    class="form-control text-left"
+                                    required>
+                                <option *ngFor="let option of titles" [value]="option" value="{{option}}">{{option}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="margin-left: 4%; width: 35%">
+                        <div class="form-group">
+                            <input class="form-control text-left" type="text" placeholder="Name"
+                                   [(ngModel)]="editClient.contactName"
+                                   name="contactName"
+                                   #contactName="ngModel"
+                                   [ngClass]="{ 'is-invalid': EditClientForm.submitted && contactName.invalid }"
+                                   required>
+                            <div *ngIf="EditClientForm.submitted && contactName.invalid" class="invalid-feedback">
+                                <div *ngIf="contactName.errors.required">Name is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-left: 4%; width: 35%">
+                        <div class="form-group">
+                            <input class="form-control text-left" type="text" placeholder="Surname"
+                                   [(ngModel)]="editClient.contactSurname"
+                                   name="contactSurname"
+                                   #contactSurname="ngModel"
+                                   [ngClass]="{ 'is-invalid': EditClientForm.submitted && contactSurname.invalid }"
+                                   required>
+                            <div *ngIf="EditClientForm.submitted && contactSurname.invalid" class="invalid-feedback">
+                                <div *ngIf="contactSurname.errors.required">Surname is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div style="margin-left: 3.5%; width: 30%">
+                        <div class="form-group">
+                            <select type="text"
+                                    [(ngModel)]="editClient.gender"
+                                    name="gender"
+                                    class="form-control text-left">
+                                <option *ngFor="let option of genders" [value]="option" value="{{option}}">{{option}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="margin-left: 4%; width: 59%">
+                        <div class="form-group">
+                            <input class="form-control text-left"type="text" placeholder="Contact number"
+                                   [(ngModel)]="editClient.contactNumber"
+                                   name="contactNumber"
+                                   #contactNumber="ngModel"
+                                   [ngClass]="{ 'is-invalid': EditClientForm.submitted && contactNumber.invalid }"
+                                   required>
+                            <div *ngIf="EditClientForm.submitted && contactNumber.invalid" class="invalid-feedback">
+                                <div *ngIf="contactNumber.errors.required">Contact number is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" >
+                    <input class="form-control text-left" type="text" placeholder="Company name"
+                           [(ngModel)]="editClient.companyName"
+                           name="companyName"
+                           #companyName="ngModel"
+                           [ngClass]="{ 'is-invalid': EditClientForm.submitted && companyName.invalid }"
+                           required>
+                    <div *ngIf="EditClientForm.submitted && companyName.invalid" class="invalid-feedback">
+                        <div *ngIf="companyName.errors.required">Company name is required</div>
+                    </div>
+                </div>
+
+                <div class="form-group" >
+                    <input class="form-control text-left" type="text" placeholder="Registration number"
+                           [(ngModel)]="editClient.companyRegistrationNumber"
+                           name="companyRegistrationNumber"
+                           #companyRegistrationNumber="ngModel"
+                           [ngClass]="{ 'is-invalid': EditClientForm.submitted && companyRegistrationNumber.invalid }"
+                           required>
+                    <div *ngIf="EditClientForm.submitted && companyRegistrationNumber.invalid" class="invalid-feedback">
+                        <div *ngIf="companyRegistrationNumber.errors.required">Company registration number is required</div>
+                    </div>
+                </div>
+
+
                 <div class="form-group">
-                    <input style="border: solid  #05b5d4 1px" type="text" class="form-control" placeholder="Search Here" [(ngModel)]="filter">
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Client Email</th>
-                            <th>Company Name</th>
-                            <th>Registration Number</th>
-                            <th>Point of Contact</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody *ngIf="clients.length != 0">
-                        <tr *ngFor="let client of clients | paginate: config | filter: filter" [ngClass]="{'deactivated': client.userStatus == 4, 'suspended': client.userStatus == 3}">
-                            <td >{{client.contactEmail}}</td>
-                            <td>{{client.companyName}}</td>
-                            <td>{{client.companyRegistrationNumber}}</td>
-                            <td>{{client.contactName}} {{client.contactSurname}}</td>
-                            <td>
-                                <button type="button" class="btn btn-social-icon btn-outline-facebook"
-                                        (click)="openModal(EditClient, client)">
-                                    <i class="mdi mdi-grease-pencil"></i>
-                                </button>
-
-                                <button *ngIf="client.userStatus == 3 || client.userStatus == 4 ||  client.userStatus == 2" type="button" class="btn btn-social-icon btn-outline-youtube"
-                                    (click)="unlockAccount(client)">
-                                    <i class="mdi mdi-lock-open-outline"></i>
-                                </button>
-
-                                <button *ngIf="client.userStatus == 1" type="button" class="btn btn-social-icon btn-outline-twitter"
-                                    (click)="lockAccount(client)">
-                                    <i class="mdi mdi-lock"></i>
-                                </button>
-
-                                <button *ngIf="client.userStatus != 4" type="button" class="btn  btn-social-icon btn-outline-youtube"
-                                        (click)="openModal(deleteClient, client)">
-                                    <i class="mdi mdi-delete"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="text" *ngIf="clients.length == 0">
-                        No Records Found!
+                    <input  type="email" class="form-control text-left" name="contactEmail" placeholder="Contact email"
+                           [(ngModel)]="editClient.contactEmail"
+                           #contactEmail="ngModel"
+                           [ngClass]="{ 'is-invalid': EditClientForm.submitted && contactEmail.invalid }" email required>
+                    <div *ngIf="EditClientForm.submitted && contactEmail.invalid" class="invalid-feedback">
+                        <div *ngIf="contactEmail.errors.required">Email is required</div>
+                        <div *ngIf="contactEmail.errors.email">Must be a valid email address</div>
                     </div>
                 </div>
-            </div>
-            <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+
+                <div class="form-group">
+                    <select type="text"
+                            [(ngModel)]="editClient.companyProfile"
+                            name="companyProfile"
+                            class="form-control text-left">
+                        <option *ngFor="let option of companyProfiles" [value]="option" value="{{option}}">{{option}}</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="modal.close()">Cancel</button>
+                    <button type="submit" class="btn btn-info" data-dismiss="modal" >Continue</button>
+                </div>
+            </form>
         </div>
     </div>
+</ng-template>
 
-    <ng-template class="modal fade" #EditClient let-modal>
-        <div class="modal-content" style="background: #FFF; color: #000">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Client</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form class="pt-3"  #EditClientForm="ngForm" (ngSubmit)="EditClientForm.form.valid && updateClient(editClient)">
-                    <div class="row">
-                        <div style="margin-left: 3.5%; width: 15%">
-                            <div class="form-group">
-                                <select style="border: solid  #23275b 1px; color: #000" type="text"
-                                        [(ngModel)]="editClient.title"
-                                        name="title"
-                                        #title="ngModel"
-                                        [ngClass]="{ 'is-invalid': EditClientForm.submitted && title.invalid }"
-                                        class="form-control form-control-lg"
-                                        required>
-                                    <option *ngFor="let option of titles" [value]="option" value="{{option}}">{{option}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div style="margin-left: 4%; width: 35%">
-                            <div class="form-group">
-                                <input style="border: solid  #23275b 1px; color: #000" class="form-control form-control-lg" type="text" placeholder="Name"
-                                       [(ngModel)]="editClient.contactName"
-                                       name="contactName"
-                                       #contactName="ngModel"
-                                       [ngClass]="{ 'is-invalid': EditClientForm.submitted && contactName.invalid }"
-                                       required>
-                                <div *ngIf="EditClientForm.submitted && contactName.invalid" class="invalid-feedback">
-                                    <div *ngIf="contactName.errors.required">Name is required</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="margin-left: 4%; width: 35%">
-                            <div class="form-group">
-                                <input style="border: solid  #23275b 1px; color: #000" class="form-control form-control-lg" type="text" placeholder="Surname"
-                                       [(ngModel)]="editClient.contactSurname"
-                                       name="contactSurname"
-                                       #contactSurname="ngModel"
-                                       [ngClass]="{ 'is-invalid': EditClientForm.submitted && contactSurname.invalid }"
-                                       required>
-                                <div *ngIf="EditClientForm.submitted && contactSurname.invalid" class="invalid-feedback">
-                                    <div *ngIf="contactSurname.errors.required">Surname is required</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div style="margin-left: 3.5%; width: 30%">
-                            <div class="form-group">
-                                <select style="border: solid  #23275b 1px; color: #000" type="text"
-                                        [(ngModel)]="editClient.gender"
-                                        name="gender"
-                                        class="form-control form-control-lg">
-                                    <option *ngFor="let option of genders" [value]="option" value="{{option}}">{{option}}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div style="margin-left: 4%; width: 59%">
-                            <div class="form-group">
-                                <input style="border: solid  #23275b 1px; color: #000" class="form-control form-control-lg" type="text" placeholder="Contact number"
-                                       [(ngModel)]="editClient.contactNumber"
-                                       name="contactNumber"
-                                       #contactNumber="ngModel"
-                                       [ngClass]="{ 'is-invalid': EditClientForm.submitted && contactNumber.invalid }"
-                                       required>
-                                <div *ngIf="EditClientForm.submitted && contactNumber.invalid" class="invalid-feedback">
-                                    <div *ngIf="contactNumber.errors.required">Contact number is required</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group" >
-                        <input style="border: solid  #23275b 1px; color: #000" class="form-control form-control-lg" type="text" placeholder="Company name"
-                               [(ngModel)]="editClient.companyName"
-                               name="companyName"
-                               #companyName="ngModel"
-                               [ngClass]="{ 'is-invalid': EditClientForm.submitted && companyName.invalid }"
-                               required>
-                        <div *ngIf="EditClientForm.submitted && companyName.invalid" class="invalid-feedback">
-                            <div *ngIf="companyName.errors.required">Company name is required</div>
-                        </div>
-                    </div>
-
-                    <div class="form-group" >
-                        <input style="border: solid  #23275b 1px; color: #000" class="form-control form-control-lg" type="text" placeholder="Registration number"
-                               [(ngModel)]="editClient.companyRegistrationNumber"
-                               name="companyRegistrationNumber"
-                               #companyRegistrationNumber="ngModel"
-                               [ngClass]="{ 'is-invalid': EditClientForm.submitted && companyRegistrationNumber.invalid }"
-                               required>
-                        <div *ngIf="EditClientForm.submitted && companyRegistrationNumber.invalid" class="invalid-feedback">
-                            <div *ngIf="companyRegistrationNumber.errors.required">Company registration number is required</div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <input style="border: solid  #23275b 1px; color: #000"  type="email" class="form-control form-control-lg" name="contactEmail" placeholder="Contact email"
-                               [(ngModel)]="editClient.contactEmail"
-                               #contactEmail="ngModel"
-                               [ngClass]="{ 'is-invalid': EditClientForm.submitted && contactEmail.invalid }" email required>
-                        <div *ngIf="EditClientForm.submitted && contactEmail.invalid" class="invalid-feedback">
-                            <div *ngIf="contactEmail.errors.required">Email is required</div>
-                            <div *ngIf="contactEmail.errors.email">Must be a valid email address</div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <select style="border: solid  #23275b 1px; color: #000" type="text"
-                                [(ngModel)]="editClient.companyProfile"
-                                name="companyProfile"
-                                class="form-control form-control-lg">
-                            <option *ngFor="let option of companyProfiles" [value]="option" value="{{option}}">{{option}}</option>
-                        </select>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-gradient-danger" data-dismiss="modal" (click)="modal.close()">Cancel</button>
-                        <button type="submit" class="btn btn-gradient-success" data-dismiss="modal" >Continue</button>
-                    </div>
-                </form>
-            </div>
+<ng-template class="modal fade" #deleteClient let-modal >
+    <div class="modal-content" style="background: #FFF; color: #000">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel2">WARNING</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-    </ng-template>
-
-    <ng-template class="modal fade" #deleteClient let-modal >
-        <div class="modal-content" style="background: #FFF; color: #000">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel2">WARNING</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>This action cannot be reverted. Are you sure you want to continue?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-gradient-danger" data-dismiss="modal"  (click)="modal.close()">Cancel</button>
-                <button type="button" class="btn btn-gradient-success" (click)="removeClient(editClient)">Continue</button>
-            </div>
+        <div class="modal-body">
+            <p>This action cannot be reverted. Are you sure you want to continue?</p>
         </div>
-    </ng-template>
-
-    <ng-template class="modal fade" #AddClient let-modal>
-        <div class="modal-content" style="background: #FFF;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel3">Add Client</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form class="pt-3"  #createClientForm="ngForm" (ngSubmit)="createClientForm.form.valid && createClient(addClient)">
-                    <div class="row">
-                        <div style="margin-left: 3.5%; width: 15%">
-                            <div class="form-group">
-                                <select style="border: solid  #23275b 1px; color: #000" type="text"
-                                        [(ngModel)]="addClient.title"
-                                        name="title"
-                                        #title="ngModel"
-                                        [ngClass]="{ 'is-invalid': createClientForm.submitted && title.invalid }"
-                                        class="form-control form-control-lg"
-                                        required>
-                                    <option *ngFor="let option of titles" [value]="option" value="{{option}}">{{option}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div style="margin-left: 4%; width: 35%">
-                            <div class="form-group">
-                                <input style="border: solid  #23275b 1px; color: #000" class="form-control form-control-lg" type="text" placeholder="Name"
-                                       [(ngModel)]="addClient.contactName"
-                                       name="contactName"
-                                       #contactName="ngModel"
-                                       [ngClass]="{ 'is-invalid': createClientForm.submitted && contactName.invalid }"
-                                       required>
-                                <div *ngIf="createClientForm.submitted && contactName.invalid" class="invalid-feedback">
-                                    <div *ngIf="contactName.errors.required">Name is required</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="margin-left: 4%; width: 35%">
-                            <div class="form-group">
-                                <input style="border: solid  #23275b 1px; color: #000" class="form-control form-control-lg" type="text" placeholder="Surname"
-                                       [(ngModel)]="addClient.contactSurname"
-                                       name="contactSurname"
-                                       #contactSurname="ngModel"
-                                       [ngClass]="{ 'is-invalid': createClientForm.submitted && contactSurname.invalid }"
-                                       required>
-                                <div *ngIf="createClientForm.submitted && contactSurname.invalid" class="invalid-feedback">
-                                    <div *ngIf="contactSurname.errors.required">Surname is required</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div style="margin-left: 3.5%; width: 30%">
-                            <div class="form-group">
-                                <select style="border: solid  #23275b 1px; color: #000" type="text"
-                                        [(ngModel)]="addClient.gender"
-                                        name="gender"
-                                        class="form-control form-control-lg">
-                                    <option *ngFor="let option of genders" [value]="option" value="{{option}}">{{option}}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div style="margin-left: 4%; width: 59%">
-                            <div class="form-group">
-                                <input style="border: solid  #23275b 1px; color: #000" class="form-control form-control-lg" type="text" placeholder="Contact number"
-                                       [(ngModel)]="addClient.contactNumber"
-                                       name="contactNumber"
-                                       #contactNumber="ngModel"
-                                       [ngClass]="{ 'is-invalid': createClientForm.submitted && contactNumber.invalid }"
-                                       required>
-                                <div *ngIf="createClientForm.submitted && contactNumber.invalid" class="invalid-feedback">
-                                    <div *ngIf="contactNumber.errors.required">Contact number is required</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group" >
-                        <input style="border: solid  #23275b 1px; color: #000" class="form-control form-control-lg" type="text" placeholder="Company name"
-                               [(ngModel)]="addClient.companyName"
-                               name="companyName"
-                               #companyName="ngModel"
-                               [ngClass]="{ 'is-invalid': createClientForm.submitted && companyName.invalid }"
-                               required>
-                        <div *ngIf="createClientForm.submitted && companyName.invalid" class="invalid-feedback">
-                            <div *ngIf="companyName.errors.required">Company name is required</div>
-                        </div>
-                    </div>
-
-                    <div class="form-group" >
-                        <input style="border: solid  #23275b 1px; color: #000" class="form-control form-control-lg" type="text" placeholder="Registration number"
-                               [(ngModel)]="addClient.companyRegistrationNumber"
-                               name="companyRegistrationNumber"
-                               #companyRegistrationNumber="ngModel"
-                               [ngClass]="{ 'is-invalid': createClientForm.submitted && companyRegistrationNumber.invalid }"
-                               required>
-                        <div *ngIf="createClientForm.submitted && companyRegistrationNumber.invalid" class="invalid-feedback">
-                            <div *ngIf="companyRegistrationNumber.errors.required">Company registration number is required</div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <input style="border: solid  #23275b 1px; color: #000"  type="email" class="form-control form-control-lg" name="contactEmail" placeholder="Contact email"
-                               [(ngModel)]="addClient.contactEmail"
-                               #contactEmail="ngModel"
-                               [ngClass]="{ 'is-invalid': createClientForm.submitted && contactEmail.invalid }" email required>
-                        <div *ngIf="createClientForm.submitted && contactEmail.invalid" class="invalid-feedback">
-                            <div *ngIf="contactEmail.errors.required">Email is required</div>
-                            <div *ngIf="contactEmail.errors.email">Must be a valid email address</div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <select style="border: solid  #23275b 1px; color: #000" type="text"
-                                [(ngModel)]="addClient.companyProfile"
-                                name="companyProfile"
-                                class="form-control form-control-lg">
-                            <option *ngFor="let option of companyProfiles" [value]="option" value="{{option}}">{{option}}</option>
-                        </select>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-gradient-danger" data-dismiss="modal" (click)="modal.close()">Cancel</button>
-                        <button type="submit" class="btn btn-gradient-success" data-dismiss="modal" >Continue</button>
-                    </div>
-                </form>
-            </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-dark" data-dismiss="modal"  (click)="modal.close()">Cancel</button>
+            <button type="button" class="btn btn-info" (click)="removeClient(editClient)">Continue</button>
         </div>
-    </ng-template>
-</div>
+    </div>
+</ng-template>
+
+<ng-template class="modal fade" #AddClient let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="card-title" id="exampleModalLabel3">Add Client</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form class="pt-3"  #createClientForm="ngForm" (ngSubmit)="createClientForm.form.valid && createClient(addClient)">
+                <div class="row">
+                    <div style="margin-left: 3.5%; width: 15%">
+                        <div class="form-group">
+                            <select  type="text"
+                                    [(ngModel)]="addClient.title"
+                                    name="title"
+                                    #title="ngModel"
+                                    [ngClass]="{ 'is-invalid': createClientForm.submitted && title.invalid }"
+                                     class="form-control text-left"
+                                     required>
+                                <option *ngFor="let option of titles" [value]="option" value="{{option}}">{{option}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="margin-left: 4%; width: 35%">
+                        <div class="form-group">
+                            <input class="form-control text-left" type="text" placeholder="Name"
+                                   [(ngModel)]="addClient.contactName"
+                                   name="contactName"
+                                   #contactName="ngModel"
+                                   [ngClass]="{ 'is-invalid': createClientForm.submitted && contactName.invalid }"
+                                   required>
+                            <div *ngIf="createClientForm.submitted && contactName.invalid" class="invalid-feedback">
+                                <div *ngIf="contactName.errors.required">Name is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-left: 4%; width: 35%">
+                        <div class="form-group">
+                            <input class="form-control text-left" type="text" placeholder="Surname"
+                                   [(ngModel)]="addClient.contactSurname"
+                                   name="contactSurname"
+                                   #contactSurname="ngModel"
+                                   [ngClass]="{ 'is-invalid': createClientForm.submitted && contactSurname.invalid }"
+                                   required>
+                            <div *ngIf="createClientForm.submitted && contactSurname.invalid" class="invalid-feedback">
+                                <div *ngIf="contactSurname.errors.required">Surname is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div style="margin-left: 3.5%; width: 30%">
+                        <div class="form-group">
+                            <select  type="text"
+                                    [(ngModel)]="addClient.gender"
+                                    name="gender"
+                                     class="form-control text-left">
+                                <option *ngFor="let option of genders" [value]="option" value="{{option}}">{{option}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="margin-left: 4%; width: 59%">
+                        <div class="form-group">
+                            <input class="form-control text-left"type="text" placeholder="Contact number"
+                                   [(ngModel)]="addClient.contactNumber"
+                                   name="contactNumber"
+                                   #contactNumber="ngModel"
+                                   [ngClass]="{ 'is-invalid': createClientForm.submitted && contactNumber.invalid }"
+                                   required>
+                            <div *ngIf="createClientForm.submitted && contactNumber.invalid" class="invalid-feedback">
+                                <div *ngIf="contactNumber.errors.required">Contact number is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" >
+                    <input class="form-control text-left" type="text" placeholder="Company name"
+                           [(ngModel)]="addClient.companyName"
+                           name="companyName"
+                           #companyName="ngModel"
+                           [ngClass]="{ 'is-invalid': createClientForm.submitted && companyName.invalid }"
+                           required>
+                    <div *ngIf="createClientForm.submitted && companyName.invalid" class="invalid-feedback">
+                        <div *ngIf="companyName.errors.required">Company name is required</div>
+                    </div>
+                </div>
+
+                <div class="form-group" >
+                    <input class="form-control text-left" type="text" placeholder="Registration number"
+                           [(ngModel)]="addClient.companyRegistrationNumber"
+                           name="companyRegistrationNumber"
+                           #companyRegistrationNumber="ngModel"
+                           [ngClass]="{ 'is-invalid': createClientForm.submitted && companyRegistrationNumber.invalid }"
+                           required>
+                    <div *ngIf="createClientForm.submitted && companyRegistrationNumber.invalid" class="invalid-feedback">
+                        <div *ngIf="companyRegistrationNumber.errors.required">Company registration number is required</div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <input type="email" class="form-control text-left"name="contactEmail" placeholder="Contact email"
+                           [(ngModel)]="addClient.contactEmail"
+                           #contactEmail="ngModel"
+                           [ngClass]="{ 'is-invalid': createClientForm.submitted && contactEmail.invalid }" email required>
+                    <div *ngIf="createClientForm.submitted && contactEmail.invalid" class="invalid-feedback">
+                        <div *ngIf="contactEmail.errors.required">Email is required</div>
+                        <div *ngIf="contactEmail.errors.email">Must be a valid email address</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <select type="text"
+                            [(ngModel)]="addClient.companyProfile"
+                            name="companyProfile"
+                            class="form-control text-left">
+                        <option *ngFor="let option of companyProfiles" [value]="option" value="{{option}}">{{option}}</option>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="modal.close()">Cancel</button>
+                    <button type="submit" class="btn btn-info" data-dismiss="modal" >Continue</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>
+
+
 <div *ngIf="isLoading | async" class="overlay">
     <div class="spinner">
         <img class="loader" src="../../../assets/wheel.gif">

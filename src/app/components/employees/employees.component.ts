@@ -5,6 +5,7 @@ import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
 import moment = require('moment');
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 
 @Component({
@@ -13,6 +14,10 @@ import moment = require('moment');
   styleUrls: ['./employees.component.scss']
 })
 export class EmployeesComponent implements OnInit {
+
+  heading = 'Employees';
+  subheading = 'View and manage Employees';
+  icon = 'pe-7s-home icon-gradient bg-tempting-azure';
 
   isLoading = new Subject<boolean>();
   private employees: Array<EmployeeResponseModel> = [];
@@ -27,7 +32,8 @@ export class EmployeesComponent implements OnInit {
 
   constructor(private router: Router,
               private toastr: ToastrService,
-              private employeesService: EmployeesService) {
+              private employeesService: EmployeesService,
+              private modalService: NgbModal) {
     this.employeeInformation  = JSON.parse(sessionStorage.getItem("userInformation"));
   }
   ngOnInit() {
@@ -98,7 +104,6 @@ export class EmployeesComponent implements OnInit {
           },
           () => {
             this.getEmployees();
-            this.hideUpdateEmployeeModel()
             this.employeeUpdate = {};
           }
       );
@@ -120,7 +125,6 @@ export class EmployeesComponent implements OnInit {
             },
             () => {
               this.getEmployees();
-              this.hideAddEmployeeModel();
               this.AddEmployee = {};
             }
         );
@@ -143,20 +147,9 @@ export class EmployeesComponent implements OnInit {
     this.config.currentPage = event;
   }
 
-  showUpdateEmployeeModel(employee) {
-    this.employeeUpdate = employee;
-    this.showUpdateEmployee = true;
+  openModal(value: any, data: any) {
+    this.employeeUpdate = data;
+    this.modalService.open( value);
   }
 
-  hideUpdateEmployeeModel() {
-    this.showUpdateEmployee = false;
-  }
-
-  showAddEmployeeModel() {
-    this.showAddEmployee = true;
-  }
-
-  hideAddEmployeeModel() {
-    this.showAddEmployee = false;
-  }
 }

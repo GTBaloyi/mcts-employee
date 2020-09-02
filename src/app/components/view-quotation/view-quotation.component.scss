@@ -1,6 +1,3 @@
-@import '../../../styles.scss';
-
-
 .table tfoot td {
   background: #0883de;
   color: #FFFFFF;
@@ -17,7 +14,7 @@
 }
 
 .table tfoot tr  {
-  color: $theme-gradient;
+  color: #0883de;
   font-size: 1.4em;
   border-top: 1px solid #3989c6
 }
@@ -25,3 +22,4 @@
 .table tfoot tr td:first-child {
   border: none
 }
+

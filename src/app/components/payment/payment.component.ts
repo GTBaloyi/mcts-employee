@@ -8,6 +8,9 @@ import {Subject} from "rxjs";
 })
 export class PaymentComponent implements OnInit {
   isLoading = new Subject<boolean>();
+  heading = 'Payments';
+  subheading = 'View and manage payments';
+  icon = 'pe-7s-home icon-gradient bg-tempting-azure';
 
   constructor() { }
 

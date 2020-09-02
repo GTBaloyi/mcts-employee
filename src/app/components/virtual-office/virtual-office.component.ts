@@ -8,6 +8,9 @@ import {Subject} from "rxjs";
 })
 export class VirtualOfficeComponent implements OnInit {
   isLoading = new Subject<boolean>();
+  heading = 'Virtual Office';
+  subheading = 'View and manage company documents';
+  icon = 'pe-7s-home icon-gradient bg-tempting-azure';
 
   constructor() { }
 

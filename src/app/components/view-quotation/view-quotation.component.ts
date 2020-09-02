@@ -18,11 +18,15 @@ import {Subject} from "rxjs";
   styleUrls: ['./view-quotation.component.scss']
 })
 export class ViewQuotationComponent implements OnInit {
+    heading = 'Quotation';
+    subheading = 'Creat and view all client quotations';
+    icon = 'pe-7s-note2 icon-gradient bg-tempting-azure';
+
 
     private selectedProduct: string;
     private selectedQuantity: number;
     private selectedFocusArea: string;
-    private selectedNumberOfTest: number;
+    private selectedNumberOfTest: number = 0;
     private selectedUnitPrice: number = 0;
     private selectedProductTotal: number = 0;
     private selectedReference: string;

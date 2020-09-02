@@ -9,6 +9,10 @@ import {Subject} from "rxjs";
 export class ProductManagementComponent implements OnInit {
   isLoading = new Subject<boolean>();
 
+  heading = 'Products';
+  subheading = 'View and manage product';
+  icon = 'pe-7s-home icon-gradient bg-tempting-azure';
+
   constructor() { }
 
   ngOnInit() {
