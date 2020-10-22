@@ -1,0 +1,111 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
+
+<div class="main-card mb-3 card">
+    <div class="table-responsive">
+
+        <div class="form-group">
+            <input style=" border-top: none; width: 95%; margin: 2%" type="text" class="form-control" placeholder="filter" [(ngModel)]="filter">
+        </div>
+
+        <table class="align-middle mb-0 table table-striped table-hover">
+            <thead>
+            <tr>
+                <th class="text-center">Quarter</th>
+                <th class="text-center">Start date</th>
+                <th class="text-center">End date</th>
+                <th class="text-center">Action</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="quarters !== null">
+
+            <tr *ngFor="let quart of quarters | paginate: config | filter: filter ;">
+                <td class="text-center">{{quart.quarter }}</td>
+                <td class="text-center">{{quart.startDate | date:'yyyy-MM-dd'}}</td>
+                <td class="text-center">{{quart.endDate | date:'yyyy-MM-dd'}}</td>
+                <td class="text-center">
+                    <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-outline-primary"
+                            (click)="openModal(editQuarter, quart)">
+                        <i class="fa fa-fw" aria-hidden="true" title="pencil"></i>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text" *ngIf="quarters == null">
+        No Records Found!
+    </div>
+    <pagination-controls (pageChange)="pageChanged($event)" style="margin-top: 5%"></pagination-controls>
+
+    <ng-template class="modal fade" #editQuarter let-modal>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="card-title" id="exampleModalLabel3">Edit Quarter</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="pt-3"  #editQuarterForm="ngForm" (ngSubmit)="editQuarterForm.form.valid && changeQuarter(quarter)">
+                    <div class="form-group" >
+                        <label>Quarter Name</label>
+                        <input class="form-control text-left" type="text" placeholder="Quarter"
+                               [(ngModel)]="quarter.quarter"
+                               name="quarter"
+                               #quarterName="ngModel"
+                               [ngClass]="{ 'is-invalid': editQuarterForm.submitted && quarterName.invalid }"
+                               required
+                               disabled>
+                        <div *ngIf="editQuarterForm.submitted && quarterName.invalid" class="invalid-feedback">
+                            <div *ngIf="quarterName.errors.required">Quarter name is required</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group row" style="margin-left: 3%; width: 45%" >
+                            <label>Start Date</label>
+                            <input style="border: solid  #23275b 1px" type="text" class="form-control "  placeholder="Start date"
+                                   name="startDate"
+                                   [(ngModel)]="StartDate"
+                                   #startDate="ngModel"
+                                   [ngClass]="{ 'is-invalid': editQuarterForm.submitted && startDate.invalid }"
+                                   ngbDatepicker #d1="ngbDatepicker" (click)="d1.toggle()"
+                                   autocomplete="off"
+                                   required>
+                            <div *ngIf="editQuarterForm.submitted && startDate.invalid" class="invalid-feedback">
+                                <div *ngIf=" startDate.errors.required">Start date is required</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" style="margin-left: 7%; width: 45%" >
+                            <label>End Date</label>
+                            <input style="border: solid  #23275b 1px" type="text" class="form-control "  placeholder="End date"
+                                   name="endDate"
+                                   [(ngModel)]="EndDate"
+                                   #endDate="ngModel"
+                                   [ngClass]="{ 'is-invalid': editQuarterForm.submitted && endDate.invalid }"
+                                   ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()"
+                                   autocomplete="off"
+                                   required>
+                            <div *ngIf="editQuarterForm.submitted && endDate.invalid" class="invalid-feedback">
+                                <div *ngIf=" endDate.errors.required">End date is required</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="modal.close()">Cancel</button>
+                        <button type="submit" class="btn btn-info" data-dismiss="Submit" >Continue</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-template>
+
+    <div *ngIf="isLoading" class="overlay">
+        <div class="spinner">
+            <img class="loader" src="../../../assets/wheel.gif">
+        </div>
+    </div>
+</div>

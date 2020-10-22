@@ -10,12 +10,8 @@
                     Back
                 </button>
                 <button type="button" class="btn btn-light" (click)="convertToPDF()" value="Convert">
-                    <i class="pe-7s-download btn-icon-wrapper"></i>
+                    <i class="fa fa-fw" aria-hidden="true" title="download"></i>
                     Download
-                </button>
-                <button type="button" class="btn btn-info" value="Convert">
-                    <i class="pe-7s-mail-open-file btn-icon-wrapper"></i>
-                    Email
                 </button>
             </div>
             <hr>
@@ -45,7 +41,7 @@
                             <div class="text-gray-light">INVOICE TO:</div>
                             <div class="address">Registration number: {{invoice.company_registration}}</div>
                             <div class="address">Bill address: {{invoice.bill_address}}</div>
-                            <div class="email"><a href="">Email address: {{userInformation.email}}</a></div>
+                            <div class="email"><a href="">Email address: {{invoice.approvedBy}}</a></div>
                         </div>
                         <div class="col invoice-details">
                             <h1 class="invoice-id">INVOICE {{invoice.reference}}</h1>

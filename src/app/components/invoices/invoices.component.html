@@ -9,25 +9,25 @@
         <table class="align-middle mb-0 table table-striped table-hover">
             <thead>
                 <tr>
-                    <th class="text-center">Reference</th>
-                    <th class="text-center">Date</th>
-                    <th class="text-center">Grand total</th>
-                    <th class="text-center">Total payed</th>
-                    <th class="text-center">Amount Due</th>
-                    <th class="text-center">Action</th>
+                    <th>Reference</th>
+                    <th>Date</th>
+                    <th>Grand total</th>
+                    <th>Total payed</th>
+                    <th>Amount Due</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody *ngIf="invoices.length != 0">
                 <tr *ngFor="let invoice of invoices | paginate: config | filter: filter">
-                    <td class="text-center">{{invoice.reference}}</td>
-                    <td class="text-center">{{invoice.invoice_date | date:'yyyy-MM-dd'}}</td>
-                    <td class="text-center">R {{invoice.grand_totoal}}</td>
-                    <td class="text-center">R {{invoice.amount_payed}}</td>
-                    <td class="text-center">R {{invoice.amount_due}}</td>
-                    <td class="text-center">
-                        <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-dark"
+                    <td>{{invoice.reference}}</td>
+                    <td>{{invoice.invoice_date | date:'yyyy-MM-dd'}}</td>
+                    <td>R {{invoice.grand_totoal}}</td>
+                    <td>R {{invoice.amount_payed}}</td>
+                    <td>R {{invoice.amount_due}}</td>
+                    <td>
+                        <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-outline-dark"
                                 (click)="viewPDF(invoice)">
-                            <i class="pe-7s-look btn-icon-wrapper"></i>
+                            <i class="fa fa-fw" aria-hidden="true" title="eye"></i>
                         </button>
                     </td>
                 </tr>
@@ -41,7 +41,7 @@
 </div>
 
 
-<div *ngIf="isLoading | async" class="overlay">
+<div *ngIf="isLoading" class="overlay">
     <div class="spinner">
         <img class="loader" src="../../../assets/wheel.gif">
     </div>

@@ -1,0 +1,73 @@
+<div class="main-card mb-3 card">
+
+    <div class="container bootstrap snippets bootdey">
+        <div class="row">
+            <div class="col-md-4 bg-white">
+                <div class="Search">
+                    <ng-autocomplete [data]="sendToArray" [searchKeyword]="name"
+                                     (selected)="changeUsers($event)"
+                                     [itemTemplate]="sendTo"
+                                     [notFoundTemplate]="notFoundTemplate"
+                                     name="name"
+                                     placeHolder="Search">
+                    </ng-autocomplete>
+
+                    <ng-template #sendTo let-item>
+                        <a [innerHTML]="item.name"></a>
+                    </ng-template>
+
+                    <ng-template #notFoundTemplate let-notFound>
+                        <div [innerHTML]="notFound"></div>
+                    </ng-template>
+                </div>
+
+                <ul class="friend-list" >
+                    <li class="active bounceInDown">
+                        <a href="#" class="clearfix">
+                            <div class="friend-name">
+                                <strong>John Doe</strong>
+                            </div>
+                            <div class="last-message text-muted">Hello, Are you there?</div>
+                            <small class="time text-muted">Just now</small>
+                            <small class="chat-alert label label-danger">1</small>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-8 bg-white">
+                <div style="width: 850px; background-color: #fff">
+                    <a href="#" class="clearfix">
+                        <div class="friend-name">
+                            <strong>{{sendTo}}</strong>
+                        </div>
+                    </a>
+                </div>
+                <div class="chat-message overflow-auto">
+                    <ul class="chat" *ngFor="let message of messages">
+                        <li [ngClass]="{'left clearfix': user != message.user, 'right clearfix': user == message.user }">
+                            <div class="chat-body clearfix">
+                                <div class="header">
+                                    <strong class="text-primary" [ngClass]="{'text-primary': user != message.user, 'text-success': user == message.user }">
+                                        {{message.user}}
+                                    </strong>
+                                    <small class="pull-right text-warning"><i class="fa fa-clock-o"></i> 12 mins ago</small>
+                                </div>
+                                <p>
+                                    {{ message.text}}
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <app-new-message></app-new-message>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+

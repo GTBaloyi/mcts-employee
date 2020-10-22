@@ -1,0 +1,8 @@
+<div class="chat-box bg-white">
+   <div class="input-group">
+       <input [(ngModel)]="message" class="form-control border no-shadow no-rounded" placeholder="Type your message here">
+       <span class="input-group-btn">
+           <button (click)="newMessage(message)" class="btn btn-info no-rounded" type="button">Send</button>
+       </span>
+   </div>
+</div>

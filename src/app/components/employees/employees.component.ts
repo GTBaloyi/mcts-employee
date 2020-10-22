@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {EmployeeRequestModel, EmployeeResponseModel, EmployeesPositionEntity, EmployeesService} from "../../services";
+import {
+  ClientRegistrationRequestModel,
+  EmployeeRequestModel,
+  EmployeeResponseModel,
+  EmployeesPositionEntity,
+  EmployeesService
+} from "../../services";
 import {Subject} from "rxjs";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
@@ -17,16 +23,14 @@ export class EmployeesComponent implements OnInit {
 
   heading = 'Employees';
   subheading = 'View and manage Employees';
-  icon = 'pe-7s-home icon-gradient bg-tempting-azure';
+  icon = 'pe-7s-id icon-gradient bg-tempting-azure';
 
-  isLoading = new Subject<boolean>();
+  isLoading = true;
   private employees: Array<EmployeeResponseModel> = [];
   private positions: Array<EmployeesPositionEntity> = [];
   private employeeUpdate: EmployeeResponseModel = {};
   private AddEmployee: EmployeeResponseModel = {};
   private employeeInformation : EmployeeRequestModel;
-  private showUpdateEmployee: boolean;
-  private showAddEmployee: boolean;
   private filter : string;
   private config: any;
 
@@ -52,23 +56,20 @@ export class EmployeesComponent implements OnInit {
   }
 
   getPosition(){
-    this.isLoading.next(true);
     this.employeesService.apiEmployeesEmployeePositionGet().subscribe (
         (data: any) => {
           this.positions = data;
         },
         error => {
           console.log(error);
-          this.isLoading.next(false);
         },
         () => {
-          this.isLoading.next(false);
         }
     );
   }
 
   getEmployees(){
-    this.isLoading.next(true);
+    this.isLoading = true;
 
     this.employeesService.apiEmployeesGet().subscribe (
         (data: any) => {
@@ -77,20 +78,28 @@ export class EmployeesComponent implements OnInit {
         error => {
 
           console.log(error);
-          this.isLoading.next(false);
           this.showError();
 
         },
         () => {
-          this.isLoading.next(false);
+          if(this.employees !== null){
+            this.sortData;
+          }
           this.showSuccess();
         }
     );
 
   }
 
+  get sortData(): Array<EmployeeResponseModel> {
+    return this.employees.sort((unsorted, sorted) => {
+      return <any>new Date(sorted.createdOn) - <any>new Date(unsorted.createdOn);
+    });
+  }
+
   UpdateEmployees(employeeUpdate){
-    this.isLoading.next(true);
+    this.modalService.dismissAll();
+    this.isLoading = true;
 
     this.employeesService.apiEmployeesUpdateEmployeePut(employeeUpdate).subscribe (
           () => {
@@ -98,7 +107,6 @@ export class EmployeesComponent implements OnInit {
           error => {
 
             console.log(error);
-            this.isLoading.next(false);
             this.showError();
 
           },
@@ -111,7 +119,8 @@ export class EmployeesComponent implements OnInit {
   }
 
   AddEmployees(employeeAddForm: NgForm){
-    this.isLoading.next(false);
+    this.modalService.dismissAll();
+    this.isLoading = false;
 
     this.employeesService.apiEmployeesCreateEmployeePost(employeeAddForm.value).subscribe (
             () => {
@@ -119,7 +128,6 @@ export class EmployeesComponent implements OnInit {
             error => {
 
               console.log(error);
-              this.isLoading.next(false);
               this.showError();
 
             },
@@ -135,12 +143,14 @@ export class EmployeesComponent implements OnInit {
     this.toastr.success('Process successfully completed', 'Success', {
       timeOut: 3000,
     });
+    this.isLoading = false;
   }
 
   showError() {
     this.toastr.error('Ops, an error occurred. Please try again.', 'Error!!!', {
       timeOut: 3000,
     });
+    this.isLoading = false;
   }
 
   pageChanged(event){

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProductManagementComponent } from './product-management.component';
+import { MCTSKIPReportComponent } from './mcts-kip-report.component';
 
-describe('ProductManagementComponent', () => {
-  let component: ProductManagementComponent;
-  let fixture: ComponentFixture<ProductManagementComponent>;
+describe('MCTSKIPReportComponent', () => {
+  let component: MCTSKIPReportComponent;
+  let fixture: ComponentFixture<MCTSKIPReportComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProductManagementComponent ]
+      declarations: [ MCTSKIPReportComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProductManagementComponent);
+    fixture = TestBed.createComponent(MCTSKIPReportComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

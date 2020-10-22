@@ -4,8 +4,7 @@
     <div class="toolbar hidden-print">
         <div class="text-right">
             <button type="button" class="btn btn-dark" routerLink="/quotation" style="margin-right: 1%">
-                <i class="pe-7s-back btn-icon-wrapper"></i>
-                Back
+                 Back
             </button>
         </div>
         <hr>
@@ -297,15 +296,18 @@
                 <button style="margin: 3%; width: 44%" type="button" class="btn btn-light" data-dismiss="modal" routerLink="/quotation">
                     Cancel
                 </button>
-                <button style="margin: 3%; width: 44%" type="submit" class="btn btn-dark" data-dismiss="modal">
+                <button style="margin: 3%; width: 44%" type="submit" class="btn btn-dark" data-dismiss="modal" [hidden]="!showManagerMenu()">
                     Generate quote
+                </button>
+                <button style="margin: 3%; width: 44%" type="submit" class="btn btn-dark" data-dismiss="modal" [hidden]="showManagerMenu()">
+                    Create quote
                 </button>
             </div>
         </form>
     </div>
 </div>
 
-<div *ngIf="isLoading | async" class="overlay">
+<div *ngIf="isLoading" class="overlay">
     <div class="spinner">
         <img class="loader" src="../../../assets/wheel.gif">
     </div>

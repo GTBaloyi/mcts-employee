@@ -9,10 +9,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {LandingPageComponent } from './components/landing-page/landing-page.component';
 import {ContentAnimateDirective} from './shared/directives/content-animate.directive';
-import { EnquiriesComponent } from './components/enquiries/enquiries.component';
-import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { ReportsComponent } from './components/reports/reports.component';
-import { VirtualOfficeComponent } from './components/virtual-office/virtual-office.component';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { QuotationComponent } from './components/quotation/quotation.component';
@@ -21,6 +18,22 @@ import { EmployeesComponent } from './components/employees/employees.component';
 import { ViewQuotationComponent } from './components/view-quotation/view-quotation.component';
 import { AddQuotationComponent } from './components/add-quotation/add-quotation.component'
 import {ViewInvoicePdfComponent} from "./components/view-invoice-pdf/view-invoice-pdf.component";
+import { ProjectDetailsComponent } from './components/project-details/project-details.component';
+import {AutocompleteLibModule} from "angular-ng-autocomplete";
+import {MessageService} from "./message.service";
+import {PusherService} from "./pusher.service";
+import {ChartsModule, ThemeService} from "ng2-charts";
+import {ConfigActions} from "./ThemeOptions/store/config.actions";
+import {PERFECT_SCROLLBAR_CONFIG} from "ngx-perfect-scrollbar";
+import { PaymentDetailsComponent } from './components/payment-details/payment-details.component';
+import {PdfViewerModule} from "ng2-pdf-viewer";
+import {NgxDocViewerModule} from "ngx-doc-viewer";
+import { MCTSKIPReportComponent } from './components/mcts-kip-report/mcts-kip-report.component';
+import {ProgressBars} from "ng-uikit-pro-standard";
+import { QuarterSettingsComponent } from './components/quarter-settings/quarter-settings.component';
+import { ManageProductsComponent } from './components/manage-products/manage-products.component';
+import {MyAccountComponent} from "./components/my-account/my-account.component";
+import {UpdatePasswordComponent} from "./components/update-password/update-password.component";
 
 @NgModule({
     imports: [
@@ -28,16 +41,18 @@ import {ViewInvoicePdfComponent} from "./components/view-invoice-pdf/view-invoic
         AppRoutingModule,
         DefaultModule,
         ReactiveFormsModule,
-        HttpClientModule
+        HttpClientModule,
+        AutocompleteLibModule,
+        ChartsModule,
+        PdfViewerModule,
+        NgxDocViewerModule,
+        ProgressBars
     ],
     declarations: [
         AppComponent,
         LandingPageComponent,
         ContentAnimateDirective,
-        EnquiriesComponent,
-        ProductManagementComponent,
         ReportsComponent,
-        VirtualOfficeComponent,
         ProjectsComponent,
         InvoicesComponent,
         QuotationComponent,
@@ -45,11 +60,21 @@ import {ViewInvoicePdfComponent} from "./components/view-invoice-pdf/view-invoic
         EmployeesComponent,
         ViewQuotationComponent,
         AddQuotationComponent,
-        ViewInvoicePdfComponent
+        ViewInvoicePdfComponent,
+        ProjectDetailsComponent,
+        PaymentDetailsComponent,
+        MCTSKIPReportComponent,
+        QuarterSettingsComponent,
+        ManageProductsComponent,
+        MyAccountComponent,
+        UpdatePasswordComponent
     ],
     providers: [
         {provide: BASE_API_URL, useValue: environment.BASE_API_URL},
-
+        MessageService,
+        PusherService,
+        ConfigActions,
+        ThemeService
     ],
     bootstrap: [AppComponent]
 })

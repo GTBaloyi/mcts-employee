@@ -1,13 +1,5 @@
 import {Component, OnInit,} from '@angular/core';
-import {
-    ClientRegistrationRequestModel,
-    ClientsService,
-    EmployeeRequestModel,
-    ProductsService,
-    QuotationItemEntity, QuotationModel,
-    QuotationResponseModel,
-    QuotationService
-} from "../../services";
+import {ClientsService, EmployeeRequestModel, ProductsService, QuotationItemEntity, QuotationResponseModel, QuotationService} from "../../services";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {Subject} from "rxjs";
@@ -19,8 +11,8 @@ import {Subject} from "rxjs";
 })
 export class ViewQuotationComponent implements OnInit {
     heading = 'Quotation';
-    subheading = 'Creat and view all client quotations';
-    icon = 'pe-7s-note2 icon-gradient bg-tempting-azure';
+    subheading = 'Create and view all client quotations';
+    icon = 'pe-7s-calculator icon-gradient bg-tempting-azure';
 
 
     private selectedProduct: string;
@@ -106,6 +98,66 @@ export class ViewQuotationComponent implements OnInit {
 
     }
 
+    regenerate(quotation){
+        this.isLoading.next(true);
+
+        this.quotationService.apiQuotationGenerateQuotePut(quotation).subscribe (
+            (data: any) => {
+            },
+            error => {
+                console.log(error);
+                this.isLoading.next(false);
+                this.showError();
+            },
+            () => {
+                this.getQuotation()
+                this.isLoading.next(false);
+                this.showSuccess();
+            }
+        );
+    }
+
+    rejectQuotation(quotation){
+        this.isLoading.next(true);
+        quotation.status = 'Pending';
+
+        this.quotationService.apiQuotationUpdateQuotePut(quotation).subscribe (
+            (data: any) => {
+            },
+            error => {
+                console.log(error);
+                this.isLoading.next(false);
+                this.showError();
+            },
+            () => {
+                this.getQuotation()
+                this.isLoading.next(false);
+                this.showSuccess();
+                this.router.navigateByUrl('/quotation');
+            }
+        );
+    }
+
+    getQuotation(){
+        this.isLoading.next(true);
+        this.quotationService.apiQuotationQuoteIdGet(this.quotation.quote_id).subscribe (
+            (data: any) => {
+                this.quotation = data;
+            },
+            error => {
+                console.log(error);
+                this.isLoading.next(false);
+                this.showError();
+            },
+            () => {
+                sessionStorage.setItem('viewQuotation', JSON.stringify(this.quotation));
+
+                this.isLoading.next(false);
+                this.showSuccess();
+            }
+        );
+    }
+
     getFocusArea(){
         this.productsService.apiProductsFocusAreasGet().subscribe (
             (data: any) => {
@@ -150,6 +202,14 @@ export class ViewQuotationComponent implements OnInit {
         this.quotation.items.push(this.newProduct);
         this.toastr.success('New row added successfully', 'New product');
         return true;
+    }
+
+    showManagerMenu(): boolean{
+        if(this.employeeInformation.position === 'Manager'){
+            return true;
+        } else{
+            return false;
+        }
     }
 
     deleteItem(index) {

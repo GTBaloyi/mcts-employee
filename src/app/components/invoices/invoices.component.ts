@@ -19,7 +19,7 @@ export class InvoicesComponent implements OnInit {
   icon = 'pe-7s-note2 icon-gradient bg-tempting-azure';
 
 
-  isLoading = new Subject<boolean>();
+  isLoading = true;
   private invoices: Array<InvoiceRequestModel> = [];
   private employeeInformation : EmployeeRequestModel = <EmployeeRequestModel> {};
   private filter : string;
@@ -41,7 +41,7 @@ export class InvoicesComponent implements OnInit {
   }
 
   getInvoices(){
-    this.isLoading.next(true);
+    this.isLoading = true;
 
     this.invoiceService.apiInvoiceInvoiceGet().subscribe (
         (data: any) => {
@@ -49,14 +49,21 @@ export class InvoicesComponent implements OnInit {
         },
         error => {
           console.log(error);
-          this.isLoading.next(false);
           this.showError();
         },
         () => {
-          this.isLoading.next(false);
+          if(this.invoices !== null){
+            this.sortData;
+          }
           this.showSuccess();
         }
     );
+  }
+
+  get sortData(): Array<InvoiceRequestModel> {
+    return this.invoices.sort((invoiceUnsorted, invoiceSorted) => {
+      return <any>new Date(invoiceSorted.invoice_date) - <any>new Date(invoiceUnsorted.invoice_date);
+    });
   }
 
   pageChanged(event){
@@ -68,12 +75,16 @@ export class InvoicesComponent implements OnInit {
     this.toastr.success('Process successfully completed', 'Success', {
       timeOut: 3000,
     });
+    this.isLoading = false;
+
   }
 
   showError() {
     this.toastr.error('Ops, an error occurred. Please try again.', 'Error!!!', {
       timeOut: 3000,
     });
+    this.isLoading = false;
+
   }
 
   viewPDF(invoice : InvoiceRequestModel){

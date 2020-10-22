@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {ClientRegistrationRequestModel, ClientsService, UsersService} from "../../services";
+import {
+    ClientRegistrationRequestModel,
+    ClientsGeneralReportsModel,
+    ClientsService,
+    EmployeesReportsService,
+    UsersService
+} from "../../services";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Subject} from "rxjs";
 import {ToastrService} from "ngx-toastr";
@@ -17,18 +23,15 @@ export class ClientsComponent implements OnInit {
     subheading = 'Dashboard to manage clients';
     icon = 'pe-7s-users icon-gradient bg-tempting-azure';
 
-
-
     private numberOfActiveClients: number = 0;
     private numberOfInactiveClients: number = 0;
     private numberOfClients: number = 0;
-    private numberOfClientsSatisfaction: number = 0
-
 
     private config: any;
     private filter : string;
-    isLoading = new Subject<boolean>();
+    isLoading = true;
     clients: ClientRegistrationRequestModel[] = [];
+    clientsGeneralReports: ClientsGeneralReportsModel = {};
     addClient: ClientRegistrationRequestModel= {};
     editClient: ClientRegistrationRequestModel= <ClientRegistrationRequestModel>{};
     companyRegistration: string = '';
@@ -39,6 +42,7 @@ export class ClientsComponent implements OnInit {
     constructor(private router: Router,
                 private toastr: ToastrService,
                 private clientService: ClientsService,
+                private employeesReportsService: EmployeesReportsService,
                 private modalService: NgbModal,
                 private usersService: UsersService,) {
 
@@ -50,6 +54,7 @@ export class ClientsComponent implements OnInit {
         this.addClient.companyProfile = 'Small';
 
         this.getClients();
+        this.getClientsReport();
 
         this.config = {
             itemsPerPage: 5,
@@ -58,8 +63,21 @@ export class ClientsComponent implements OnInit {
         };
     }
 
+    getClientsReport(){
+        this.employeesReportsService.apiEmployeesReportsClientsGeneralReportGet().subscribe(
+            (data )=>{
+                this.clientsGeneralReports = data;
+            },
+            err =>{
+            },
+            ()=>{
+            }
+        );
+
+    }
+
     getClients(){
-        this.isLoading.next(true);
+        this.isLoading = true;
         this.clientService.apiClientsGet().subscribe(
             (data: ClientRegistrationRequestModel[] )=>{
                 this.clients = data;
@@ -71,17 +89,25 @@ export class ClientsComponent implements OnInit {
                 this.numberOfClients = 0;
                 this.numberOfActiveClients = 0;
                 this.numberOfInactiveClients = 0;
-                this.numberOfClientsSatisfaction = 0;
+
+                if(this.clients !== null){
+                    this.sortData;
+                }
 
                 this.inactiveClients();
                 this.getActiveClients();
                 this.getClientsOfMonth();
-                this.getCustomerSatisfaction();
 
                 this.showSuccess();
             }
         );
 
+    }
+
+    get sortData(): Array<ClientRegistrationRequestModel> {
+        return this.clients.sort((unsorted, sorted) => {
+            return <any>new Date(sorted.dateGenerated) - <any>new Date(unsorted.dateGenerated);
+        });
     }
 
     getClientsOfMonth(){
@@ -109,23 +135,18 @@ export class ClientsComponent implements OnInit {
         }
     }
 
-    getCustomerSatisfaction(){
-
-    }
-
     createClient(addClient) {
+        this.modalService.dismissAll();
         addClient.isCompanyPresent = true;
         addClient.avatar = '';
-        this.isLoading.next(true);
+        this.isLoading = true;
         this.usersService.apiUsersClientRegistrationPost(addClient).subscribe(
             () => {
             },
             error => {
                 console.log(error);
-                this.showError();
             },
             () => {
-                this.modalService.dismissAll();
                 this.addClient = {};
                 this.getClients();
             }
@@ -134,21 +155,19 @@ export class ClientsComponent implements OnInit {
     }
 
     updateClient(editClient) {
-        this.isLoading.next(true);
+        this.modalService.dismissAll();
+        this.isLoading = true;
         this.clientService.apiClientsUpdateClientPut(editClient).subscribe(
             () => {
             },
             error => {
                 if(error.status == 200){
-                    this.modalService.dismissAll();
                     this.getClients();
                 }else{
                     console.log(error);
-                    this.showError();
                 }
             },
             () => {
-                this.modalService.dismissAll();
                 this.getClients();
             }
         );
@@ -156,7 +175,8 @@ export class ClientsComponent implements OnInit {
     }
 
     removeClient(editClient){
-        this.isLoading.next(true);
+        this.modalService.dismissAll();
+        this.isLoading = true;
         editClient.userStatus = 4;
 
         this.clientService.apiClientsUpdateClientPut(editClient).subscribe(
@@ -164,7 +184,6 @@ export class ClientsComponent implements OnInit {
             },
             error => {
                 if(error.status == 200){
-                    this.modalService.dismissAll();
                     this.getClients();
                 }else{
                     console.log(error);
@@ -172,7 +191,6 @@ export class ClientsComponent implements OnInit {
                 }
             },
             () => {
-                this.modalService.dismissAll();
                 this.getClients();
             }
         );
@@ -180,7 +198,8 @@ export class ClientsComponent implements OnInit {
     }
 
     lockAccount(editClient){
-        this.isLoading.next(true);
+        this.modalService.dismissAll();
+        this.isLoading = true;
         editClient.userStatus = 3;
 
         this.clientService.apiClientsUpdateClientPut(editClient).subscribe(
@@ -188,7 +207,6 @@ export class ClientsComponent implements OnInit {
             },
             error => {
                 if(error.status == 200){
-                    this.modalService.dismissAll();
                     this.getClients();
                 }else{
                     console.log(error);
@@ -196,7 +214,6 @@ export class ClientsComponent implements OnInit {
                 }
             },
             () => {
-                this.modalService.dismissAll();
                 this.getClients();
             }
         );
@@ -204,7 +221,8 @@ export class ClientsComponent implements OnInit {
     }
 
     unlockAccount(editClient){
-        this.isLoading.next(true);
+        this.modalService.dismissAll();
+        this.isLoading = true;
         editClient.userStatus = 1;
 
         this.clientService.apiClientsUpdateClientPut(editClient).subscribe(
@@ -212,7 +230,6 @@ export class ClientsComponent implements OnInit {
             },
             error => {
                 if(error.status == 200){
-                    this.modalService.dismissAll();
                     this.getClients();
                 }else{
                     console.log(error);
@@ -220,33 +237,29 @@ export class ClientsComponent implements OnInit {
                 }
             },
             () => {
-                this.modalService.dismissAll();
                 this.getClients();
             }
         );
 
     }
 
-
-
     openModal(value: any, data: any) {
         this.editClient = data;
       this.modalService.open( value);
     }
 
-
     showSuccess() {
-        this.isLoading.next(false);
         this.toastr.success('Process successfully completed', 'Success', {
             timeOut: 3000,
         });
+        this.isLoading = false;
     }
 
     showError() {
-        this.isLoading.next(false);
         this.toastr.error('Ops, an error occurred. Please try again.', 'Error!!!', {
             timeOut: 3000,
         });
+        this.isLoading = false;
     }
 
     pageChanged(event){

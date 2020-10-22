@@ -30,7 +30,7 @@ import { Configuration }                                     from '../configurat
 })
 export class QuotationService {
 
-    protected basePath = 'https://mcts-service.azurewebsites.net';
+    protected basePath = 'https://localhost:5001';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
@@ -112,6 +112,7 @@ export class QuotationService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
+            'application/json-patch+json',
             'application/json',
             'text/json',
             'application/_*+json'
@@ -167,6 +168,7 @@ export class QuotationService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
+            'application/json-patch+json',
             'application/json',
             'text/json',
             'application/_*+json'
@@ -402,6 +404,7 @@ export class QuotationService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
+            'application/json-patch+json',
             'application/json',
             'text/json',
             'application/_*+json'

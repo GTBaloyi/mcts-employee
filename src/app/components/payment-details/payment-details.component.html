@@ -1,0 +1,157 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
+
+<div class="main-card mb-3 card">
+    <div class="card-header">
+        <div class="text-right">
+            <button type="button" class="btn btn-dark" routerLink="/payments" value="Convert">
+                <i class="pe-7s-back btn-icon-wrapper"></i>
+                Back
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="main-card mb-3 card">
+                <div class="card-body">
+                    <div class="modal-content" >
+                        <div class="modal-body">
+                            <table class="body-wrap">
+                                <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td class="container" width="900">
+                                        <div class="content">
+                                            <table class="main" width="100%" cellpadding="0" cellspacing="0">
+                                                <tbody>
+                                                <tr>
+                                                    <td class="content-wrap aligncenter">
+
+                                                        <table width="100%" cellpadding="0" cellspacing="0" >
+                                                            <div class="ribbon">
+                                                                <div class="ribbon-text">{{payment.status}}</div>
+                                                            </div>
+                                                            <tbody>
+                                                            <tr>
+                                                                <td class="content-block">
+                                                                    <h2>Payment Receipt</h2>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="content-block">
+                                                                    <table class="invoice">
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td>Invoice {{payment.invoiceReference}}<br>{{payment.dateOfPayment |date:'yyyy-MM-dd' }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <table class="invoice-items" cellpadding="0" cellspacing="0">
+                                                                                    <tbody>
+                                                                                    <tr *ngFor="let item of invoice.items">
+                                                                                        <td>{{item.item}}</td>
+                                                                                        <td >{{item.quantity}}</td>
+                                                                                    </tr>
+                                                                                    <tr class="total">
+                                                                                        <td>Amount payed</td>
+                                                                                        <td>R {{payment.amount}}</td>
+                                                                                    </tr>
+                                                                                    <tr class="total">
+                                                                                        <td>Amount Due</td>
+                                                                                        <td style="width: 40%">R {{invoice.amount_due}}</td>
+                                                                                    </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                        <div class="modal-footer" style="padding: 5%; background-color: #fff">
+                                                            <button type="button" class="md-2 btn btn-dark" value="Convert"
+                                                                    (click)="openModal(AcceptPayment, '')">
+                                                                <i class="pe-7s-back btn-icon-wrapper"></i>
+                                                                Accept
+                                                            </button>
+
+                                                            <button type="button" class="md-2 btn btn-info" (click)="openModal(RejectPayment, '')" value="Convert">
+                                                                <i class="pe-7s-cloud-download btn-icon-wrapper"></i>
+                                                                Reject
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="main-card mb-3 card">
+                <div class="card-body">
+                    <div class="container">
+                        <ngx-doc-viewer
+                                [url]="payment.proofOfPaymentURL"
+                                viewer="url"
+                                style="width:550px;height:540px;">
+                        </ngx-doc-viewer>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template class="modal fade" #AcceptPayment let-modal >
+        <div class="modal-content" style="background: #FFF; color: #000">
+            <div class="modal-header">
+                <h5 class="modal-title">WARNING</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to continue?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal"  (click)="modal.close()">Cancel</button>
+                <button type="button" class="btn btn-info" (click)="acceptPayment()" >Continue</button>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template class="modal fade" #RejectPayment let-modal >
+        <div class="modal-content" style="background: #FFF; color: #000">
+            <div class="modal-header">
+                <h5 class="modal-title">WARNING</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to continue?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal"  (click)="modal.close()">Cancel</button>
+                <button type="button" class="btn btn-info" (click)="rejectPayment()" >Continue</button>
+            </div>
+        </div>
+    </ng-template>
+
+    <div *ngIf="isLoading | async" class="overlay">
+        <div class="spinner">
+            <img class="loader" src="../../../assets/wheel.gif">
+        </div>
+    </div>
+</div>
+
+

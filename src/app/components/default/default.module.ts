@@ -26,6 +26,11 @@ import {PageTitleComponent} from "../../shared/page-title/page-title.component";
 import {HeaderComponent} from "../../shared/header/header.component";
 import {UserBoxComponent} from "../../shared/header/elements/user-box/user-box.component";
 import {ConfigActions} from "../../ThemeOptions/store/config.actions";
+import {MessagesComponent} from "../messages/messages.component";
+import {NewMessageComponent} from "../new-message/new-message.component";
+import {MessageService} from "../../message.service";
+import {PusherService} from "../../pusher.service";
+import {AutocompleteLibModule} from "angular-ng-autocomplete";
 
 
 @NgModule({
@@ -38,32 +43,35 @@ import {ConfigActions} from "../../ThemeOptions/store/config.actions";
       ClientsComponent,
       PageTitleComponent,
       HeaderComponent,
-      UserBoxComponent
+      UserBoxComponent,
+      MessagesComponent,
+      NewMessageComponent
   ],
-  imports: [
+    imports: [
 
-      CommonModule,
-      RouterModule,
-      SharedModule,
-      FormsModule,
-      ReactiveFormsModule,
-      BrowserAnimationsModule,
-      BrowserModule,
-      AppRoutingModule,
-      NgbModule,
-      ChartsModule,
-      ToastrModule.forRoot(),
-      NgxPaginationModule,
-      Ng2SearchPipeModule,
-      BrowserModule,
-      AppRoutingModule,
-      BrowserAnimationsModule,
-      NgReduxModule,
-      LoadingBarRouterModule,
-      PerfectScrollbarModule,
-      AngularFontAwesomeModule,
-      HttpClientModule,
-  ],
+        CommonModule,
+        RouterModule,
+        SharedModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        BrowserModule,
+        AppRoutingModule,
+        NgbModule,
+        ChartsModule,
+        ToastrModule.forRoot(),
+        NgxPaginationModule,
+        Ng2SearchPipeModule,
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        NgReduxModule,
+        LoadingBarRouterModule,
+        PerfectScrollbarModule,
+        AngularFontAwesomeModule,
+        HttpClientModule,
+        AutocompleteLibModule,
+    ],
     exports: [
 
         ReactiveFormsModule,
@@ -84,7 +92,9 @@ import {ConfigActions} from "../../ThemeOptions/store/config.actions";
     ],
   providers: [
       ConfigActions,
-      DashboardService
+      DashboardService,
+      MessageService,
+      PusherService
   ]
 })
 export class DefaultModule { }

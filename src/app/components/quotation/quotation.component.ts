@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {Subject} from "rxjs";
-import {EmployeeRequestModel,ProductsService, QuotationItemEntity, QuotationModel, QuotationResponseModel, QuotationService} from "../../services";
+import {
+  EmployeeRequestModel,
+  ProductsService,
+  ProjectInformationRequestModel,
+  QuotationItemEntity,
+  QuotationModel,
+  QuotationResponseModel,
+  QuotationService
+} from "../../services";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import moment = require('moment');
@@ -15,9 +23,9 @@ export class QuotationComponent implements OnInit {
 
   heading = 'Quotation';
   subheading = 'Create and view all client quotations';
-  icon = 'pe-7s-note2 icon-gradient bg-tempting-azure';
+  icon = 'pe-7s-calculator icon-gradient bg-tempting-azure';
 
-  isLoading = new Subject<boolean>();
+  isLoading = true;
   private config: any;
   private filter : string;
   private focusAreas: Array<any> = [];
@@ -26,21 +34,22 @@ export class QuotationComponent implements OnInit {
   private selectedProduct: string;
   private selectedQuantity: number;
   private quotations: Array<QuotationResponseModel>= [];
-  private productsArray: Array<QuotationItemEntity> = [];
   private employeeInformation : EmployeeRequestModel;
 
-  constructor(private quotationService: QuotationService, private productsService: ProductsService, private router: Router,private toastr: ToastrService) {
+  constructor(private quotationService: QuotationService,
+              private productsService: ProductsService,
+              private router: Router,
+              private toastr: ToastrService) {
     this.employeeInformation  = JSON.parse(sessionStorage.getItem("userInformation"));
   }
   ngOnInit() {
-    this.getQuotation();
+    this.isLoading = true;
 
     this.selectedFocusArea = 'Physical Metallurgy';
     this.selectedProduct = 'Non Testing Act (Phys)';
     this.selectedQuantity = 1;
 
-    this.getFocusArea();
-    this.getProducts(this.selectedFocusArea)
+    this.getQuotation();
 
     this.config = {
       itemsPerPage: 5,
@@ -61,14 +70,11 @@ export class QuotationComponent implements OnInit {
         () => {
         }
     )
-
   }
 
   getProducts(focusArea: any){
-
     this.selectedFocusArea = focusArea;
     this.products = [];
-
 
     this.productsService.apiProductsProductsFocusAreaGet(focusArea).subscribe (
         (data: any ) => {
@@ -83,37 +89,44 @@ export class QuotationComponent implements OnInit {
   }
 
   getQuotation(){
-    this.isLoading.next(true);
     this.quotationService.apiQuotationQuotesGet().subscribe (
         (data: any) => {
           this.quotations = data;
+          this.getFocusArea();
+          this.getProducts(this.selectedFocusArea)
         },
         error => {
-
           console.log(error);
-          this.isLoading.next(false);
           this.showError();
 
         },
         () => {
-          this.isLoading.next(false);
+          if(this.quotations !== null){
+            this.sortData;
+          }
           this.showSuccess();
         }
     );
-
   }
 
+  get sortData(): Array<QuotationResponseModel> {
+    return this.quotations.sort((unsorted, sorted) => {
+      return <any>new Date(sorted.date_generated) - <any>new Date(unsorted.date_generated);
+    });
+  }
 
   showSuccess() {
     this.toastr.success('Process successfully completed', 'Success', {
       timeOut: 3000,
     });
+    this.isLoading = false;
   }
 
   showError() {
     this.toastr.error('Ops, an error occurred. Please try again.', 'Error!!!', {
       timeOut: 3000,
     });
+    this.isLoading = false;
   }
 
   pageChanged(event){

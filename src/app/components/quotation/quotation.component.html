@@ -5,7 +5,7 @@
     <div class="card-header">
         <button type="button" class="btn btn-dark btn-icon-text"
                 (click)="addQuotation()">
-            <i class="pe-7s-news-paper btn-icon-wrapper"></i>
+            <i class="fa fa-fw" aria-hidden="true" title="plus"></i>
             Add Quotation
         </button>
     </div>
@@ -17,28 +17,28 @@
         <table class="align-middle mb-0 table table-striped table-hover">
             <thead>
                 <tr>
-                    <th class="text-center">Reference</th>
-                    <th class="text-center">Created on</th>
-                    <th class="text-center">Company name</th>
-                    <th class="text-center">Email address</th>
-                    <th class="text-center">Phone number</th>
-                    <th class="text-center">Status</th>
-                    <th class="text-center">Action</th>
+                    <th>Reference</th>
+                    <th>Created on</th>
+                    <th>Company name</th>
+                    <th>Email address</th>
+                    <th>Phone number</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody *ngIf="quotations.length != 0">
                 <tr *ngFor="let quotation of quotations | paginate: config | filter: filter">
-                    <td class="text-center">{{quotation.quote_reference}}</td>
-                    <td class="text-center">{{quotation.date_generated | date:'yyyy-MM-dd'}}</td>
-                    <td class="text-center">{{quotation.company_name}}</td>
-                    <td class="text-center">{{quotation.email}}</td>
-                    <td class="text-center">{{quotation.phone_Number}}</td>
-                    <td class="text-center">{{quotation.status}}</td>
-                    <td class="text-center">
+                    <td>{{quotation.quote_reference}}</td>
+                    <td>{{quotation.date_generated | date:'yyyy-MM-dd'}}</td>
+                    <td>{{quotation.company_name}}</td>
+                    <td>{{quotation.email}}</td>
+                    <td>{{quotation.phone_Number}}</td>
+                    <td>{{quotation.status}}</td>
+                    <td>
                         <div class="template-demo">
-                            <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-dark"
+                            <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-outline-primary"
                                     (click) = "updateQuotation(quotation)">
-                                <i class="pe-7s-pen btn-icon-wrapper"></i>
+                                <i class="fa fa-fw" aria-hidden="true" title="pencil"></i>
                             </button>
                         </div>
                     </td>
@@ -50,9 +50,10 @@
         No Records Found!
     </div>
     <pagination-controls (pageChange)="pageChanged($event)" style="margin-top: 5%"></pagination-controls>
+
 </div>
 
-<div *ngIf="isLoading | async" class="overlay">
+<div *ngIf="isLoading" class="overlay">
     <div class="spinner">
         <img class="loader" src="../../../assets/wheel.gif">
     </div>

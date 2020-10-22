@@ -1,18 +1,129 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
 
-<!--
-<div class="page-header">
-    <h3 class="page-title">
-    <span class="page-title-icon bg-gradient-primary text-white mr-2">
-      <i class="mdi mdi-currency-usd"></i>
-    </span>
-        Payments
-    </h3>
+<div class="main-card mb-3 card">
+    <div class="table-responsive">
+        <div class="form-group">
+            <input style="border: solid  #05b5d4 1px; width: 95%; margin: 2%" type="text" class="form-control" placeholder="Search Here" [(ngModel)]="filter">
+        </div>
+
+        <table class="align-middle mb-0 table table-striped table-hover">
+            <thead>
+            <tr>
+                <th class="text-center">Date</th>
+                <th class="text-center">Invoice Reference</th>
+                <th class="text-center">Payment Type</th>
+                <th class="text-center">Amount Payed</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Action</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="payments.length != 0">
+            <tr *ngFor="let payment of payments | paginate: config | filter: filter">
+                <td class="text-center">{{payment.dateOfPayment | date:'yyyy-MM-dd'}}</td>
+                <td class="text-center">{{payment.invoiceReference }}</td>
+                <td class="text-center">{{payment.paymentType}}</td>
+                <td class="text-center">R {{payment.amount}}</td>
+                <td class="text-center">{{payment.status}}</td>
+                <td class="text-center">
+                    <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-dark"
+                            (click)="paymentDetails(payment)">
+                        <i class="pe-7s-look btn-icon-wrapper"></i>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text" *ngIf="payments.length == 0">
+        No Records Found!
+    </div>
+    <pagination-controls (pageChange)="pageChanged($event)" style="margin-top: 5%"></pagination-controls>
 </div>
 
+<ng-template class="modal fade" #ViewPaymentReceipt let-modal>
+    <div class="modal-content" >
+        <div class="modal-body">
+            <table class="body-wrap">
+                <tbody>
+                <tr>
+                    <td></td>
+                    <td class="container" width="900">
+                        <div class="content">
+                            <table class="main" width="100%" cellpadding="0" cellspacing="0">
+                                <tbody>
+                                <tr>
+                                    <td class="content-wrap aligncenter">
 
-<div *ngIf="isLoading | async" class="overlay">
+                                        <table width="100%" cellpadding="0" cellspacing="0" #pdfTable id="pdfTable">
+                                            <div class="ribbon">
+                                                <div class="ribbon-text">{{payment.status}}</div>
+                                            </div>
+                                            <tbody>
+                                            <tr>
+                                                <td class="content-block">
+                                                    <h2>Payment Receipt</h2>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="content-block">
+                                                    <table class="invoice">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>{{userInformation.companyName}}<br>Invoice {{payment.invoiceReference}}<br>{{payment.dateOfPayment |date:'yyyy-MM-dd' }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <table class="invoice-items" cellpadding="0" cellspacing="0">
+                                                                    <tbody>
+                                                                    <tr *ngFor="let item of invoice.items">
+                                                                        <td>{{item.item}}</td>
+                                                                        <td >{{item.quantity}}</td>
+                                                                    </tr>
+                                                                    <tr class="total">
+                                                                        <td>Amount payed</td>
+                                                                        <td>R {{payment.amount}}</td>
+                                                                    </tr>
+                                                                    <tr class="total">
+                                                                        <td>Amount Due</td>
+                                                                        <td style="width: 40%">R {{invoice.amount_due}}</td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div class="modal-footer" style="padding: 5%; background-color: #fff">
+                                            <button type="button" class="md-2 btn btn-dark" value="Convert"
+                                                    (click)="modal.dismiss()">
+                                                <i class="pe-7s-back btn-icon-wrapper"></i>
+                                                Cancel
+                                            </button>
+
+                                            <button type="button" class="md-2 btn btn-light" (click)="convertToPDF()" value="Convert">
+                                                <i class="pe-7s-cloud-download btn-icon-wrapper"></i>
+                                                Download
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-template>
+
+<div *ngIf="isLoading" class="overlay">
     <div class="spinner">
         <img class="loader" src="../../../assets/wheel.gif">
     </div>
-</div>-->
+</div>

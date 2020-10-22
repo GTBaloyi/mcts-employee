@@ -1,13 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Subject} from "rxjs";
-import {
-  ClientRegistrationRequestModel,
-  ClientsService,
-  EmployeeRequestModel, ProductsService,
-  QuotationItemEntity,
-  QuotationModel, QuotationResponseModel,
-  QuotationService
-} from "../../services";
+import {ClientsService, EmployeeRequestModel, ProductsService, QuotationItemEntity, QuotationModel, QuotationService} from "../../services";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import moment = require('moment');
@@ -22,10 +14,10 @@ import {NgbDate} from "@ng-bootstrap/ng-bootstrap";
 })
 export class AddQuotationComponent implements OnInit {
   heading = 'Quotation';
-  subheading = 'Creat and view all client quotations';
+  subheading = 'Create and view all client quotations';
   icon = 'pe-7s-note2 icon-gradient bg-tempting-azure';
 
-  isLoading = new Subject<boolean>();
+  isLoading = false;
   private focusAreas: Array<any> = [];
   private selectedFocusArea: string;
   private products: Array<any> = [];
@@ -114,7 +106,7 @@ export class AddQuotationComponent implements OnInit {
   }
 
   requestQuotation(){
-    this.isLoading.next(true);
+    this.isLoading = true;
 
     this.quotation.quote_expiryDate = moment(new Date(this.date.year, this.date.month, this.date.day)).format("yyyy-MM-DD");
     this.quotation.discount = this.quotation.discount /100;
@@ -137,7 +129,7 @@ export class AddQuotationComponent implements OnInit {
                 },
                 error => {
                     console.log(error);
-                    this.isLoading.next(false);
+                    this.isLoading = false;
                     this.showError();
                 },
                 () => {
@@ -154,7 +146,7 @@ export class AddQuotationComponent implements OnInit {
 
 
   updateQuotation(quotation){
-    this.isLoading.next(true);
+    this.isLoading = true;
 
     quotation.status = 'Pending Manager Approval';
     quotation.generatedBy = this.employeeInformation.email;
@@ -165,11 +157,11 @@ export class AddQuotationComponent implements OnInit {
         },
         error => {
           console.log(error);
-          this.isLoading.next(false);
+          this.isLoading = false;
           this.showError();
         },
         () => {
-          this.isLoading.next(false);
+          this.isLoading = false;
 
             this.quotationService.apiQuotationQuoteReferenceQuoteReferenceGet(this.quotationID).subscribe(
                 (data: any) => {
@@ -177,7 +169,7 @@ export class AddQuotationComponent implements OnInit {
                 },
                 error => {
                   console.log(error);
-                  this.isLoading.next(false);
+                  this.isLoading = false;
                   this.showError();
                 },
                 () => {
@@ -190,16 +182,26 @@ export class AddQuotationComponent implements OnInit {
     )
   }
 
+  showManagerMenu(): boolean{
+    if(this.employeeInformation.position === 'Manager'){
+      return true;
+    } else{
+      return false;
+    }
+  }
+
   showSuccess() {
     this.toastr.success('Process successfully completed', 'Success', {
       timeOut: 3000,
     });
+    this.isLoading = false;
   }
 
   showError() {
     this.toastr.error('Ops, an error occurred. Please try again.', 'Error!!!', {
       timeOut: 3000,
     });
+    this.isLoading = false;
   }
 
 }

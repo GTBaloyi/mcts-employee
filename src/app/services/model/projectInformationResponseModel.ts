@@ -9,17 +9,25 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProjectTodoResponseModel } from './projectTodoResponseModel';
+import { ProjectExpenditureResponseModel } from './projectExpenditureResponseModel';
+import { ProjectProgressResponseModel } from './projectProgressResponseModel';
 
 
 export interface ProjectInformationResponseModel { 
     id?: number;
     projectNumber?: string | null;
     projectName?: string | null;
-    isSequential?: boolean;
     projectDescription?: string | null;
     invoiceReferenceNumber?: string | null;
     companyRegistrationNumber?: string | null;
     assignedEmployees?: Array<string> | null;
+    projectSatisfaction?: number;
+    projectExpenditure?: ProjectExpenditureResponseModel;
+    projectTodo?: Array<ProjectTodoResponseModel> | null;
+    projectProgress?: ProjectProgressResponseModel;
     createdOn?: string;
+    projectLeaderId?: string | null;
+    projectLeaderNames?: string | null;
 }
 

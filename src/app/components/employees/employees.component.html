@@ -4,7 +4,7 @@
     <div class="card-header">
         <button type="button" class="btn btn-dark btn-icon-text"
                 (click) ="openModal(showAddEmployee, '')">
-            <i class="pe-7s-add-user btn-icon-wrapper"></i>
+            <i class="fa fa-fw" aria-hidden="true" title="plus"></i>
             New Employee
         </button>
     </div>
@@ -16,26 +16,26 @@
         <table class="align-middle mb-0 table table-striped table-hover">
             <thead>
                 <tr>
-                    <th class="text-center">Created on</th>
-                    <th class="text-center">Employee number</th>
-                    <th class="text-center">Name</th>
-                    <th class="text-center">Surname</th>
-                    <th class="text-center">Position</th>
-                    <th class="text-center">Action</th>
+                    <th>Created on</th>
+                    <th>Employee number</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Position</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody *ngIf="employees.length != 0">
             <tr *ngFor="let employee of employees | paginate: config | filter: filter">
-                <td class="text-center">{{employee.createdOn | date:'yyyy-MM-dd'}}</td>
-                <td class="text-center">{{employee.employeeNumber}}</td>
-                <td class="text-center">{{employee.name}}</td>
-                <td class="text-center">{{employee.surname}}</td>
-                <td class="text-center">{{employee.position}}</td>
-                <td class="text-center">
+                <td>{{employee.createdOn | date:'yyyy-MM-dd'}}</td>
+                <td>{{employee.employeeNumber}}</td>
+                <td>{{employee.name}}</td>
+                <td>{{employee.surname}}</td>
+                <td>{{employee.position}}</td>
+                <td>
                     <div class="template-demo">
-                        <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-dark"
+                        <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-outline-primary"
                             (click)="openModal(showUpdateEmployee, employee)">
-                            <i class="pe-7s-pen btn-icon-wrapper"></i>
+                            <i class="fa fa-fw" aria-hidden="true" title="Edit"></i>
                         </button>
 
                         <!--<button class="mr-2 btn-icon btn-icon-only btn btn-outline-warning">
@@ -294,7 +294,7 @@
     </ng-template>
 </div>
 
-<div *ngIf="isLoading | async" class="overlay">
+<div *ngIf="isLoading" class="overlay">
     <div class="spinner">
         <img class="loader" src="../../../assets/wheel.gif">
     </div>

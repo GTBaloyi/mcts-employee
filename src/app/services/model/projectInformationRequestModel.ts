@@ -19,7 +19,8 @@ export interface ProjectInformationRequestModel {
     projectDescription?: string | null;
     invoiceReferenceNumber?: string | null;
     companyRegistrationNumber?: string | null;
-    assignedEmployees?: Array<string> | null;
+    projectSatisfaction?: number;
     createdOn?: string;
+    projectLeaderId?: string | null;
 }
 

@@ -1,0 +1,95 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
+
+<div class="main-card mb-3 card">
+    <div class="card-body">
+        <form class="pt-3"  #registrationForm="ngForm" (ngSubmit)="registrationForm.form.valid && updateClient(employeeInformation)" >
+            <div class="form-group" style="width: 95.5%; margin: 2% auto">
+                <input type="text" class="form-control" name="surname" placeholder="Surname"
+                       [(ngModel)]="employeeInformation.surname"
+                       #Surname="ngModel"
+                       disabled
+                       [ngClass]="{ 'is-invalid': registrationForm.submitted && Surname.invalid }"  required>
+                <div *ngIf="registrationForm.submitted && Surname.invalid" class="invalid-feedback">
+                    <div *ngIf="Surname.errors.required">Surname is required</div>
+                </div>
+            </div>
+
+            <div class="form-group" style="width: 95.5%; margin: 2% auto">
+                <input type="text" class="form-control" name="name" placeholder="Name"
+                       [(ngModel)]="employeeInformation.name"
+                       #Name="ngModel"
+                       disabled
+                       [ngClass]="{ 'is-invalid': registrationForm.submitted && Name.invalid }" required>
+                <div *ngIf="registrationForm.submitted && Name.invalid" class="invalid-feedback">
+                    <div *ngIf="Name.errors.required">Email is required</div>
+                </div>
+            </div>
+
+            <div class="form-group" style="width: 95.5%; margin: 2% auto">
+                <input type="text" class="form-control" name="employeeNumber" placeholder="Employee number"
+                       [(ngModel)]="employeeInformation.employeeNumber"
+                       #EmployeeNumber="ngModel"
+                       disabled
+                       [ngClass]="{ 'is-invalid': registrationForm.submitted && EmployeeNumber.invalid }"  required>
+                <div *ngIf="registrationForm.submitted && EmployeeNumber.invalid" class="invalid-feedback">
+                    <div *ngIf="EmployeeNumber.errors.required">Employee number is required</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div style="margin-left: 3.5%; width: 45%">
+                    <div class="form-group" >
+                        <input class="form-control" type="text" placeholder="Cell Number"
+                               [(ngModel)]="employeeInformation.cell"
+                               name="Number"
+                               #Number="ngModel"
+                               [ngClass]="{ 'is-invalid': registrationForm.submitted && Number.invalid }"
+                               required>
+                        <div *ngIf="registrationForm.submitted && Number.invalid" class="invalid-feedback">
+                            <div *ngIf="Number.errors.required">Cell number is required</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-left: 3%; width: 45%">
+                    <div class="form-group" >
+                        <input class="form-control" type="email" placeholder="Address"
+                               [(ngModel)]="employeeInformation.email"
+                               name="email"
+                               #Email="ngModel"
+                               [ngClass]="{ 'is-invalid': registrationForm.submitted && Email.invalid }"
+                               email required>
+                        <div *ngIf="registrationForm.submitted && Email.invalid" class="invalid-feedback">
+                            <div *ngIf="Email.errors.required">Email is required</div>
+                            <div *ngIf="Email.errors.email">Email is not valid</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group" style="width: 95.5%; margin: 2% auto">
+                <input type="text" class="form-control" name="contactEmail" placeholder="Contact email"
+                       [(ngModel)]="employeeInformation.address"
+                       #Address="ngModel"
+                       [ngClass]="{ 'is-invalid': registrationForm.submitted && Address.invalid }" required>
+                <div *ngIf="registrationForm.submitted && Address.invalid" class="invalid-feedback">
+                    <div *ngIf="Address.errors.required">Address is required</div>
+                </div>
+            </div>
+
+            <div class="modal-footer d-block text-center">
+                <button  type="submit" class="btn btn-wide btn-pill btn-shadow btn-hover-shine btn-primary btn-lg">
+                    Save Information
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div *ngIf="isLoading | async" class="overlay">
+    <div class="spinner">
+        <img class="loader" src="../../../assets/wheel.gif">
+    </div>
+</div>

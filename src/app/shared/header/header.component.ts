@@ -12,7 +12,7 @@ import {EmployeeRequestModel, EmployeesService} from "../../services";
 export class HeaderComponent {
   public extraParameter: any;
 
-  constructor(public globals: ThemeOptions, private activatedRoute: ActivatedRoute) {
+  constructor(public globals: ThemeOptions, private activatedRoute: ActivatedRoute, private employeesService: EmployeesService) {
   }
 
   @HostBinding('class.isActive')
@@ -27,6 +27,8 @@ export class HeaderComponent {
   private newInnerWidth: number;
   private innerWidth: number;
   activeId = 'dashboardsMenu';
+  private email: string;
+  private employeeInformation : EmployeeRequestModel= <EmployeeRequestModel> {};
 
   toggleSidebar() {
     this.globals.toggleSidebar = !this.globals.toggleSidebar;
@@ -46,6 +48,25 @@ export class HeaderComponent {
 
     this.extraParameter = this.activatedRoute.snapshot.firstChild.data.extraParameter;
 
+    this.email  = JSON.parse(sessionStorage.getItem("username"));
+
+    if(this.email != null) {
+      this.getEmployeeInformation(this.email);
+    }
+  }
+
+  public getEmployeeInformation(employeeID: string) {
+    this.employeesService.apiEmployeesEmployeeNumberGet(employeeID).subscribe(
+        (data: EmployeeRequestModel) => {
+          this.employeeInformation = data;
+          sessionStorage.setItem('userInformation', JSON.stringify(this.employeeInformation));
+        },
+        error => {
+
+        },
+        () => {
+        }
+    );
   }
 
   @HostListener('window:resize', ['$event'])
@@ -58,5 +79,14 @@ export class HeaderComponent {
       this.globals.toggleSidebar = false;
     }
 
+  }
+
+
+  showManagerMenu(): boolean{
+    if(this.employeeInformation.position === 'Manager'){
+      return true;
+    } else{
+      return false;
+    }
   }
 }

@@ -9,47 +9,73 @@
                 <span class="btn btn-link p-0 mr-2">Dashboard</span>
             </a>
 
-            <a routerLink="/clients" routerLinkActive="btn-link active-item">
-                <span class="btn btn-link  p-0 mr-2">Clients</span>
+            <a routerLink="/invoices" routerLinkActive="btn-link active-item">
+                <span class="btn btn-link p-0 mr-2">Invoices</span>
+            </a>
+            <a routerLink="/quotation" routerLinkActive="btn-link active-item">
+                <span class="btn btn-link p-0 mr-2">Quotation</span>
+            </a>
+            <a routerLink="/payments" routerLinkActive="btn-link active-item">
+                <span class="btn btn-link p-0 mr-2">Payments</span>
             </a>
 
-            <div class="btn-group" ngbDropdown placement="bottom-right">
-                <button type="button" class="btn btn-link p-0 mr-2" ngbDropdownToggle>Finances</button>
-                <div ngbDropdownMenu>
-                    <a routerLink="/invoices" routerLinkActive="active-item"  class="dropdown-item">Invoices</a>
-                    <a routerLink="/quotation" routerLinkActive="active-item" class="dropdown-item">Quotation</a>
-                    <a routerLink="/payments" routerLinkActive="active-item" class="dropdown-item">Payments</a>
-                </div>
-            </div>
             <a routerLink="/projects" routerLinkActive="btn-link active-item">
                 <span class="btn btn-link p-0 mr-2">Projects</span>
             </a>
-            <a routerLink="/reports" routerLinkActive="btn-link active-item">
-                <span class="btn btn-link p-0 mr-2">Reports</span>
-            </a>
-            <a routerLink="/virtualOffice" routerLinkActive="btn-link active-item">
-                <span class="btn btn-link p-0 mr-2">Virtual Office</span>
-            </a>
-            <div class="btn-group" ngbDropdown placement="bottom-right">
+
+            <div class="btn-group" ngbDropdown placement="bottom-right" [hidden]="!showManagerMenu()">
+                <button type="button" class="btn btn-link p-0 mr-2" ngbDropdownToggle>Reports</button>
+                <div ngbDropdownMenu>
+                    <a routerLink="/mcts-kip-report" routerLinkActive="active-item" class="dropdown-item">MCTS KPI reports</a>
+                    <a routerLink="/" routerLinkActive="active-item" class="dropdown-item">FTECH KPI reports</a>
+                    <a routerLink="/" routerLinkActive="active-item" class="dropdown-item">MTECH KPI reports</a>
+                    <a routerLink="/" routerLinkActive="active-item" class="dropdown-item">PSHMET KPI reports</a>
+                    <a routerLink="/" routerLinkActive="active-item" class="dropdown-item">General reports</a>
+                </div>
+            </div>
+
+            <div class="btn-group" ngbDropdown placement="bottom-right" [hidden]="!showManagerMenu()">
+                <button type="button" class="btn btn-link p-0 mr-2" ngbDropdownToggle>Target setting</button>
+                <div ngbDropdownMenu>
+                    <a routerLink="/" routerLinkActive="active-item" class="dropdown-item">MCTS Target Setting</a>
+                    <!--<div class="btn-group" ngbDropdown>
+                        <button style="color: #000000; font-weight: normal" type="button" ngbDropdownToggle class="mb-2 mr-2 btn btn-link">Planned Man Hours</button>
+                        <div ngbDropdownMenu>
+                            <a routerLink="/" routerLinkActive="active-item" class="dropdown-item">Overall Planned Man Hours</a>
+                            <a routerLink="/" routerLinkActive="active-item" class="dropdown-item">Physical Metallurgy Planned man hours</a>
+                            <a routerLink="/" routerLinkActive="active-item" class="dropdown-item">Moulding Tech Planned man hours</a>
+                            <a routerLink="/" routerLinkActive="active-item" class="dropdown-item">Foundry Tech Planned man hours</a>
+                            <a routerLink="/" routerLinkActive="active-item" class="dropdown-item">Support Tech Planned man hours</a>
+                        </div>
+                    </div>-->
+                    <a routerLink="/" routerLinkActive="active-item" class="dropdown-item">Client Target</a>
+                    <a routerLink="/" routerLinkActive="active-item" class="dropdown-item">Financial Target</a>
+                    <a routerLink="/quarters" routerLinkActive="active-item" class="dropdown-item">Quarter Settings</a>
+                </div>
+            </div>
+
+            <div class="btn-group" ngbDropdown placement="bottom-right" >
                 <button type="button" class="btn btn-link p-0 mr-2" ngbDropdownToggle>System management</button>
                 <div ngbDropdownMenu>
-                    <a routerLink="/employees" routerLinkActive="active-item" class="dropdown-item">Manage employees</a>
+                    <a routerLink="/employees" routerLinkActive="active-item" class="dropdown-item" [hidden]="!showManagerMenu()">Manage Employees</a>
+                    <a routerLink="/products" routerLinkActive="active-item" class="dropdown-item" >Manage Products</a>
+                    <a routerLink="/clients" routerLinkActive="active-item" class="dropdown-item" >Manage Clients</a>
                 </div>
             </div>
         </div>
         <div class="app-header-right">
-            <a class="font-icon-wrapper">
+            <!--<a class="font-icon-wrapper">
                 <div class="font-icon-lg">
                     <i class="pe-7s-bell icon-gradient bg-heavy-rain"></i>
                     <div class="ml-auto badge badge-warning">2</div>
                 </div>
             </a>
-            <a class="font-icon-wrapper">
+            <a class="font-icon-wrapper" routerLink="/messages" >
                 <div class="font-icon-lg">
                     <i class="pe-7s-mail icon-gradient bg-heavy-rain"></i>
                     <div class="ml-auto badge badge-warning">15</div>
                 </div>
-            </a>
+            </a>-->
             <app-user-box></app-user-box>
         </div>
     </div>

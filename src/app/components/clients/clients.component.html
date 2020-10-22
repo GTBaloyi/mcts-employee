@@ -1,12 +1,13 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
 
 <div class="mb-3 card">
-    <div class="no-gutters row">
+    <div class="no-gutters row" style="padding-left: 10%">
         <div class="col-sm-6 col-md-4 col-xl-4">
             <div class="card no-shadow rm-border bg-transparent widget-chart text-left">
                 <div class="icon-wrapper rounded-circle">
                     <div class="icon-wrapper-bg opacity-10 bg-warning"></div>
-                    <i class="pe-7s-album text-white opacity-8"></i></div>
+                    <i class="fa fa-fw text-white" aria-hidden="true" title="users"></i>
+                </div>
                 <div class="widget-chart-content">
                     <div class="widget-subheading">Total Number of Clients</div>
                     <div class="widget-numbers">{{clients.length}}</div>
@@ -24,8 +25,9 @@
         <div class="col-sm-6 col-md-4 col-xl-4">
             <div class="card no-shadow rm-border bg-transparent widget-chart text-left">
                 <div class="icon-wrapper rounded-circle">
-                    <div class="icon-wrapper-bg opacity-9 bg-warning"></div>
-                    <i class="pe-7s-portfolio text-white"></i></div>
+                    <div class="icon-wrapper-bg opacity-9 bg-premium-dark"></div>
+                    <i class="fa fa-fw text-white" aria-hidden="true" title="users"></i>
+                </div>
                 <div class="widget-chart-content">
                     <div class="widget-subheading">Active Clients</div>
                     <div class="widget-numbers"><span>{{numberOfActiveClients}}</span></div>
@@ -43,16 +45,11 @@
             <div class="card no-shadow rm-border bg-transparent widget-chart text-left">
                 <div class="icon-wrapper rounded-circle">
                     <div class="icon-wrapper-bg opacity-9 bg-warning"></div>
-                    <i class="pe-7s-light text-white"></i></div>
+                    <i class="fa fa-fw text-white" aria-hidden="true" title="users"></i>
+                </div>
                 <div class="widget-chart-content">
                     <div class="widget-subheading">Client Satisfaction</div>
-                    <div class="widget-numbers"><span>{{numberOfClientsSatisfaction}}%</span></div>
-                    <div class="widget-description text-primary">
-                        Increased by
-                        <span class="text-info pl-1">
-                        <fa name="angle-up"></fa>
-                        <span class="pl-1">0%</span></span>
-                    </div>
+                    <div class="widget-numbers"><span>{{clientsGeneralReports.averageClientSatisfaction | number:'1.0-0'}}%</span></div>
                 </div>
             </div>
         </div>
@@ -63,8 +60,7 @@
     <div class="card-header">
         <button type="button" class="btn btn-dark btn-icon-text"
                 (click)="openModal(AddClient, '')">
-            <i class="pe-7s-add-user btn-icon-wrapper"></i>
-
+            <i class="fa fa-fw" aria-hidden="true" title="plus"></i>
             New Client
         </button>
     </div>
@@ -76,45 +72,45 @@
         <table class="align-middle mb-0 table table-striped table-hover">
             <thead>
             <tr>
-                <th class="text-center">Client Email</th>
+                <th>Client Email</th>
                 <th>Company Name</th>
-                <th class="text-center">Registration Number</th>
-                <th class="text-center">Point of Contact</th>
-                <th class="text-center">Status</th>
-                <th class="text-center">Action</th>
+                <th>Registration Number</th>
+                <th>Point of Contact</th>
+                <th>Status</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody *ngIf="clients.length != 0">
             <tr *ngFor="let client of clients | paginate: config | filter: filter">
-                <td class="text-center">{{client.contactEmail}}</td>
-                <td class="text-center">{{client.companyName}}</td>
-                <td class="text-center">{{client.companyRegistrationNumber}}</td>
-                <td class="text-center">{{client.contactName}} {{client.contactSurname}}</td>
-                <td class="text-center">
+                <td>{{client.contactEmail}}</td>
+                <td>{{client.companyName}}</td>
+                <td>{{client.companyRegistrationNumber}}</td>
+                <td>{{client.contactName}} {{client.contactSurname}}</td>
+                <td>
                     <div class="badge badge-success" *ngIf="client.userStatus == 1">Active</div>
                     <div class="badge badge-info" *ngIf="client.userStatus == 2">No active</div>
                     <div class="badge badge-warning" *ngIf="client.userStatus == 3">Suspended</div>
                     <div class="badge badge-danger" *ngIf="client.userStatus == 4">Deactivated</div>
                 </td>
-                <td class="text-center">
-                    <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-dark"
+                <td>
+                    <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-outline-primary"
                             (click)="openModal(EditClient, client)">
-                        <i class="pe-7s-pen btn-icon-wrapper"></i>
+                        <i class="fa fa-fw" aria-hidden="true" title="Edit"></i>
                     </button>
 
                     <button *ngIf="client.userStatus == 3 || client.userStatus == 4 || client.userStatus == 2" class="mr-2 btn-icon btn-icon-only btn btn-outline-warning"
                             (click)="unlockAccount(client)">
-                        <i class="pe-7s-unlock btn-icon-wrapper btn-outline-warning"></i>
+                        <i class="fa fa-fw" aria-hidden="true" title="Unlock"></i>
                     </button>
 
-                    <button *ngIf="client.userStatus == 1 || client.userStatus == 4" class="mr-2 btn-icon btn-icon-only btn btn-warning"
+                    <button *ngIf="client.userStatus == 1 || client.userStatus !== 4 || client.userStatus == 2" class="mr-2 btn-icon btn-icon-only btn btn-outline-warning"
                             (click)="lockAccount(client)">
-                        <i class="pe-7s-lock btn-icon-wrapper"></i>
+                        <i class="fa fa-fw" aria-hidden="true" title="Lock"></i>
                     </button>
 
                     <button *ngIf="client.userStatus == 1 || client.userStatus == 2 || client.userStatus == 3" class="mr-2 btn-icon btn-icon-only btn  btn-outline-danger"
                             (click)="openModal(deleteClient, client)">
-                        <i class="pe-7s-trash btn-icon-wrapper"> </i>
+                        <i class="fa fa-fw" aria-hidden="true" title="Delete"></i>
                     </button>
                 </td>
             </tr>
@@ -412,7 +408,7 @@
 </ng-template>
 
 
-<div *ngIf="isLoading | async" class="overlay">
+<div *ngIf="isLoading" class="overlay">
     <div class="spinner">
         <img class="loader" src="../../../assets/wheel.gif">
     </div>

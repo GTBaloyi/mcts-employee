@@ -11,7 +11,7 @@ export class ReportsComponent implements OnInit {
 
   heading = 'Reports';
   subheading = 'View and generate reports';
-  icon = 'pe-7s-home icon-gradient bg-tempting-azure';
+  icon = 'pe-7s-graph1 icon-gradient bg-tempting-azure';
 
   constructor() { }
 

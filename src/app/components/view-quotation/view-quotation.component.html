@@ -11,7 +11,7 @@
         <hr>
     </div>
     <div class="card">
-        <form class="pt-3" [hidden]="employeeInformation.position !== 'Manager'" #quotationForm="ngForm" (ngSubmit)="quotationForm.form.valid && updateQuotation(quotation)">
+        <form class="pt-3"  #quotationForm="ngForm" (ngSubmit)="quotationForm.form.valid && updateQuotation(quotation)">
             <div class="row">
                 <div class="form-group row" style="margin-left: 5%; width: 20%">
                     <label>Quote reference</label>
@@ -201,8 +201,8 @@
                                R {{product.total}}
                             </td>
                             <td style="width: 10%" *ngIf="quotation.status != 'Accepted'">
-                                <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-dark" (click)="deleteItem(i)">
-                                    <i class="pe-7s-trash btn-icon-wrapper"></i>
+                                <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-outline-danger" (click)="deleteItem(i)">
+                                    <i class="fa fa-fw" aria-hidden="true" title="trash"></i>
                                 </button>
                             </td>
                         </tr>
@@ -283,8 +283,8 @@
                                 </div>
                             </td>
                             <td style="width: 10%; border: solid  #fff 1px">
-                                <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-dark" (click)="addItem()">
-                                    <i class="pe-7s-plus btn-icon-wrapper"></i>
+                                <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-outline-dark" (click)="addItem()">
+                                    <i class="fa fa-fw" aria-hidden="true" title="plus"></i>
                                 </button>
                             </td>
                         </tr>
@@ -330,19 +330,28 @@
                 </table>
             </div>
 
-            <div class="row" [hidden]="quotation.status == 'Accepted' || quotation.status == 'Pending Client Approval'">
-                <button style="margin: 3% 3% 3% 4%; width: 26.5%" type="button" class="btn btn-dark" data-dismiss="modal" routerLink="/quotation">
-                    Re-generate quote
-                </button>
+            <div [hidden]="!showManagerMenu()">
+                <div class="row" [hidden]="quotation.status == 'Accepted' || quotation.status == 'Pending Client Approval'">
+                    <button style="margin: 3% 3% 3% 4%; width: 26.5%" type="button" class="btn btn-dark" data-dismiss="modal" (click)="regenerate(quotation)">
+                        Re-generate quote
+                    </button>
 
-                <button  style="margin: 3%; width: 26.5%" type="button" class="btn btn-dark" data-dismiss="modal">
-                    Reject quote
-                </button>
+                    <button style="margin: 3%; width: 26.5%" type="button" class="btn btn-dark" data-dismiss="modal" (click)="rejectQuotation(quotation)">
+                        Reject quote
+                    </button>
 
-                <button  style="margin: 3%; width: 26.5%" type="submit" class="btn btn-dark" data-dismiss="modal">
-                    Accept quote
-                </button>
+                    <button style="margin: 3%; width: 26.5%" type="submit" class="btn btn-dark" data-dismiss="modal">
+                        Accept quote
+                    </button>
+                </div>
+            </div>
 
+            <div [hidden]="showManagerMenu()">
+                <div class="row" [hidden]="quotation.status == 'Accepted' || quotation.status == 'Pending Client Approval'">
+                    <button style="margin: 3% 3% 3% 4%; width: 26.5%" type="button" class="btn btn-dark" data-dismiss="modal" (click)="regenerate(quotation)">
+                        Re-generate quote
+                    </button>
+                </div>
             </div>
         </form>
     </div>
