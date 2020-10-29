@@ -1,0 +1,62 @@
+// Header Base
+
+.app-header {
+  height: $app-header-height;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  z-index: 10;
+  position: fixed;
+  width: 100%;
+
+  .logo-src {
+    display: none;
+  }
+
+  &.header-shadow {
+    box-shadow: $box-shadow-default;
+  }
+
+  .app-header__content {
+    display: flex;
+    flex: 1;
+    padding-left: 250px;
+    height: 60px;
+    font-weight: 700;
+
+    .app-header-left {
+      margin-left: 5px;
+      display: flex;
+      align-items: center;
+      font-size: 100%;
+    }
+
+    .app-header-right {
+      align-items: center;
+      display: flex;
+      margin-left: auto;
+      padding: 0 $layout-spacer-x 0 0;
+    }
+  }
+
+  .header-user-info {
+    & > .widget-heading,
+    & > .widget-subheading {
+      white-space: nowrap;
+    }
+
+    & > .widget-subheading {
+      font-size: $font-size-xs;
+    }
+  }
+}
+
+
+// Modifiers
+
+@import "modifiers/header-dots";
+@import "modifiers/header-userarea";
+
+// Header Themes
+
+@import "themes/header-dark";
