@@ -333,7 +333,7 @@
             <div [hidden]="!showManagerMenu()">
                 <div class="row" [hidden]="quotation.status == 'Accepted' || quotation.status == 'Pending Client Approval'">
                     <button style="margin: 3% 3% 3% 4%; width: 26.5%" type="button" class="btn btn-dark" data-dismiss="modal" (click)="regenerate(quotation)">
-                        Re-generate quote
+                        Generate quote
                     </button>
 
                     <button style="margin: 3%; width: 26.5%" type="button" class="btn btn-dark" data-dismiss="modal" (click)="rejectQuotation(quotation)">
@@ -348,8 +348,8 @@
 
             <div [hidden]="showManagerMenu()">
                 <div class="row" [hidden]="quotation.status == 'Accepted' || quotation.status == 'Pending Client Approval'">
-                    <button style="margin: 3% 3% 3% 4%; width: 26.5%" type="button" class="btn btn-dark" data-dismiss="modal" (click)="regenerate(quotation)">
-                        Re-generate quote
+                    <button style="margin: 3% 3% 3% 4%; width: 26.5%" type="button" class="btn btn-dark" data-dismiss="modal" (click)="updateQuotation(quotation)">
+                        Generate quote
                     </button>
                 </div>
             </div>
