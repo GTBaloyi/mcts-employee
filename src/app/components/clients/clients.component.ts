@@ -23,21 +23,21 @@ export class ClientsComponent implements OnInit {
     subheading = 'Dashboard to manage clients';
     icon = 'pe-7s-users icon-gradient bg-tempting-azure';
 
-    private numberOfActiveClients: number = 0;
-    private numberOfInactiveClients: number = 0;
-    private numberOfClients: number = 0;
+     numberOfActiveClients: number = 0;
+     numberOfInactiveClients: number = 0;
+     numberOfClients: number = 0;
 
-    private config: any;
-    private filter : string;
+     config: any;
+     filter : string;
     isLoading = true;
     clients: ClientRegistrationRequestModel[] = [];
     clientsGeneralReports: ClientsGeneralReportsModel = {};
     addClient: ClientRegistrationRequestModel= {};
     editClient: ClientRegistrationRequestModel= <ClientRegistrationRequestModel>{};
     companyRegistration: string = '';
-    private titles: Array<string> = ['Mr', 'Mrs', 'Miss', 'Ms', 'Sir', 'Dr'];
-    private genders: Array<string> = ['Male', 'Female', 'Other'];
-    private companyProfiles: Array<string> = ['Small', 'Large', 'HEIs/Science Council', 'Techno/Star-Entrepreneur'];
+     titles: Array<string> = ['Mr', 'Mrs', 'Miss', 'Ms', 'Sir', 'Dr'];
+     genders: Array<string> = ['Male', 'Female', 'Other'];
+     companyProfiles: Array<string> = ['Small', 'Large', 'HEIs/Science Council', 'Techno/Star-Entrepreneur'];
 
     constructor(private router: Router,
                 private toastr: ToastrService,

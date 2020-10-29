@@ -1,0 +1,317 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
+
+<div class="d-flex" id="wrapper">
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading"></div>
+        <div class="list-group list-group-flush" >
+            <button  class="list-group-item list-group-item-action bg-light" (click)="getTargetsByCategory('MCTS')">MCTS Targets</button>
+            <button  class="list-group-item list-group-item-action bg-light" (click)="getTargetsByCategory('Moulding Technology')">Moulding Technology Targets</button>
+            <button  class="list-group-item list-group-item-action bg-light" (click)="getTargetsByCategory('Foundry Technology')">Foundry Technology Targets</button>
+            <button  class="list-group-item list-group-item-action bg-light" (click)="getTargetsByCategory('Physical Technology')">Physical Metallurgy Targets</button>
+        </div>
+    </div>
+
+    <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-outline-primary" (click)="convertToPDF()" value="Convert">
+                            <i class="pe-7s-cloud-download btn-icon-wrapper"></i>
+                            Download
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container-fluid" id="pdfTable"  [hidden]="selectedCategory == ''">
+            <h1 class="mt-4">{{selectedCategory}}</h1>
+
+            <div class="main-card mb-3 card">
+                <div class="card-header">
+                    <button type="button" class="btn btn-outline-dark"
+                            [hidden]="selectedCategory == 'MCTS'"
+                            (click)="openModal(addTarget, '')">
+                        <i class="pe-7s-plus btn-icon-wrapper"></i>
+                        Add
+                    </button>
+                </div>
+                <div class="table-responsive">
+
+                    <div class="form-group">
+                        <input style=" border-top: none; width: 95%; margin: 2%" type="text" class="form-control" placeholder="filter" [(ngModel)]="filter">
+                    </div>
+
+                    <table class="align-middle mb-0 table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="border: #fcf8e3 solid 1px;"></th>
+                                <th class="text-center" style="border: #fcf8e3 solid 1px;" [hidden]="selectedCategory != 'MCTS'"></th>
+                                <th class="text-center text-white" colspan="4" style="border: #fcf8e3 solid 1px; background-color: #727070">Quarters</th>
+                                <th class="text-center" style="border:#fcf8e3 solid 1px;"></th>
+                                <th class="text-center" style="border:#fcf8e3 solid 1px;"></th>
+                            </tr>
+                            <tr>
+                                <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Title</th>
+                                <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4" [hidden]="selectedCategory != 'MCTS'">Category</th>
+                                <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q1 Target</th>
+                                <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q2 Target</th>
+                                <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q3 Target</th>
+                                <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q4 Target</th>
+                                <th class="text-center" style="border:#fcf8e3 solid 1px;">Overall Target</th>
+                                <th class="text-center" style="border:#fcf8e3 solid 1px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="targetsArray.length != 0">
+
+                            <tr *ngFor="let target of targetsArray | paginate: config | filter: filter ;">
+                                <td class="text-center" style="width: 35%">{{target.title}}</td>
+                                <td class="text-center" style="width: 10%" [hidden]="selectedCategory != 'MCTS'">{{target.category}}</td>
+                                <td class="text-center" style="width: 10%">{{target.q1_target}}</td>
+                                <td class="text-center" style="width: 10%">{{target.q2_target}}</td>
+                                <td class="text-center" style="width: 10%">{{target.q3_target}}</td>
+                                <td class="text-center" style="width: 10%">{{target.q4_target}}</td>
+                                <td class="text-center" style="width: 10%">{{target.overallTarget}}</td>
+                                <td class="text-center" style="width: 15%">
+                                     <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-outline-primary"
+                                             (click)="openModal(editTarget, target)">
+                                         <i class="fa fa-fw" aria-hidden="true" title="pencil"></i>
+                                     </button>
+                                    <button type="button" class="mr-2 btn-icon btn-icon-only btn  btn-outline-danger"
+                                            (click)="openModal(deleteTarget, target)">
+                                        <i class="fa fa-fw" aria-hidden="true" title="trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text" *ngIf="targetsArray.length == 0">
+                    No Records Found!
+                </div>
+                <pagination-controls (pageChange)="pageChanged($event)" style="margin-top: 5%"></pagination-controls>
+            </div>
+
+        </div>
+        <div class="text" style="font-weight: bold; font-size: xx-large; margin-top: 15%" [hidden]="selectedCategory != ''">
+           Please select a target from the sidebar menu.
+        </div>
+    </div>
+
+    <ng-template class="modal fade" #addTarget let-modal>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="card-title" id="exampleModalLabel3">Add Target</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="pt-3"  #addTargetForm="ngForm" (ngSubmit)="addTargetForm.form.valid && addSetTarget(NewTarget)">
+                    <div class="form-group" >
+                        <label>Title</label>
+                        <input class="form-control text-left" type="text" placeholder="Title"
+                               [(ngModel)]="NewTarget.title"
+                               name="title"
+                               #name="ngModel"
+                               autocomplete="off"
+                               [ngClass]="{ 'is-invalid': addTargetForm.submitted && name.invalid }"
+                               required>
+                        <div *ngIf="addTargetForm.submitted && name.invalid" class="invalid-feedback">
+                            <div *ngIf="name.errors.required">Title is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" >
+                        <label>Quarter 1 Target</label>
+                        <input class="form-control text-left" type="number" placeholder="Quarter 1 Target"
+                               [(ngModel)]="NewTarget.q1_target"
+                               name="q1_target"
+                               [min]="0"
+                               [max]="100"
+                               #target1="ngModel"
+                               [ngClass]="{ 'is-invalid': addTargetForm.submitted && target1.invalid }"
+                               required>
+                        <div *ngIf="addTargetForm.submitted && target1.invalid" class="invalid-feedback">
+                            <div *ngIf="target1.errors.required">Quarter 1 Target is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" >
+                        <label>Quarter 2 Target</label>
+                        <input class="form-control text-left" type="number" placeholder="Quarter 2 Target"
+                               [(ngModel)]="NewTarget.q2_target"
+                               name="q2_target"
+                               #target2="ngModel"
+                               [min]="0"
+                               [max]="100"
+                               [ngClass]="{ 'is-invalid': addTargetForm.submitted && target2.invalid }"
+                               required>
+                        <div *ngIf="addTargetForm.submitted && target2.invalid" class="invalid-feedback">
+                            <div *ngIf="target2.errors.required">Quarter 2 Target is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" >
+                        <label>Quarter 3 Target</label>
+                        <input class="form-control text-left" type="number" placeholder="Quarter 3 Target"
+                               [(ngModel)]="NewTarget.q3_target"
+                               name="q3_target"
+                               [min]="0"
+                               [max]="100"
+                               #target3="ngModel"
+                               [ngClass]="{ 'is-invalid': addTargetForm.submitted && target3.invalid }"
+                               required>
+                        <div *ngIf="addTargetForm.submitted && target3.invalid" class="invalid-feedback">
+                            <div *ngIf="target3.errors.required">Quarter 3 Target is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" >
+                        <label>Quarter 4 Target</label>
+                        <input class="form-control text-left" type="number" placeholder="Quarter 4 Target"
+                               [(ngModel)]="NewTarget.q4_target"
+                               name="q4_target"
+                               #target4="ngModel"
+                               [min]="0"
+                               [max]="100"
+                               [ngClass]="{ 'is-invalid': addTargetForm.submitted && target4.invalid }"
+                               required>
+                        <div *ngIf="addTargetForm.submitted && target4.invalid" class="invalid-feedback">
+                            <div *ngIf="target4.errors.required">Quarter 4 Target is required</div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="modal.close()">Cancel</button>
+                        <button type="submit" class="btn btn-info" data-dismiss="Submit" >Continue</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template class="modal fade" #editTarget let-modal>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="card-title" >Edit Target</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="pt-3"  #addTargetForm="ngForm" (ngSubmit)="addTargetForm.form.valid && editSetTarget(target)">
+                    <div class="form-group" >
+                        <label>Title</label>
+                        <input class="form-control text-left" type="text" placeholder="Title"
+                               [(ngModel)]="target.title"
+                               name="title"
+                               #name="ngModel"
+                               autocomplete="off"
+                               [ngClass]="{ 'is-invalid': addTargetForm.submitted && name.invalid }"
+                               disabled
+                               required>
+                        <div *ngIf="addTargetForm.submitted && name.invalid" class="invalid-feedback">
+                            <div *ngIf="name.errors.required">Title is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" >
+                        <label>Quarter 1 Target</label>
+                        <input class="form-control text-left" type="number" placeholder="Quarter 1 Target"
+                               [(ngModel)]="target.q1_target"
+                               name="q1_target"
+                               [min]="0"
+                               [max]="100"
+                               #target1="ngModel"
+                               [ngClass]="{ 'is-invalid': addTargetForm.submitted && target1.invalid }"
+                               required>
+                        <div *ngIf="addTargetForm.submitted && target1.invalid" class="invalid-feedback">
+                            <div *ngIf="target1.errors.required">Quarter 1 Target is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" >
+                        <label>Quarter 2 Target</label>
+                        <input class="form-control text-left" type="number" placeholder="Quarter 2 Target"
+                               [(ngModel)]="target.q2_target"
+                               name="q2_target"
+                               #target2="ngModel"
+                               [min]="0"
+                               [max]="100"
+                               [ngClass]="{ 'is-invalid': addTargetForm.submitted && target2.invalid }"
+                               required>
+                        <div *ngIf="addTargetForm.submitted && target2.invalid" class="invalid-feedback">
+                            <div *ngIf="target2.errors.required">Quarter 2 Target is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" >
+                        <label>Quarter 3 Target</label>
+                        <input class="form-control text-left" type="number" placeholder="Quarter 3 Target"
+                               [(ngModel)]="target.q3_target"
+                               name="q3_target"
+                               [min]="0"
+                               [max]="100"
+                               #target3="ngModel"
+                               [ngClass]="{ 'is-invalid': addTargetForm.submitted && target3.invalid }"
+                               required>
+                        <div *ngIf="addTargetForm.submitted && target3.invalid" class="invalid-feedback">
+                            <div *ngIf="target3.errors.required">Quarter 3 Target is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" >
+                        <label>Quarter 4 Target</label>
+                        <input class="form-control text-left" type="number" placeholder="Quarter 4 Target"
+                               [(ngModel)]="target.q4_target"
+                               name="q4_target"
+                               #target4="ngModel"
+                               [min]="0"
+                               [max]="100"
+                               [ngClass]="{ 'is-invalid': addTargetForm.submitted && target4.invalid }"
+                               required>
+                        <div *ngIf="addTargetForm.submitted && target4.invalid" class="invalid-feedback">
+                            <div *ngIf="target4.errors.required">Quarter 4 Target is required</div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="modal.close()">Cancel</button>
+                        <button type="submit" class="btn btn-info" data-dismiss="Submit" >Continue</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template class="modal fade" #deleteTarget let-modal >
+        <div class="modal-content" style="background: #FFF; color: #000">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">WARNING</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>This action cannot be reverted. Are you sure you want to continue?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal"  (click)="modal.close()">Cancel</button>
+                <button type="button" class="btn btn-info" (click)="deleteSetTarget(target)" >Continue</button>
+            </div>
+        </div>
+    </ng-template>
+
+    <div *ngIf="isLoading" class="overlay">
+        <div class="spinner">
+            <img class="loader" src="../../../assets/wheel.gif">
+        </div>
+    </div>
+
+</div>
+
+

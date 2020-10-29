@@ -11,12 +11,11 @@
  */
 
 
-export interface ClientInvoiceSummary { 
-    paidInvoices?: number;
-    paidInvoiceAmount?: number;
-    unpaidInvoices?: number;
-    unpaidInvoiceAmount?: number;
-    overdueInvoices?: number;
-    overdueInvoiceAmount?: number;
+export interface GeneralQuotationReport { 
+    pendingClientApproval?: number;
+    pendingManagerApproval?: number;
+    pendingAttendance?: number;
+    accepted?: number;
+    rejected?: number;
 }
 

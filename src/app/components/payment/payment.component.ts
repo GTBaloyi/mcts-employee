@@ -20,12 +20,12 @@ export class PaymentComponent implements OnInit {
   subheading = 'View and manage payments';
   icon = 'pe-7s-cash icon-gradient bg-tempting-azure';
 
-  private config: any;
-  private filter : string;
+   config: any;
+   filter : string;
   isLoading = true;
-  private payments: Array<PaymentResponseModel> = [];
-  private invoice: InvoiceResponseModel =<InvoiceResponseModel> '';
-  private payment: PaymentResponseModel = <PaymentResponseModel> '';
+   payments: Array<PaymentResponseModel> = [];
+   invoice: InvoiceResponseModel =<InvoiceResponseModel> '';
+   payment: PaymentResponseModel = <PaymentResponseModel> '';
 
   constructor( private router: Router,
                private toastr: ToastrService,

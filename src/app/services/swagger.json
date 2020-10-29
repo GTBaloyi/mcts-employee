@@ -1032,7 +1032,7 @@
         }
       }
     },
-    "/api/Mcts_Kpi_Reports/mcts-kpi-project-inBudget": {
+    "/api/Mcts_Kpi_Reports/delivered-inTime-report": {
       "get": {
         "tags": [
           "Mcts_Kpi_Reports"
@@ -1043,17 +1043,160 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/MctsKpiSummaryTile"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PerformanceIndicatorModel"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MctsKpiSummaryTile"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PerformanceIndicatorModel"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MctsKpiSummaryTile"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PerformanceIndicatorModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Mcts_Kpi_Reports/customer-satisfaction": {
+      "get": {
+        "tags": [
+          "Mcts_Kpi_Reports"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PerformanceIndicatorModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PerformanceIndicatorModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PerformanceIndicatorModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Mcts_Kpi_Reports/FocusArea-Final-Projects": {
+      "get": {
+        "tags": [
+          "Mcts_Kpi_Reports"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProjectsEntryModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProjectsEntryModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProjectsEntryModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Mcts_Kpi_Reports/general-quotation": {
+      "get": {
+        "tags": [
+          "Mcts_Kpi_Reports"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralQuotationReport"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralQuotationReport"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralQuotationReport"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Mcts_Kpi_Reports/general-projects": {
+      "get": {
+        "tags": [
+          "Mcts_Kpi_Reports"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralProjectReportsModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralProjectReportsModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralProjectReportsModel"
                 }
               }
             }
@@ -1645,40 +1788,6 @@
             "description": "Success"
           }
         }
-      },
-      "delete": {
-        "tags": [
-          "Products"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductRequestModel"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductRequestModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductRequestModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductRequestModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
       }
     },
     "/api/Products/products/{focusArea}": {
@@ -1741,6 +1850,65 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Products/focus-area": {
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FocusAreaModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FocusAreaModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FocusAreaModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FocusAreaModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Products/products/{productID}": {
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "productID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -2160,26 +2328,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProjectProgressResponseModel"
-                  }
+                  "$ref": "#/components/schemas/ProjectProgressResponseModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProjectProgressResponseModel"
-                  }
+                  "$ref": "#/components/schemas/ProjectProgressResponseModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProjectProgressResponseModel"
-                  }
+                  "$ref": "#/components/schemas/ProjectProgressResponseModel"
                 }
               }
             }
@@ -3564,6 +3723,326 @@
         }
       }
     },
+    "/api/TargetSettings/all": {
+      "get": {
+        "tags": [
+          "TargetSettings"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TargetSettingModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TargetSettingModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TargetSettingModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TargetSettings/by-id/{id}": {
+      "get": {
+        "tags": [
+          "TargetSettings"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TargetSettingModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TargetSettingModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TargetSettingModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TargetSettings/by-title/{title}": {
+      "get": {
+        "tags": [
+          "TargetSettings"
+        ],
+        "parameters": [
+          {
+            "name": "title",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TargetSettingModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TargetSettingModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TargetSettingModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TargetSettings/by-category/{category}": {
+      "get": {
+        "tags": [
+          "TargetSettings"
+        ],
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TargetSettingModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TargetSettingModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TargetSettingModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TargetSettings/create": {
+      "post": {
+        "tags": [
+          "TargetSettings"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TargetSettingModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TargetSettingModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TargetSettingModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TargetSettingModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TargetSettingModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TargetSettingModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TargetSettingModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TargetSettings/update": {
+      "put": {
+        "tags": [
+          "TargetSettings"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TargetSettingModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TargetSettingModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TargetSettingModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TargetSettingModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TargetSettingModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TargetSettingModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TargetSettingModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TargetSettings/delete/{id}": {
+      "delete": {
+        "tags": [
+          "TargetSettings"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TargetSettingModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TargetSettingModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TargetSettingModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Users/login": {
       "get": {
         "tags": [
@@ -3807,13 +4286,25 @@
             "type": "integer",
             "format": "int32"
           },
+          "paidInvoiceAmount": {
+            "type": "number",
+            "format": "double"
+          },
           "unpaidInvoices": {
             "type": "integer",
             "format": "int32"
           },
+          "unpaidInvoiceAmount": {
+            "type": "number",
+            "format": "double"
+          },
           "overdueInvoices": {
             "type": "integer",
             "format": "int32"
+          },
+          "overdueInvoiceAmount": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -4267,6 +4758,142 @@
           "inBudgetProject": {
             "type": "number",
             "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PerformanceIndicatorModel": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "overallTarget": {
+            "type": "number",
+            "format": "double"
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          },
+          "actualOverallTarget": {
+            "type": "number",
+            "format": "double"
+          },
+          "firstQuarterTarget": {
+            "type": "number",
+            "format": "double"
+          },
+          "firstQuarterActual": {
+            "type": "number",
+            "format": "double"
+          },
+          "secondQuarterTarget": {
+            "type": "number",
+            "format": "double"
+          },
+          "secondQuarterActual": {
+            "type": "number",
+            "format": "double"
+          },
+          "thirdQuarterTarget": {
+            "type": "number",
+            "format": "double"
+          },
+          "thirdQuarterActual": {
+            "type": "number",
+            "format": "double"
+          },
+          "fourthQuarterTarget": {
+            "type": "number",
+            "format": "double"
+          },
+          "fourthQuarterActual": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProjectsEntryModel": {
+        "type": "object",
+        "properties": {
+          "quarter": {
+            "type": "string",
+            "nullable": true
+          },
+          "mouldingTechProjects": {
+            "type": "number",
+            "format": "double"
+          },
+          "physicalMetallurgyProjects": {
+            "type": "number",
+            "format": "double"
+          },
+          "foundryTechProjects": {
+            "type": "number",
+            "format": "double"
+          },
+          "supportTechProjects": {
+            "type": "number",
+            "format": "double"
+          },
+          "otherProjects": {
+            "type": "number",
+            "format": "double"
+          },
+          "total": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GeneralQuotationReport": {
+        "type": "object",
+        "properties": {
+          "pendingClientApproval": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pendingManagerApproval": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pendingAttendance": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "accepted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rejected": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GeneralProjectReportsModel": {
+        "type": "object",
+        "properties": {
+          "ongoingProjects": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "completedProjects": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notStartedProjects": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pausedProjects": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -4732,6 +5359,10 @@
             "type": "string",
             "nullable": true
           },
+          "invoiceReference": {
+            "type": "string",
+            "nullable": true
+          },
           "projectStatus": {
             "type": "string",
             "nullable": true
@@ -4739,6 +5370,18 @@
           "projectProgress": {
             "type": "number",
             "format": "double"
+          },
+          "employeeNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "surname": {
+            "type": "string",
+            "nullable": true
           },
           "createdOn": {
             "type": "string",
@@ -5024,6 +5667,64 @@
           "description": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TargetSettingModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          },
+          "actualOverallTarget": {
+            "type": "number",
+            "format": "double"
+          },
+          "overallTarget": {
+            "type": "number",
+            "format": "double"
+          },
+          "q1_target": {
+            "type": "number",
+            "format": "double"
+          },
+          "q2_target": {
+            "type": "number",
+            "format": "double"
+          },
+          "q3_target": {
+            "type": "number",
+            "format": "double"
+          },
+          "q4_target": {
+            "type": "number",
+            "format": "double"
+          },
+          "q1_actual": {
+            "type": "number",
+            "format": "double"
+          },
+          "q2_actual": {
+            "type": "number",
+            "format": "double"
+          },
+          "q3_actual": {
+            "type": "number",
+            "format": "double"
+          },
+          "q4_actual": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false

@@ -17,8 +17,7 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { ProjectProgressRequestModel } from '../model/models';
-import { ProjectProgressResponseModel } from '../model/models';
+import { TargetSettingModel } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -28,7 +27,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectProgressService {
+export class TargetSettingsService {
 
     protected basePath = 'https://mcts-backend.azurewebsites.net';
     public defaultHeaders = new HttpHeaders();
@@ -90,10 +89,10 @@ export class ProjectProgressService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiProjectProgressAllProjectsGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<Array<ProjectProgressResponseModel>>;
-    public apiProjectProgressAllProjectsGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<Array<ProjectProgressResponseModel>>>;
-    public apiProjectProgressAllProjectsGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<Array<ProjectProgressResponseModel>>>;
-    public apiProjectProgressAllProjectsGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+    public apiTargetSettingsAllGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<Array<TargetSettingModel>>;
+    public apiTargetSettingsAllGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<Array<TargetSettingModel>>>;
+    public apiTargetSettingsAllGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<Array<TargetSettingModel>>>;
+    public apiTargetSettingsAllGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -117,7 +116,7 @@ export class ProjectProgressService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<Array<ProjectProgressResponseModel>>(`${this.configuration.basePath}/api/ProjectProgress/all-projects`,
+        return this.httpClient.get<Array<TargetSettingModel>>(`${this.configuration.basePath}/api/TargetSettings/all`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -129,62 +128,16 @@ export class ProjectProgressService {
     }
 
     /**
-     * @param projectNumber 
+     * @param category 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiProjectProgressByProjectNumberProjectNumberGet(projectNumber: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<ProjectProgressResponseModel>;
-    public apiProjectProgressByProjectNumberProjectNumberGet(projectNumber: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<ProjectProgressResponseModel>>;
-    public apiProjectProgressByProjectNumberProjectNumberGet(projectNumber: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<ProjectProgressResponseModel>>;
-    public apiProjectProgressByProjectNumberProjectNumberGet(projectNumber: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
-        if (projectNumber === null || projectNumber === undefined) {
-            throw new Error('Required parameter projectNumber was null or undefined when calling apiProjectProgressByProjectNumberProjectNumberGet.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (httpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'text/plain',
-                'application/json',
-                'text/json'
-            ];
-            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        let responseType: 'text' | 'json' = 'json';
-        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
-            responseType = 'text';
-        }
-
-        return this.httpClient.get<ProjectProgressResponseModel>(`${this.configuration.basePath}/api/ProjectProgress/by-projectNumber/${encodeURIComponent(String(projectNumber))}`,
-            {
-                responseType: <any>responseType,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * @param quarter 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiProjectProgressByQuarterQuarterGet(quarter: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<Array<ProjectProgressResponseModel>>;
-    public apiProjectProgressByQuarterQuarterGet(quarter: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<Array<ProjectProgressResponseModel>>>;
-    public apiProjectProgressByQuarterQuarterGet(quarter: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<Array<ProjectProgressResponseModel>>>;
-    public apiProjectProgressByQuarterQuarterGet(quarter: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
-        if (quarter === null || quarter === undefined) {
-            throw new Error('Required parameter quarter was null or undefined when calling apiProjectProgressByQuarterQuarterGet.');
+    public apiTargetSettingsByCategoryCategoryGet(category: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<Array<TargetSettingModel>>;
+    public apiTargetSettingsByCategoryCategoryGet(category: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<Array<TargetSettingModel>>>;
+    public apiTargetSettingsByCategoryCategoryGet(category: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<Array<TargetSettingModel>>>;
+    public apiTargetSettingsByCategoryCategoryGet(category: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+        if (category === null || category === undefined) {
+            throw new Error('Required parameter category was null or undefined when calling apiTargetSettingsByCategoryCategoryGet.');
         }
 
         let headers = this.defaultHeaders;
@@ -209,7 +162,7 @@ export class ProjectProgressService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<Array<ProjectProgressResponseModel>>(`${this.configuration.basePath}/api/ProjectProgress/by-quarter/${encodeURIComponent(String(quarter))}`,
+        return this.httpClient.get<Array<TargetSettingModel>>(`${this.configuration.basePath}/api/TargetSettings/by-category/${encodeURIComponent(String(category))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -221,14 +174,17 @@ export class ProjectProgressService {
     }
 
     /**
-     * @param projectProgressRequestModel 
+     * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiProjectProgressCreatePost(projectProgressRequestModel?: ProjectProgressRequestModel, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public apiProjectProgressCreatePost(projectProgressRequestModel?: ProjectProgressRequestModel, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public apiProjectProgressCreatePost(projectProgressRequestModel?: ProjectProgressRequestModel, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public apiProjectProgressCreatePost(projectProgressRequestModel?: ProjectProgressRequestModel, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+    public apiTargetSettingsByIdIdGet(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<TargetSettingModel>;
+    public apiTargetSettingsByIdIdGet(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<TargetSettingModel>>;
+    public apiTargetSettingsByIdIdGet(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<TargetSettingModel>>;
+    public apiTargetSettingsByIdIdGet(id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling apiTargetSettingsByIdIdGet.');
+        }
 
         let headers = this.defaultHeaders;
 
@@ -236,6 +192,98 @@ export class ProjectProgressService {
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.get<TargetSettingModel>(`${this.configuration.basePath}/api/TargetSettings/by-id/${encodeURIComponent(String(id))}`,
+            {
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param title 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiTargetSettingsByTitleTitleGet(title: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<Array<TargetSettingModel>>;
+    public apiTargetSettingsByTitleTitleGet(title: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<Array<TargetSettingModel>>>;
+    public apiTargetSettingsByTitleTitleGet(title: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<Array<TargetSettingModel>>>;
+    public apiTargetSettingsByTitleTitleGet(title: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+        if (title === null || title === undefined) {
+            throw new Error('Required parameter title was null or undefined when calling apiTargetSettingsByTitleTitleGet.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.get<Array<TargetSettingModel>>(`${this.configuration.basePath}/api/TargetSettings/by-title/${encodeURIComponent(String(title))}`,
+            {
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param targetSettingModel 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiTargetSettingsCreatePost(targetSettingModel?: TargetSettingModel, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<TargetSettingModel>;
+    public apiTargetSettingsCreatePost(targetSettingModel?: TargetSettingModel, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<TargetSettingModel>>;
+    public apiTargetSettingsCreatePost(targetSettingModel?: TargetSettingModel, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<TargetSettingModel>>;
+    public apiTargetSettingsCreatePost(targetSettingModel?: TargetSettingModel, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
             ];
             httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -261,8 +309,8 @@ export class ProjectProgressService {
             responseType = 'text';
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/api/ProjectProgress/create`,
-            projectProgressRequestModel,
+        return this.httpClient.post<TargetSettingModel>(`${this.configuration.basePath}/api/TargetSettings/create`,
+            targetSettingModel,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -274,16 +322,16 @@ export class ProjectProgressService {
     }
 
     /**
-     * @param projectNumber 
+     * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiProjectProgressDeleteProjectNumberDelete(projectNumber: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public apiProjectProgressDeleteProjectNumberDelete(projectNumber: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public apiProjectProgressDeleteProjectNumberDelete(projectNumber: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public apiProjectProgressDeleteProjectNumberDelete(projectNumber: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
-        if (projectNumber === null || projectNumber === undefined) {
-            throw new Error('Required parameter projectNumber was null or undefined when calling apiProjectProgressDeleteProjectNumberDelete.');
+    public apiTargetSettingsDeleteIdDelete(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<TargetSettingModel>;
+    public apiTargetSettingsDeleteIdDelete(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<TargetSettingModel>>;
+    public apiTargetSettingsDeleteIdDelete(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<TargetSettingModel>>;
+    public apiTargetSettingsDeleteIdDelete(id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling apiTargetSettingsDeleteIdDelete.');
         }
 
         let headers = this.defaultHeaders;
@@ -292,6 +340,9 @@ export class ProjectProgressService {
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
             ];
             httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -305,7 +356,7 @@ export class ProjectProgressService {
             responseType = 'text';
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/ProjectProgress/delete/${encodeURIComponent(String(projectNumber))}`,
+        return this.httpClient.delete<TargetSettingModel>(`${this.configuration.basePath}/api/TargetSettings/delete/${encodeURIComponent(String(id))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -317,14 +368,14 @@ export class ProjectProgressService {
     }
 
     /**
-     * @param projectProgressRequestModel 
+     * @param targetSettingModel 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiProjectProgressUpdatePut(projectProgressRequestModel?: ProjectProgressRequestModel, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public apiProjectProgressUpdatePut(projectProgressRequestModel?: ProjectProgressRequestModel, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public apiProjectProgressUpdatePut(projectProgressRequestModel?: ProjectProgressRequestModel, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public apiProjectProgressUpdatePut(projectProgressRequestModel?: ProjectProgressRequestModel, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+    public apiTargetSettingsUpdatePut(targetSettingModel?: TargetSettingModel, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<TargetSettingModel>;
+    public apiTargetSettingsUpdatePut(targetSettingModel?: TargetSettingModel, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<TargetSettingModel>>;
+    public apiTargetSettingsUpdatePut(targetSettingModel?: TargetSettingModel, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<TargetSettingModel>>;
+    public apiTargetSettingsUpdatePut(targetSettingModel?: TargetSettingModel, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -332,6 +383,9 @@ export class ProjectProgressService {
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
             ];
             httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -357,8 +411,8 @@ export class ProjectProgressService {
             responseType = 'text';
         }
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/api/ProjectProgress/update`,
-            projectProgressRequestModel,
+        return this.httpClient.put<TargetSettingModel>(`${this.configuration.basePath}/api/TargetSettings/update`,
+            targetSettingModel,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,

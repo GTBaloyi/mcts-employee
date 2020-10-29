@@ -7,15 +7,34 @@
                 <div class="card-body">
                     <div class="invoice overflow-auto">
                         <div style="min-width: 550px; min-height: 590px; max-height: 590px; border: #bebcbc solid 1px">
+                            <div class="card-header">
+                                <button type="button" class="btn-shadow d-inline-flex align-items-center btn btn-dark"
+                                (click)="openModal(AddFocusArea, '')">
+                                    <i class="pe-7s-plus btn-icon-wrapper"></i>
+                                    Add New
+                                </button>
+                            </div>
+
                             <div class="card-body" *ngIf="focusAreas.length != 0">
                                 <h5 class="card-title">Focus Areas Available</h5>
                                 <div>
                                     <ul class="list-group" *ngFor="let focus of focusAreas">
-                                        <button class="list-group-item-action list-group-item bg-premium-dark text-white"
-                                                style="border-bottom: #ef6637 solid 1px"
-                                                (click)="getProducts(focus.name)">
-                                            {{focus.name}}
-                                        </button>
+                                        <div style="display: flex; margin-bottom: 1px">
+                                            <button type="button"  class="list-group-item-action list-group-item bg-premium-dark text-white"
+                                                    style="border-bottom: #ef6637 solid 2px;"
+                                                    (click)="getProducts(focus)">
+                                                {{focus.name}}
+                                            </button>
+
+                                            <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-outline-primary"
+                                                    (click)="openModal(EditFocusArea, focus)">
+                                                <i class="fa fa-fw" aria-hidden="true" title="pencil"></i>
+                                            </button>
+                                            <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"
+                                                    (click)="openModal(deleteFocusArea, focus.name)">
+                                                <i class="pe-7s-trash btn-icon-wrapper"></i>
+                                            </button>
+                                        </div>
                                     </ul>
                                 </div>
                             </div>
@@ -33,54 +52,155 @@
                 <div class="card-body">
                     <div class="invoice overflow-auto">
                         <div style="min-width: 550px; min-height: 590px; max-height: 590px; border: #bebcbc solid 1px">
-                            <div class="table-responsive">
-                                <div class="card-body" *ngIf="focusAreas.length != 0">
-                                    <h5 class="card-title">Products from ({{selectedFocusArea}})</h5>
-
-                                    <div class="form-group">
-                                        <input style=" border-top: none; width: 95%; margin: 2%" type="text" class="form-control" placeholder="filter" [(ngModel)]="filter">
-                                    </div>
-
-                                    <table class="align-middle mb-0 table table-striped table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th class="text-center">Item</th>
-                                            <th class="text-center">Rate per hour</th>
-                                            <th class="text-center">Time study per test</th>
-                                            <th class="text-center">Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody *ngIf="products !== null">
-
-                                        <tr *ngFor="let product of products | paginate: config | filter: filter ;">
-                                            <td class="text-center">{{product.item}}</td>
-                                            <td class="text-center">{{product.ratePerHour}}</td>
-                                            <td class="text-center">{{product.timeStudyPerTest}}</td>
-                                            <td class="text-center">
-                                                <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-outline-primary"
-                                                        (click)="openModal(AddProduct, product)">
-                                                    <i class="fa fa-fw" aria-hidden="true" title="pencil"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="card-header" [hidden]="selectedFocusArea === 'Empty'">
+                                <button type="button" class="rounded-bottom btn btn-dark align-right"
+                                        (click)="openModal(AddProduct, '')">
+                                    <i class="pe-7s-plus btn-icon-wrapper"></i>
+                                    Add New
+                                </button>
                             </div>
 
+                            <div class="card-body" *ngIf="focusAreas.length != 0">
+                                <h5 class="card-title">
+                                    {{selectedFocusArea}}
+                                    Product List
+                                </h5>
+
+                                <div class="form-group">
+                                    <input style=" border-top: none; width: 95%; margin: 2%" type="text" class="form-control" placeholder="filter" [(ngModel)]="filter">
+                                </div>
+
+                                <table class="align-middle mb-0 table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">Item</th>
+                                        <th class="text-center">Rate per hour</th>
+                                        <th class="text-center">Time study per test</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody *ngIf="products !== null">
+
+                                    <tr *ngFor="let product of products | paginate: config | filter: filter ;">
+                                        <td class="text-center">{{product.item}}</td>
+                                        <td class="text-center">{{product.ratePerHour}}</td>
+                                        <td class="text-center">{{product.timeStudyPerTest}}</td>
+                                        <td class="text-center" style="width: 25%">
+                                            <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-outline-primary"
+                                                    (click)="openModal(EditProduct, product)">
+                                                <i class="fa fa-fw" aria-hidden="true" title="pencil"></i>
+                                            </button>
+
+                                            <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"
+                                                    (click)="openModal(deleteProduct, product)">
+                                                <i class="pe-7s-trash btn-icon-wrapper"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <div class="text text-center" *ngIf="products.length == 0">
                                 No products available!
                             </div>
-                            <pagination-controls (pageChange)="pageChanged($event)" style="margin-top: 5%"></pagination-controls>
-
+                            <pagination-controls style="margin-top: 100px" [hidden]="products.length == 0" (pageChange)="pageChanged($event)"></pagination-controls>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
+    <!--Add Focus area-->
+    <ng-template class="modal fade"  #AddFocusArea let-modal>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="card-title" >Add Focus area</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="pt-3"  #createFocusArea="ngForm" (ngSubmit)="createFocusArea.form.valid && addFocusArea(newFocusArea)">
+
+                    <div class="form-group" >
+                        <label>Focus Area</label>
+                        <input type="text" class="form-control " placeholder="Focus Area"
+                               name="focusArea"
+                               [(ngModel)]="newFocusArea"
+                               #focusArea="ngModel"
+                               [ngClass]="{ 'is-invalid': createFocusArea.submitted && focusArea.invalid }"
+                               required>
+                        <div *ngIf="createFocusArea.submitted && focusArea.invalid" class="invalid-feedback">
+                            <div *ngIf=" focusArea.errors.required">Focus Area name is required</div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="modal.close()">Cancel</button>
+                        <button type="submit" class="btn btn-info" data-dismiss="Submit" >Continue</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-template>
+
+    <!--Edit Focus area-->
+    <ng-template class="modal fade" #EditFocusArea let-modal>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="card-title" >Edit Focus area</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="pt-3"  #createFocusArea="ngForm" (ngSubmit)="createFocusArea.form.valid && editFocusAreaItem(item)">
+
+                    <div class="form-group" >
+                        <label>Focus Area</label>
+                        <input type="text" class="form-control " placeholder="Focus Area"
+                               name="focusArea"
+                               [(ngModel)]="item.name"
+                               #focusArea="ngModel"
+                               [ngClass]="{ 'is-invalid': createFocusArea.submitted && focusArea.invalid }"
+                               required>
+                        <div *ngIf="createFocusArea.submitted && focusArea.invalid" class="invalid-feedback">
+                            <div *ngIf=" focusArea.errors.required">Focus Area name is required</div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="modal.close()">Cancel</button>
+                        <button type="submit" class="btn btn-info" data-dismiss="Submit" >Continue</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-template>
+
+    <!--Delete Focus area-->
+    <ng-template class="modal fade" #deleteFocusArea let-modal>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="card-title" id="exampleModalLabel1">WARNING </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <p>This action cannot be reverted. Are you sure you want to delete {{item}}?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal"  (click)="modal.close()">Cancel</button>
+                    <button type="button" class="btn btn-info" (click)="deleteFocusAreaItem(item)" >Continue</button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <!--Add Product-->
     <ng-template class="modal fade"  #AddProduct let-modal>
         <div class="modal-content">
             <div class="modal-header">
@@ -90,274 +210,50 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!--<form class="pt-3"  #createProjectTodoItem="ngForm" (ngSubmit)="createProjectTodoItem.form.valid && addTodoItem()">
-                    <div class="form-group" >
-                        <label>Focus Area</label>
-                        <select class="form-control"
-                                [(ngModel)]="selectedFocusArea"
-                                (ngModelChange)="getProducts(selectedFocusArea)"
-                                name="focusArea"
-                                #focusArea="ngModel"
-                                [ngClass]="{ 'is-invalid': createProjectTodoItem.submitted && focusArea.invalid }"
-                                required>
-                            <option *ngFor="let focusArea of focusAreas" [value]="focusArea.name">{{focusArea.name}}</option>
+                <form class="pt-3" #createProductItem="ngForm" (ngSubmit)="createProductItem.form.valid && addProductItem()">
 
-                            <div *ngIf="createProjectTodoItem.submitted && focusArea.invalid" class="invalid-feedback">
-                                <div *ngIf="focusArea.errors.required">Focus area is required</div>
-                            </div>
-                        </select>
-                    </div>
                     <div class="form-group" >
-                        <label>Product</label>
-                        <select class="form-control "
-                                [(ngModel)]="selectedProduct"
-                                name="selectedProduct"
-                                #product="ngModel"
-                                [ngClass]="{ 'is-invalid': createProjectTodoItem.submitted && product.invalid }"
-                                required>
-                            <option *ngFor="let product of products" [value]="product.item">{{product.item}}</option>
-                            <div *ngIf="createProjectTodoItem.submitted && product.invalid" class="invalid-feedback">
-                                <div *ngIf=" product.errors.required">Product is required</div>
-                            </div>
-                        </select>
+                        <label>Name</label>
+                        <input class="form-control" type="text" placeholder="Name"
+                               name="name"
+                               [(ngModel)]="product"
+                               #name="ngModel"
+                               [ngClass]="{ 'is-invalid': createProductItem.submitted && name.invalid }"
+                               autocomplete="off"
+                               required>
+                        <div *ngIf="createProductItem.submitted && name.invalid" class="invalid-feedback">
+                            <div *ngIf=" name.errors.required">Product name is required</div>
+                        </div>
                     </div>
 
                     <div class="row">
-                        <div class="form-group row" style="margin-left: 3%; width: 43.5%">
-                            <label>Start date</label>
-                            <input class="form-control" type="date" placeholder="Start date"
-                                   name="startDate"
-                                   [(ngModel)]="startedDate"
-                                   #startDate="ngModel"
-                                   [ngClass]="{ 'is-invalid': createProjectTodoItem.submitted && startDate.invalid }"
-                                   autocomplete="off"
+                        <div class="form-group row" style="margin-left: 3%; width: 44%">
+                            <label>Rate per hour</label>
+                            <input class="form-control" type="number" placeholder="Rate per hour"
+                                   name="ratePerHour"
+                                   [(ngModel)]="ratePerHour"
+                                   #rate="ngModel"
+                                   [ngClass]="{ 'is-invalid': createProductItem.submitted && rate.invalid }"
                                    required>
-                            <div *ngIf="createProjectTodoItem.submitted && startDate.invalid" class="invalid-feedback">
-                                <div *ngIf=" startDate.errors.required">Start date is required</div>
+                            <div *ngIf="createProductItem.submitted && rate.invalid" class="invalid-feedback">
+                                <div *ngIf=" rate.errors.required">Rate per hour is required</div>
                             </div>
                         </div>
 
-                        <div class="form-group row" style="margin-left: 10%; width: 43.5%" >
-                            <label>End date</label>
-                            <input class="form-control" type="date" placeholder="End date"
-                                   name="endDate"
-                                   [(ngModel)]="finishDate"
-                                   #endDate="ngModel"
-                                   [ngClass]="{ 'is-invalid': createProjectTodoItem.submitted && endDate.invalid }"
-                                   autocomplete="off"
+                        <div class="form-group row" style="margin-left: 9%; width: 44%" >
+                            <label>Time study per test</label>
+                            <input class="form-control" type="number" placeholder="Time study per test"
+                                   name="timeStudyPerTest"
+                                   [(ngModel)]="timeStudyPerTest"
+                                   #timeStudy="ngModel"
+                                   [ngClass]="{ 'is-invalid': createProductItem.submitted && timeStudy.invalid }"
                                    required>
-                            <div *ngIf="createProjectTodoItem.submitted && endDate.invalid" class="invalid-feedback">
-                                <div *ngIf=" endDate.errors.required">End date is required</div>
+                            <div *ngIf="createProductItem.submitted && timeStudy.invalid" class="invalid-feedback">
+                                <div *ngIf=" timeStudy.errors.required">Time study per test is required</div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Status</label>
-                        <select  type="text"
-                                 [(ngModel)]="itemStatus"
-                                 name="projectStatus"
-                                 #projectStatus="ngModel"
-                                 [ngClass]="{ 'is-invalid': createProjectTodoItem.submitted && projectStatus.invalid }"
-                                 class="form-control text-left"
-                                 required>
-                            <option *ngFor="let option of statuses" [value]="option">{{option}}</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Assign Employees</label>
-
-                        <div class="form-group">
-                            <table class="table table-striped" >
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Surname</th>
-                                    <th>Employee number</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                <tr *ngFor="let employee of assignedEmployees; let i = index;">
-                                    <td style="border: solid  #fff 1px" class="text-black-50">{{employee.name}}</td>
-                                    <td style="border: solid  #fff 1px" class="text-black-50">{{employee.surname}}</td>
-                                    <td style="border: solid  #fff 1px" class="text-black-50">{{employee.employeeNumber}}</td>
-                                    <td style="width: 10%">
-                                        <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-dark" (click)="deleteItem(i)">
-                                            <i class="pe-7s-trash btn-icon-wrapper"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td colspan="4" style="border: solid  #fff 1px">
-                                        <ng-autocomplete [data]="employees" [searchKeyword]="employeeNumber"
-                                                         (selected)="changeAssignedEmployees($event)"
-                                                         [itemTemplate]="employee"
-                                                         [notFoundTemplate]="notFoundTemplate"
-                                                         name="assignedEmployee"
-                                                         placeHolder="Employee ID">
-                                        </ng-autocomplete>
-
-                                        <ng-template #employee let-item>
-                                            <a [innerHTML]="item.name + ' ' +item.surname"></a>
-                                        </ng-template>
-
-                                        <ng-template #notFoundTemplate let-notFound>
-                                            <div [innerHTML]="notFound"></div>
-                                        </ng-template>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="modal.close()">Cancel</button>
-                        <button type="submit" class="btn btn-info" data-dismiss="Submit" >Continue</button>
-                    </div>
-                </form>-->
-            </div>
-        </div>
-    </ng-template>
-    <!--<ng-template class="modal fade" #updateItem let-modal>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="card-title" id="exampleModalLabel1">Edit Todo Item</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form class="pt-3"  #editProjectTodoItem="ngForm" (ngSubmit)="editProjectTodoItem.form.valid && editTodoItem()">
-                    <div class="form-group" >
-                        <label>Focus Area</label>
-                        <select class="form-control"
-                                [(ngModel)]="item.focusArea"
-                                (ngModelChange)="getProducts(selectedFocusArea)"
-                                name="focusArea"
-                                #focusArea="ngModel"
-                                [ngClass]="{ 'is-invalid': editProjectTodoItem.submitted && focusArea.invalid }"
-                                required>
-                            <option *ngFor="let focusArea of focusAreas" [value]="focusArea.name">{{focusArea.name}}</option>
-
-                            <div *ngIf="editProjectTodoItem.submitted && focusArea.invalid" class="invalid-feedback">
-                                <div *ngIf="focusArea.errors.required">Focus area is required</div>
-                            </div>
-                        </select>
-                    </div>
-                    <div class="form-group" >
-                        <label>Product</label>
-                        <select class="form-control "
-                                [(ngModel)]="item.item"
-                                name="selectedProduct"
-                                #product="ngModel"
-                                [ngClass]="{ 'is-invalid': editProjectTodoItem.submitted && product.invalid }"
-                                required>
-                            <option *ngFor="let product of products" [value]="product.item">{{product.item}}</option>
-                            <div *ngIf="editProjectTodoItem.submitted && product.invalid" class="invalid-feedback">
-                                <div *ngIf=" product.errors.required">Product is required</div>
-                            </div>
-                        </select>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group row" style="margin-left: 3%; width: 43.5%">
-                            <label>Start date</label>
-                            <input class="form-control" type="date" placeholder="Start date"
-                                   name="startDate"
-                                   [(ngModel)]="startedDate"
-                                   #startDate="ngModel"
-                                   [ngClass]="{ 'is-invalid': editProjectTodoItem.submitted && startDate.invalid }"
-                                   autocomplete="off"
-                                   required>
-                            <div *ngIf="editProjectTodoItem.submitted && startDate.invalid" class="invalid-feedback">
-                                <div *ngIf=" startDate.errors.required">Start date is required</div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row" style="margin-left: 10%; width: 43.5%" >
-                            <label>End date</label>
-                            <input class="form-control" type="date" placeholder="End date"
-                                   name="dateEnded"
-                                   [(ngModel)]="finishDate"
-                                   [value]="finishDate"
-                                   #endDate="ngModel"
-                                   [ngClass]="{ 'is-invalid': editProjectTodoItem.submitted && endDate.invalid }"
-                                   autocomplete="off"
-                                   required>
-                            <div *ngIf="editProjectTodoItem.submitted && endDate.invalid" class="invalid-feedback">
-                                <div *ngIf=" endDate.errors.required">End date is required</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Status</label>
-                        <select  type="text"
-                                 [(ngModel)]="item.status"
-                                 name="projectStatus"
-                                 #projectStatus="ngModel"
-                                 [ngClass]="{ 'is-invalid': editProjectTodoItem.submitted && projectStatus.invalid }"
-                                 class="form-control text-left"
-                                 required>
-                            <option *ngFor="let option of statuses" [value]="option">{{option}}</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Assign Employees</label>
-
-                        <div class="form-group">
-                            <table class="table table-striped" >
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Surname</th>
-                                    <th>Employee number</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                <tr *ngFor="let employee of assignedEmployees; let i = index;">
-                                    <td style="border: solid  #fff 1px" class="text-black-50">{{employee.name}}</td>
-                                    <td style="border: solid  #fff 1px" class="text-black-50">{{employee.surname}}</td>
-                                    <td style="border: solid  #fff 1px" class="text-black-50">{{employee.employeeNumber}}</td>
-                                    <td style="width: 10%">
-                                        <button type="button" class="mr-2 btn-icon btn-icon-only btn btn-dark" (click)="deleteItem(i)">
-                                            <i class="pe-7s-trash btn-icon-wrapper"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td colspan="4" style="border: solid  #fff 1px">
-                                        <ng-autocomplete [data]="employees" [searchKeyword]="employeeNumber"
-                                                         (selected)="changeAssignedEmployees($event)"
-                                                         [itemTemplate]="employee"
-                                                         [notFoundTemplate]="notFoundTemplate"
-                                                         name="assignedEmployee"
-                                                         placeHolder="Employee ID">
-                                        </ng-autocomplete>
-
-                                        <ng-template #employee let-item>
-                                            <a [innerHTML]="item.name + ' ' +item.surname"></a>
-                                        </ng-template>
-
-                                        <ng-template #notFoundTemplate let-notFound>
-                                            <div [innerHTML]="notFound"></div>
-                                        </ng-template>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="modal.close()">Cancel</button>
                         <button type="submit" class="btn btn-info" data-dismiss="Submit" >Continue</button>
@@ -366,6 +262,71 @@
             </div>
         </div>
     </ng-template>
+
+    <!--Edit Product-->
+    <ng-template class="modal fade" #EditProduct let-modal>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="card-title" >Edit Todo Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="pt-3" #createProductItem="ngForm" (ngSubmit)="createProductItem.form.valid && editProductItem(item)">
+
+                    <div class="form-group" >
+                        <label>Name</label>
+                        <input class="form-control" type="text" placeholder="Name"
+                               name="name"
+                               [(ngModel)]="item.item"
+                               #name="ngModel"
+                               [ngClass]="{ 'is-invalid': createProductItem.submitted && name.invalid }"
+                               autocomplete="off"
+                               required>
+                        <div *ngIf="createProductItem.submitted && name.invalid" class="invalid-feedback">
+                            <div *ngIf=" name.errors.required">Product name is required</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group row" style="margin-left: 3%; width: 44%">
+                            <label>Rate per hour</label>
+                            <input class="form-control" type="number" placeholder="Rate per hour"
+                                   name="ratePerHour"
+                                   [(ngModel)]="item.ratePerHour"
+                                   #rate="ngModel"
+                                   [ngClass]="{ 'is-invalid': createProductItem.submitted && rate.invalid }"
+                                   required>
+                            <div *ngIf="createProductItem.submitted && rate.invalid" class="invalid-feedback">
+                                <div *ngIf=" rate.errors.required">Rate per hour is required</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" style="margin-left: 9%; width: 44%" >
+                            <label>Time study per test</label>
+                            <input class="form-control" type="number" placeholder="Time study per test"
+                                   name="timeStudyPerTest"
+                                   [(ngModel)]="item.timeStudyPerTest"
+                                   #timeStudy="ngModel"
+                                   [ngClass]="{ 'is-invalid': createProductItem.submitted && timeStudy.invalid }"
+                                   required>
+                            <div *ngIf="createProductItem.submitted && timeStudy.invalid" class="invalid-feedback">
+                                <div *ngIf=" timeStudy.errors.required">Time study per test is required</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="modal.close()">Cancel</button>
+                        <button type="submit" class="btn btn-info" data-dismiss="Submit" >Continue</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-template>
+
+    <!--Delete Product-->
     <ng-template class="modal fade" #deleteProduct let-modal >
         <div class="modal-content" style="background: #FFF; color: #000">
             <div class="modal-header">
@@ -375,14 +336,15 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>This action cannot be reverted. Are you sure you want to continue?</p>
+                <p>This action cannot be reverted. Are you sure you want to delete {{item.item}}?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-dark" data-dismiss="modal"  (click)="modal.close()">Cancel</button>
-                <button type="button" class="btn btn-info" (click)="removeProduct(item)" >Continue</button>
+                <button type="button" class="btn btn-info" (click)="deleteProductItem(item)" >Continue</button>
             </div>
         </div>
-    </ng-template>-->
+    </ng-template>
+
 
     <div *ngIf="isLoading" class="overlay">
         <div class="spinner">

@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {AllProductsResponseModel, FocusAreaModel, ProductsService, QuartersService} from "../../services";
+import {
+  AllProductsResponseModel,
+  FocusAreaModel,
+  ProductRequestModel,
+  ProductsService,
+  QuartersService
+} from "../../services";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
@@ -19,10 +25,15 @@ export class ManageProductsComponent implements OnInit {
 
   private config: any;
   private filter : string;
-  private product: AllProductsResponseModel;
-  private selectedFocusArea: string = "None";
-  private focusArea: FocusAreaModel;
+  private item: any;
+  private selectedFocusArea: string = "Empty";
+  private focusAreaId: number;
+  private newFocusArea: string;
   private products: Array<AllProductsResponseModel> = [];
+  private product: string;
+  private ratePerHour: number;
+  private timeStudyPerTest: number;
+  private newProduct: ProductRequestModel = {};
   private focusAreas: Array<FocusAreaModel> = [];
 
   constructor(private quartersService: QuartersService,
@@ -30,7 +41,6 @@ export class ManageProductsComponent implements OnInit {
               private router: Router,
               private toastr: ToastrService,
               private modalService: NgbModal) {
-
   }
 
   ngOnInit() {
@@ -61,10 +71,11 @@ export class ManageProductsComponent implements OnInit {
 
   getProducts(focusArea: any){
     this.isLoading = true;
-    this.selectedFocusArea = focusArea
+    this.selectedFocusArea = focusArea.name;
+    this.focusAreaId = focusArea.id
     this.products = [];
 
-    this.productsService.apiProductsProductsFocusAreaGet(focusArea).subscribe (
+    this.productsService.apiProductsProductsFocusAreaGet(focusArea.name).subscribe (
         (data: any ) => {
           this.products = data
         },
@@ -78,8 +89,135 @@ export class ManageProductsComponent implements OnInit {
     )
   }
 
+  addFocusArea(focusArea: string){
+    this.isLoading = true;
+
+    this.productsService.apiProductsProductsFocusAreaNamePost(focusArea).subscribe (
+        () => {
+        },
+        error => {
+          console.log(error);
+          this.showError();
+        },
+        () => {
+          this.modalService.dismissAll();
+          this.getFocusArea();
+        }
+    )
+  }
+
+  editFocusAreaItem(focusArea: FocusAreaModel){
+    this.isLoading = true;
+
+    this.productsService.apiProductsFocusAreaPut(focusArea).subscribe (
+        () => {
+        },
+        error => {
+          console.log(error);
+          this.showError();
+        },
+        () => {
+          this.modalService.dismissAll();
+          this.getFocusArea();
+        }
+    )
+  }
+
+  deleteFocusAreaItem(focusArea: string){
+    this.isLoading = true;
+
+    this.productsService.apiProductsProductsFocusAreaDelete(focusArea).subscribe (
+        () => {
+        },
+        error => {
+          console.log(error);
+          this.showError();
+        },
+        () => {
+          this.modalService.dismissAll();
+          this.getFocusArea();
+        }
+    )
+  }
+
+  addProductItem(){
+    this.isLoading = true;
+
+    this.newProduct.id = 0;
+    this.newProduct.name = this.product;
+    this.newProduct.focusArea = this.focusAreaId;
+    this.newProduct.ratePerHour = this.ratePerHour;
+    this.newProduct.timeStudyPerTest = this.timeStudyPerTest;
+
+    const focusArea = {
+      'name': this.selectedFocusArea,
+      'id': this.focusAreaId
+    }
+
+    this.productsService.apiProductsProductsPost(this.newProduct).subscribe (
+        () => {
+        },
+        error => {
+          this.showError();
+          console.log(error);
+        },
+        () => {
+          this.getProducts(focusArea);
+          this.modalService.dismissAll();
+        }
+    )
+  }
+
+  editProductItem(value : any){
+    this.isLoading = true;
+    const product: ProductRequestModel = {};
+
+    product.name = value.item;
+    product.id = value.productId;
+    product.focusArea = value.focusAreaId;
+    product.ratePerHour = value.ratePerHour;
+    product.timeStudyPerTest = value.timeStudyPerTest;
+
+
+    this.productsService.apiProductsProductsPut(product).subscribe (
+        () => {
+        },
+        error => {
+          console.log(error);
+          this.showError();
+        },
+        () => {
+          this.modalService.dismissAll();
+          this.getFocusArea();
+        }
+    )
+  }
+
+  deleteProductItem(value: any){
+    this.isLoading = true;
+
+    const focusArea = {
+      'name': this.selectedFocusArea,
+      'id': this.focusAreaId
+    }
+
+
+    this.productsService.apiProductsProductsProductIDDelete(value.productId).subscribe (
+        () => {
+        },
+        error => {
+          console.log(error);
+          this.showError();
+        },
+        () => {
+          this.modalService.dismissAll();
+          this.getProducts(focusArea);
+        }
+    )
+  }
+
   openModal(value: any, data: any) {
-    this.product = data;
+    this.item = data;
     this.modalService.open( value);
   }
 

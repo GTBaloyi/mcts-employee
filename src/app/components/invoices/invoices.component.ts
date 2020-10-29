@@ -20,10 +20,10 @@ export class InvoicesComponent implements OnInit {
 
 
   isLoading = true;
-  private invoices: Array<InvoiceRequestModel> = [];
-  private employeeInformation : EmployeeRequestModel = <EmployeeRequestModel> {};
-  private filter : string;
-  private config: any;
+   invoices: Array<InvoiceRequestModel> = [];
+   employeeInformation : EmployeeRequestModel = <EmployeeRequestModel> {};
+   filter : string;
+   config: any;
 
   constructor( private router: Router,private toastr: ToastrService, private invoiceService: InvoiceService) {
     sessionStorage.removeItem('viewInvoice');

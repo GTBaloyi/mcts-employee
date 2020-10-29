@@ -22,6 +22,7 @@ import {QuarterSettingsComponent} from "./components/quarter-settings/quarter-se
 import {ManageProductsComponent} from "./components/manage-products/manage-products.component";
 import {MyAccountComponent} from "./components/my-account/my-account.component";
 import {UpdatePasswordComponent} from "./components/update-password/update-password.component";
+import {TargetSettingsComponent} from "./components/target-settings/target-settings.component";
 
 const routes: Routes = [
     {
@@ -51,15 +52,13 @@ const routes: Routes = [
             {path: 'products', component: ManageProductsComponent},
             {path: 'account', component: MyAccountComponent},
             {path: 'updatePassword', component: UpdatePasswordComponent},
+            {path: 'targets', component: TargetSettingsComponent},
             {path: 'messages', component: MessagesComponent, data: {extraParameter: 'Messages'}},
 
         ],
         canActivate: [AuthGuard]
-    }
-    ,{
-        path: 'landing-page',
-        component: LandingPageComponent
-    }
+    },
+    {path: 'landing-page', component: LandingPageComponent}
 ];
 
 @NgModule({

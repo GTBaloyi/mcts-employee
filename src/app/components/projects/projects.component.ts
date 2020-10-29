@@ -1,18 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Subject} from "rxjs";
-import {
-    ClientRegistrationRequestModel,
-    ClientsService, EmployeeRequestModel,
-    EmployeeResponseModel,
-    EmployeesService,
-    InvoiceRequestModel,
-    InvoiceService, ProjectExpenditureRequestModel, ProjectExpenditureResponseModel, ProjectExpenditureService,
-    ProjectInformationRequestModel,
-    ProjectInformationResponseModel,
-    ProjectProgressRequestModel,
-    ProjectProgressService,
-    ProjectsService
-} from "../../services";
+import {ClientRegistrationRequestModel, ClientsService, EmployeeRequestModel, EmployeeResponseModel, EmployeesService, InvoiceRequestModel, InvoiceService, ProjectInformationRequestModel, ProjectProgressRequestModel, ProjectProgressResponseModel, ProjectProgressService, ProjectsService, ProjectSummaryModel} from "../../services";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
@@ -44,9 +31,10 @@ export class ProjectsComponent implements OnInit {
     subheading = 'View and manage projects';
     icon = 'pe-7s-hammer icon-gradient bg-tempting-azure';
 
-    private projects: Array<ProjectInformationResponseModel> = [];
+    private projects: Array<ProjectSummaryModel> = [];
     private projectProgress: ProjectProgressRequestModel = {};
-    newProject: ProjectInformationRequestModel= {};
+    private progressResponseModel: ProjectProgressResponseModel = {};
+    newProject: any = {};
     createProject: ProjectInformationRequestModel= {};
     project: ProjectModel= {};
     private statuses: Array<string> = ['Not Started', 'Ongoing', 'Completed', "Paused"];
@@ -61,6 +49,7 @@ export class ProjectsComponent implements OnInit {
     private invoiceID : string;
     reference = 'reference';
     employeeNumber = 'employeeNumber';
+    employeeNum = '';
 
 
     constructor(private projectsService: ProjectsService,
@@ -96,12 +85,11 @@ export class ProjectsComponent implements OnInit {
         return value+'%';
     }
 
-
     getProjects(){
         this.isLoading = true;
 
         if(this.userInformation.position === 'Manager'){
-            this.projectsService.apiProjectsAllProjectsGet().subscribe (
+            this.projectsService.apiProjectsSummaryGet().subscribe (
                 (data: any) => {
                     this.projects = data
                 },
@@ -119,7 +107,7 @@ export class ProjectsComponent implements OnInit {
             );
 
         } else {
-            this.projectsService.apiProjectsByEmployeeEmployeeIdGet(this.username).subscribe (
+            this.projectsService.apiProjectsSummaryProjectLeaderIdGet(this.username).subscribe (
                 (data: any) => {
                     this.projects = data
                 },
@@ -250,64 +238,98 @@ export class ProjectsComponent implements OnInit {
         );
     }
 
-    projectDetails(project : ProjectInformationRequestModel){
+    projectDetails(project){
         sessionStorage.setItem('projectDetails', JSON.stringify(project));
         this.router.navigateByUrl('/project-details');
     }
 
-    startProject(projectProgress){
-        projectProgress.projectStatus = "Ongoing";
+    updateProject(project){
         this.isLoading = true;
+        this.modalService.dismissAll();
+        if(this.project.projectLeaderId != undefined) {
+            project.employeeNumber = this.project.projectLeaderId;
+        } else {
+            project.employeeNumber = this.employeeNum;
+        }
 
+        const projectValue = {
+            "id": project.id,
+            "projectNumber": project.projectNumber,
+            "projectName": project.projectName,
+            "isSequential": false,
+            "projectDescription": project.projectDescription,
+            "invoiceReferenceNumber": project.invoiceReference,
+            "companyRegistrationNumber": project.companyRegistrationNumber,
+            "projectSatisfaction": 0,
+            "createdOn": project.createdOn,
+            "projectLeaderId": project.employeeNumber
+        }
 
-        this.projectsProgressService.apiProjectProgressUpdatePut(projectProgress).subscribe (
-            (data: any) => {
+        this.projectsService.apiProjectsUpdateProjectPut(projectValue).subscribe (
+            () => {
             },
             error => {
                 if(error.status == 200) {
-                    this.isLoading = false;
-                    this.getProjects();
-                    this.showSuccess();
-
+                    this.updateProgress(project.projectNumber, project.projectStatus);
                 }else{
+                    this.isLoading = false;
                     console.log(error);
                     this.showError();
                 }
             },
             () => {
-                this.isLoading = false;
-
-                this.getProjects();
-                this.showSuccess();
+                this.updateProgress(project.projectNumber, project.projectStatus);
             }
         );
-
     }
 
-    pauseProject(projectProgress){
-        this.isLoading = true;
+    updateProgress(projectNumber, status){
 
-        projectProgress.projectStatus = "Paused";
-
-        this.projectsProgressService.apiProjectProgressUpdatePut(projectProgress).subscribe (
-            (data: any) => {
+        this.projectsProgressService.apiProjectProgressByProjectNumberProjectNumberGet(projectNumber).subscribe (
+            (data ) => {
+                this.progressResponseModel = data
             },
             error => {
-                if(error.status == 200) {
-                    this.isLoading = false;
-
-                    this.getProjects();
-                    this.showSuccess();
-
-                }else{
-                    console.log(error);
-                    this.showError();
-                }
+                this.isLoading = false;
+                console.log(error);
+                this.showError();
             },
             () => {
-                this.isLoading = false;
-                this.getProjects();
-                this.showSuccess();
+
+                let date = moment().format("yyyy-MM-DD");
+
+                this.projectProgress = {
+                    "projectNumber": projectNumber,
+                    "targetStartDate": this.progressResponseModel.targetStartDate,
+                    "targetEndDate": this.progressResponseModel.targetEndDate,
+                    "actualStartDate": this.progressResponseModel.actualStartDate,
+                    "actualEndDate": date,
+                    "projectStatus": status,
+                    "progressUpdatePercentage": this.progressResponseModel.progressUpdatePercentage,
+                    "startedQuarter": this.progressResponseModel.startedQuarter,
+                    "currentQuarter": this.progressResponseModel.currentQuarter,
+                    "endingQuarter": this.progressResponseModel.endingQuarter
+                }
+
+                this.projectsProgressService.apiProjectProgressUpdatePut(this.projectProgress).subscribe (
+                    () => {
+                    },
+                    error => {
+                        if(error.status == 200) {
+                            this.getProjects();
+                            this.showSuccess();
+
+                        }else{
+                            this.isLoading = false;
+                            console.log(error);
+                            this.showError();
+                        }
+                    },
+                    () => {
+                        this.getProjects();
+                        this.showSuccess();
+                    }
+                );
             }
         );
     }
@@ -317,7 +339,7 @@ export class ProjectsComponent implements OnInit {
         this.modalService.dismissAll();
 
         this.projectsService.apiProjectsProjectNumberDelete(project.projectNumber).subscribe (
-            (data: any) => {
+            () => {
             },
             error => {
                 if(error.status == 200) {
@@ -379,9 +401,6 @@ export class ProjectsComponent implements OnInit {
     }
 
     changeInvoiceReferenceNumber(value) {
-        console.log('view value: ', value.reference);
-        console.log('view value: ', value);
-
         this.project.invoiceReferenceNumber = value.reference;
         this.project.companyRegistrationNumber = value.company_registration;
 
@@ -392,7 +411,10 @@ export class ProjectsComponent implements OnInit {
     }
 
     openModal(value: any, data: any) {
+        console.log(data);
+
         this.newProject = data;
+        this.employeeNum = data.employeeNumber;
         this.modalService.open( value);
     }
 

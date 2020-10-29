@@ -17,8 +17,12 @@ export interface ProjectSummaryModel {
     projectName?: string | null;
     projectDescription?: string | null;
     companyRegistrationNumber?: string | null;
+    invoiceReference?: string | null;
     projectStatus?: string | null;
     projectProgress?: number;
+    employeeNumber?: string | null;
+    name?: string | null;
+    surname?: string | null;
     createdOn?: string;
 }
 

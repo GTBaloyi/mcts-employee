@@ -18,8 +18,8 @@ export class MessagesComponent implements OnInit {
   icon = '';
   sendTo: string = '';
   user: string;
-  private employeeInformation : EmployeeRequestModel;
-  private sendToArray: Array<Users> = [];
+   employeeInformation : EmployeeRequestModel;
+   sendToArray: Array<Users> = [];
   name = 'name';
 
 
@@ -36,7 +36,7 @@ export class MessagesComponent implements OnInit {
     this.getUsers();
   }
 
-  private newMessageEventHandler(event: Message): void {
+   newMessageEventHandler(event: Message): void {
     this.messages.push(event);
   }
 

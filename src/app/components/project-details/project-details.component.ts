@@ -9,8 +9,10 @@ import {
     ProjectExpenditureResponseModel,
     ProjectExpenditureService,
     ProjectInformationRequestModel,
-    ProjectInformationResponseModel,
+    ProjectProgressResponseModel,
+    ProjectProgressService,
     ProjectsService,
+    ProjectSummaryModel,
     ProjectTodoResponseModel,
     ProjectTodosRequestModel,
     ProjectTodosService,
@@ -18,9 +20,9 @@ import {
 } from "../../services";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
-import {Subject} from "rxjs";
-import {NgbDate, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import moment = require('moment');
+import {THIS_EXPR} from "@angular/compiler/src/output/output_ast";
 
 
 @Component({
@@ -34,28 +36,28 @@ export class ProjectDetailsComponent implements OnInit {
     subheading = 'View and manage projects';
     icon = 'pe-7s-hammer icon-gradient bg-tempting-azure';
 
-    private actualCost: number;
-    private targetCost: number;
-    private config: any;
-    private itemStatus: string;
-    private finishDate: Date;
-    private startedDate: Date;
-    private selectedProduct: string;
+     actualCost: number;
+     targetCost: number;
+     config: any;
+     itemStatus: string;
+     finishDate: Date;
+     startedDate: Date;
+     selectedProduct: string;
     employeeNumber = 'employeeNumber';
-    private selectedFocusArea: string;
-    private products: Array<any> = [];
-    isLoading = new Subject<boolean>();
-    private focusAreas: Array<any> = [];
-    private projectExpenditure: ProjectExpenditureResponseModel = {};
-    private employeeInformation: EmployeeRequestModel;
-    private employees: Array<EmployeeResponseModel> = [];
-    private ProjectTodoItems: ProjectTodosRequestModel[] = [];
-    private assignedEmployees: Array<ResponsibleEmployees> = [];
-    private invoice: InvoiceResponseModel = <InvoiceResponseModel>'';
-    private addProjectTodoItem: ProjectTodosRequestModel = {};
-    private item: ProjectTodoResponseModel = {};
-    private project: ProjectInformationResponseModel = <ProjectInformationResponseModel>'';
-    private statuses: Array<string> = ['Not Started', 'Ongoing', 'Completed', 'Paused'];
+     selectedFocusArea: string;
+     products: Array<any> = [];
+    isLoading = false;
+     focusAreas: Array<any> = [];
+     projectExpenditure: ProjectExpenditureResponseModel = {};
+     employees: Array<EmployeeResponseModel> = [];
+     ProjectTodoItems: ProjectTodosRequestModel[] = [];
+     assignedEmployees: Array<ResponsibleEmployees> = [];
+     invoice: InvoiceResponseModel = <InvoiceResponseModel>'';
+     addProjectTodoItem: ProjectTodosRequestModel = {};
+     item: ProjectTodoResponseModel = {};
+     project: any = {};
+     projectProgress: ProjectProgressResponseModel = <ProjectProgressResponseModel>'';
+     statuses: Array<string> = ['Not Started', 'Ongoing', 'Completed', 'Paused'];
 
 
     constructor(private router: Router,
@@ -66,29 +68,25 @@ export class ProjectDetailsComponent implements OnInit {
                 private employeesService: EmployeesService,
                 private productsService: ProductsService,
                 private projectExpenditureService: ProjectExpenditureService,
+                private projectProgressService: ProjectProgressService,
                 private modalService: NgbModal) {
         this.project = JSON.parse(sessionStorage.getItem("projectDetails"));
     }
 
     ngOnInit() {
-        this.getInvoices();
+        this.isLoading = true;
         this.getFocusArea();
         this.getEmployees();
         this.getTodoItems();
-        this.getEmployeeInfo();
         this.itemStatus = 'Not Started'
         this.selectedFocusArea = 'Physical Metallurgy';
         this.selectedProduct = 'Non Testing Act (Phys)';
 
         this.getProducts(this.selectedFocusArea)
-        this.getProject();
         this.getProjectExpenditure();
+        this.getProjectProgress();
+        this.getInvoice();
 
-            this.config = {
-            itemsPerPage: 4,
-            currentPage: 1,
-            totalItems: this.ProjectTodoItems.length
-        };
     }
 
     getProjectExpenditure(){
@@ -106,27 +104,25 @@ export class ProjectDetailsComponent implements OnInit {
         );
     }
 
-    getProject() {
-        this.projectService.apiProjectsByProjectNumberProjectNumberGet(this.project.projectNumber).subscribe(
+    getProjectProgress(){
+        this.projectProgressService.apiProjectProgressByProjectNumberProjectNumberGet(this.project.projectNumber).subscribe(
             (data: any) => {
-                this.project = data
-                sessionStorage.setItem('projectDetails', JSON.stringify(this.project));
-
+                this.projectProgress = data;
             },
             error => {
                 console.log(error);
+                this.showError();
+            },
+            () => {
+                this.showSuccess();
             }
-        )
+        );
     }
 
     get sortData(): Array<ProjectInformationRequestModel> {
         return this.ProjectTodoItems.sort((unsorted, sorted) => {
             return <any>new Date(sorted.dateStarted) - <any>new Date(unsorted.dateStarted);
         });
-    }
-
-    pageChanged(event) {
-        this.config.currentPage = event;
     }
 
     getProducts(focusArea: any) {
@@ -168,19 +164,8 @@ export class ProjectDetailsComponent implements OnInit {
         );
     }
 
-    getEmployeeInfo() {
-        this.employeesService.apiEmployeesEmployeeNumberGet(this.project.projectLeaderId).subscribe(
-            (data: any) => {
-                this.employeeInformation = data;
-            },
-            error => {
-                console.log(error);
-            }
-        );
-    }
-
-    getInvoices() {
-        this.invoiceService.apiInvoiceInvoiceByReferenceInvoiceReferenceGet(this.project.invoiceReferenceNumber).subscribe(
+    getInvoice() {
+        this.invoiceService.apiInvoiceInvoiceByReferenceInvoiceReferenceGet(this.project.invoiceReference).subscribe(
             (data: any) => {
                 this.invoice = data;
             },
@@ -191,7 +176,7 @@ export class ProjectDetailsComponent implements OnInit {
     }
 
     addTodoItem() {
-        this.isLoading.next(true);
+        this.isLoading =true;
 
         var employees: Array<string> = [];
         for (var i = 0; i < this.assignedEmployees.length; i++) {
@@ -216,13 +201,12 @@ export class ProjectDetailsComponent implements OnInit {
             },
             error => {
                 if (error.status == 200) {
-                    this.isLoading.next(false);
                     this.modalService.dismissAll();
                     this.getTodoItems();
+                    this.getProjectProgress();
                     this.showSuccess();
 
                 } else {
-                    this.isLoading.next(false);
                     console.log(error);
                     this.showError();
                 }
@@ -233,7 +217,7 @@ export class ProjectDetailsComponent implements OnInit {
     }
 
     removeProduct(item){
-        this.isLoading.next(true);
+        this.isLoading = true;
         this.modalService.dismissAll();
 
         var employees: Array<string> = [];
@@ -250,7 +234,6 @@ export class ProjectDetailsComponent implements OnInit {
             },
             error => {
                 if(error.status == 200) {
-                    this.isLoading.next(false);
                     this.getTodoItems();
                     this.showSuccess();
                 }else{
@@ -259,7 +242,6 @@ export class ProjectDetailsComponent implements OnInit {
                 }
             },
             () => {
-                this.isLoading.next(false);
                 this.getTodoItems();
                 this.showSuccess();
             }
@@ -267,7 +249,7 @@ export class ProjectDetailsComponent implements OnInit {
     }
 
     editTodoItem() {
-        this.isLoading.next(true);
+        this.isLoading = true;
 
         var employees: Array<string> = []
         for (var i = 0; i < this.assignedEmployees.length; i++) {
@@ -292,14 +274,13 @@ export class ProjectDetailsComponent implements OnInit {
             (data: any) => {
             },
             error => {
-                this.isLoading.next(false);
                 console.log(error);
                 this.showError();
             },
             () => {
-                this.isLoading.next(false);
                 this.modalService.dismissAll();
                 this.getTodoItems();
+                this.getProjectProgress();
                 this.showSuccess();
             }
         );
@@ -310,7 +291,7 @@ export class ProjectDetailsComponent implements OnInit {
     }
 
     getTodoItems() {
-        this.isLoading.next(true);
+        this.isLoading = true;
 
         this.projectTodosService.apiProjectTodosProjectNumberProjectNumberGet(this.project.projectNumber).subscribe(
             (data: any) => {
@@ -318,12 +299,10 @@ export class ProjectDetailsComponent implements OnInit {
             },
             error => {
                 console.log(error);
-                this.isLoading.next(false);
                 this.showError();
             },
             () => {
                 this.sortData
-                this.isLoading.next(false);
             }
         );
     }
@@ -377,11 +356,13 @@ export class ProjectDetailsComponent implements OnInit {
         this.toastr.success('Process successfully completed', 'Success', {
             timeOut: 3000,
         });
+        this.isLoading = false;
     }
 
     showError() {
         this.toastr.error('Ops, an error occurred. Please try again.', 'Error!!!', {
             timeOut: 3000,
         });
+        this.isLoading = false;
     }
 }

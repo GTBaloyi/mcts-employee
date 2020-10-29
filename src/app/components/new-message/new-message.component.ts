@@ -10,7 +10,7 @@ import {EmployeeRequestModel} from "../../services";
 export class NewMessageComponent {
   user: string;
   message: string;
-  private employeeInformation : EmployeeRequestModel;
+  employeeInformation : EmployeeRequestModel;
 
 
   constructor(private messageService: MessageService) {

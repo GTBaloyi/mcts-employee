@@ -1,19 +1,176 @@
 <app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
 
-<!--
-<div class="page-header">
-    <h3 class="page-title">
-    <span class="page-title-icon bg-gradient-primary text-white mr-2">
-      <i class="mdi mdi-currency-usd"></i>
-    </span>
-        Reports
-    </h3>
+<app-mcts-kip-report></app-mcts-kip-report>
+
+<div class="d-flex" id="wrapper">
+
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading"></div>
+        <div class="list-group list-group-flush" >
+            <div class="ist-group-item list-group-item-action dropright btn-group" ngbDropdown placement="right-top">
+                <button  class="list-group-item list-group-item-action bg-light" ngbDropdownToggle>MCTS Overall KPI</button>
+                <div ngbDropdownMenu>
+                    <button class="dropdown-item" (click)="overallKPI('MCTS Overall', 'Projects Delivered in time')">Projects Delivered in time</button>
+                    <button class="dropdown-item" (click)="overallKPI('MCTS Overall', 'Percentage Customer Satisfaction')">Percentage Customer Satisfaction</button>
+                    <button class="dropdown-item" (click)="overallKPI('MCTS Overall', 'Focus Areas')">Focus Areas</button>
+                </div>
+            </div>
+
+            <div class="ist-group-item list-group-item-action dropright btn-group" ngbDropdown placement="right-top">
+                <button  class="list-group-item list-group-item-action bg-light" ngbDropdownToggle>Moulding Technology KPI </button>
+                <div ngbDropdownMenu>
+                    <button class="dropdown-item" (click)="mouldingTechnologyKPI('Moulding Technology', 'Projects Delivered in time')">Projects Delivered in time</button>
+                    <button class="dropdown-item" (click)="mouldingTechnologyKPI('Moulding Technology', 'Percentage Customer Satisfaction')">Percentage Customer Satisfaction</button>
+                </div>
+            </div>
+
+            <div class="ist-group-item list-group-item-action dropright btn-group" ngbDropdown placement="right-top">
+                <button  class="list-group-item list-group-item-action bg-light" ngbDropdownToggle>Foundry Technology KPI </button>
+                <div ngbDropdownMenu>
+                    <button class="dropdown-item" (click)="foundryTechnologyKPI('Foundry Technology', 'Projects Delivered in time')">Projects Delivered in time</button>
+                    <button class="dropdown-item" (click)="foundryTechnologyKPI('Foundry Technology', 'Percentage Customer Satisfaction')">Percentage Customer Satisfaction</button>
+                </div>
+            </div>
+
+            <div class="ist-group-item list-group-item-action dropright btn-group" ngbDropdown placement="right-top">
+                <button  class="list-group-item list-group-item-action bg-light" ngbDropdownToggle>Physical Metallurgy KPI </button>
+                <div ngbDropdownMenu>
+                    <button class="dropdown-item" (click)="physicalMetallurgyKPI('Physical Technology', 'Projects Delivered in time')">Projects Delivered in time</button>
+                    <button class="dropdown-item" (click)="physicalMetallurgyKPI('Physical Technology', 'Percentage Customer Satisfaction')">Percentage Customer Satisfaction</button>
+                </div>
+            </div>
+            <div class="ist-group-item list-group-item-action dropright btn-group" ngbDropdown placement="right-top">
+                <button  class="list-group-item list-group-item-action bg-light" ngbDropdownToggle>General Reports</button>
+                <div ngbDropdownMenu>
+                    <button class="dropdown-item" (click)="generalReports('General', 'Quotations Report' )">Quotations Report</button>
+                    <button class="dropdown-item" (click)="generalReports('General', 'Projects Report')">Projects Report</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-outline-primary" (click)="convertToPDF()" [disabled]="selectedTitle == ''" value="Convert">
+                            <i class="pe-7s-cloud-download btn-icon-wrapper"></i>
+                            Download
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container-fluid" id="pdfTable" [hidden]="selectedTitle == ''" >
+            <h2 class="mt-5 mb-3">{{category}} {{selectedTitle}}</h2>
+
+            <div class="col-md-12">
+                <div class="card main-card mb-3">
+                    <div class="card-body">
+                        <div class="d-block">
+                            <canvas id="myChart" width="80" height="40"></canvas>
+                        </div>
+
+                        <div [hidden]="category == 'General'">
+                            <div class="table-responsive" *ngIf="focusAreaFinalTable.length == 0">
+
+                                <div class="form-group">
+                                    <input style=" border-top: none; width: 95%; margin: 2%" type="text" class="form-control" placeholder="filter" [(ngModel)]="filter">
+                                </div>
+
+                                <table class="align-middle mb-0 table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center" style="border: #fcf8e3 solid 1px;"></th>
+                                        <th class="text-center text-white" colspan="8" style="border: #fcf8e3 solid 1px; background-color: #727070">Quarters</th>
+                                        <th class="text-center" style="border:#fcf8e3 solid 1px;"></th>
+                                        <th class="text-center" style="border:#fcf8e3 solid 1px;"></th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">Title</th>
+                                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q1 Target</th>
+                                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q1 Actual Value</th>
+                                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q2 Target</th>
+                                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q2 Actual Value</th>
+                                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q3 Target</th>
+                                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q3 Actual Value</th>
+                                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q4 Target</th>
+                                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q4 Actual Value</th>
+                                        <th class="text-center" style="border:#fcf8e3 solid 1px;">Overall Target</th>
+                                        <th class="text-center" style="border:#fcf8e3 solid 1px;">Actual Overall Target</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody *ngIf="reportData.length != 0">
+
+                                    <tr *ngFor="let target of reportData | paginate: config | filter: filter ;">
+                                        <td class="text-center" style="width: 50%">{{target.title}}</td>
+                                        <td class="text-center" style="width: 10%">{{target.firstQuarterTarget | number:'1.0-0'}}</td>
+                                        <td class="text-center" style="width: 10%">{{target.firstQuarterActual | number:'1.0-0'}}</td>
+                                        <td class="text-center" style="width: 10%">{{target.secondQuarterTarget | number:'1.0-0'}}</td>
+                                        <td class="text-center" style="width: 10%">{{target.secondQuarterActual | number:'1.0-0'}}</td>
+                                        <td class="text-center" style="width: 10%">{{target.thirdQuarterTarget | number:'1.0-0'}}</td>
+                                        <td class="text-center" style="width: 10%">{{target.thirdQuarterActual | number:'1.0-0'}}</td>
+                                        <td class="text-center" style="width: 10%">{{target.fourthQuarterTarget | number:'1.0-0'}}</td>
+                                        <td class="text-center" style="width: 10%">{{target.fourthQuarterActual | number:'1.0-0'}}</td>
+                                        <td class="text-center" style="width: 10%">{{target.overallTarget}}</td>
+                                        <td class="text-center" style="width: 10%">{{target.actualOverallTarget}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="table-responsive" *ngIf="focusAreaFinalTable.length != 0">
+
+                                <div class="form-group">
+                                    <input style=" border-top: none; width: 95%; margin: 2%" type="text" class="form-control" placeholder="filter" [(ngModel)]="filter">
+                                </div>
+
+                                <table class="align-middle mb-0 table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">Quarter</th>
+                                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Moulding Tech Projects</th>
+                                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Physical Tech Projects</th>
+                                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Foundry Tech Projects</th>
+                                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Support Tech Projects</th>
+                                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Other Tech Projects</th>
+                                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Total</th>
+                                    </thead>
+                                    <tbody *ngIf="reportData.length != 0">
+
+                                    <tr *ngFor="let target of reportData | paginate: config | filter: filter ;">
+                                        <td class="text-center" style="width: 10%">{{target.quarter}}</td>
+                                        <td class="text-center" style="width: 15%">{{target.mouldingTechProjects | number:'1.0-0'}}</td>
+                                        <td class="text-center" style="width: 15%">{{target.physicalMetallurgyProjects | number:'1.0-0'}}</td>
+                                        <td class="text-center" style="width: 15%">{{target.foundryTechProjects | number:'1.0-0'}}</td>
+                                        <td class="text-center" style="width: 15%">{{target.supportTechProjects | number:'1.0-0'}}</td>
+                                        <td class="text-center" style="width: 15%">{{target.otherProjects | number:'1.0-0'}}</td>
+                                        <td class="text-center" style="width: 15%">{{target.total | number:'1.0-0'}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="text" *ngIf="reportData.length == 0">
+                                No Records Found!
+                            </div>
+                            <pagination-controls (pageChange)="pageChanged($event)" style="margin-top: 5%"></pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text" style="font-weight: bold; font-size: xx-large; margin-top: 15%" [hidden]="selectedTitle != ''">
+            Please select a report from the sidebar menu.
+        </div>
+    </div>
 </div>
 
-
-
-<div *ngIf="isLoading | async" class="overlay">
+<div *ngIf="isLoading" class="overlay">
     <div class="spinner">
         <img class="loader" src="../../../assets/wheel.gif">
     </div>
-</div>-->
+</div>

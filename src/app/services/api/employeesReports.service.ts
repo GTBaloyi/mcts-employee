@@ -30,7 +30,7 @@ import { Configuration }                                     from '../configurat
 })
 export class EmployeesReportsService {
 
-    protected basePath = 'https://localhost:5001';
+    protected basePath = 'https://mcts-backend.azurewebsites.net';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;

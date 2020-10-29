@@ -26,13 +26,13 @@ export class EmployeesComponent implements OnInit {
   icon = 'pe-7s-id icon-gradient bg-tempting-azure';
 
   isLoading = true;
-  private employees: Array<EmployeeResponseModel> = [];
-  private positions: Array<EmployeesPositionEntity> = [];
-  private employeeUpdate: EmployeeResponseModel = {};
-  private AddEmployee: EmployeeResponseModel = {};
-  private employeeInformation : EmployeeRequestModel;
-  private filter : string;
-  private config: any;
+  employees: Array<EmployeeResponseModel> = [];
+  positions: Array<EmployeesPositionEntity> = [];
+  employeeUpdate: EmployeeResponseModel = {};
+  AddEmployee: EmployeeResponseModel = {};
+  employeeInformation : EmployeeRequestModel;
+  filter : string;
+  config: any;
 
   constructor(private router: Router,
               private toastr: ToastrService,

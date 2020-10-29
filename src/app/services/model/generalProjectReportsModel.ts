@@ -11,12 +11,10 @@
  */
 
 
-export interface ClientInvoiceSummary { 
-    paidInvoices?: number;
-    paidInvoiceAmount?: number;
-    unpaidInvoices?: number;
-    unpaidInvoiceAmount?: number;
-    overdueInvoices?: number;
-    overdueInvoiceAmount?: number;
+export interface GeneralProjectReportsModel { 
+    ongoingProjects?: number;
+    completedProjects?: number;
+    notStartedProjects?: number;
+    pausedProjects?: number;
 }
 

@@ -183,60 +183,51 @@
     <div style="display: flex">
         <div class="col-lg-6">
             <div class="table-responsive ">
-                <table class="align-middle text-truncate mb-0 table table-borderless table-hover">
+                <table class="align-middle mb-0 table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th class="text-center">Focus Area</th>
-                        <th class="text-center">Q1</th>
-                        <th class="text-center">Q2</th>
-                        <th class="text-center">Q3</th>
-                        <th class="text-center">Q3</th>
-                        <th class="text-center">Value Added/ Day</th>
+                        <th class="text-center" style="border: #fcf8e3 solid 1px;"></th>
+                        <th class="text-center text-white" colspan="8" style="border: #fcf8e3 solid 1px; background-color: #727070">Quarters</th>
+                        <th class="text-center" style="border:#fcf8e3 solid 1px;"></th>
+                        <th class="text-center" style="border:#fcf8e3 solid 1px;"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Title</th>
+                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q1 Target</th>
+                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q1 Actual Value</th>
+                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q2 Target</th>
+                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q2 Actual Value</th>
+                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q3 Target</th>
+                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q3 Actual Value</th>
+                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q4 Target</th>
+                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q4 Actual Value</th>
+                        <th class="text-center" style="border:#fcf8e3 solid 1px;">Overall Target</th>
+                        <th class="text-center" style="border:#fcf8e3 solid 1px;">Actual Overall Target</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td>Physical Metallurgy</td>
-                        <td>R 1512.45</td>
-                        <td>R 2084.99</td>
-                        <td>R 120.55</td>
-                        <td>R 0.00</td>
-                        <td>R 974.09</td>
-                    </tr>
-                    <tr>
-                        <td>Moulding Tech</td>
-                        <td>R 926.63</td>
-                        <td>R 637.41</td>
-                        <td>R 0.00</td>
-                        <td>R 0.00</td>
-                        <td>R 410.04</td>
-                    </tr>
-                    <tr>
-                        <td>Foundry Tech</td>
-                        <td>R 0.00</td>
-                        <td>R 0.00</td>
-                        <td>R 0.00</td>
-                        <td>R 0.00</td>
-                        <td>R 0.00</td>
-                    </tr>
-                    <tr>
-                        <td>Support</td>
-                        <td>R 1538.25</td>
-                        <td>R 273.48</td>
-                        <td>R 0.00</td>
-                        <td>R 0.00</td>
-                        <td>R 474.04</td>
+                    <tbody *ngIf="reportData.length != 0">
+
+                    <tr *ngFor="let target of reportData">
+                        <td class="text-center" style="width: 50%">{{target.title}}</td>
+                        <td class="text-center" style="width: 10%">{{target.firstQuarterTarget | number:'1.0-0'}}</td>
+                        <td class="text-center" style="width: 10%">{{target.firstQuarterActual | number:'1.0-0'}}</td>
+                        <td class="text-center" style="width: 10%">{{target.secondQuarterTarget | number:'1.0-0'}}</td>
+                        <td class="text-center" style="width: 10%">{{target.secondQuarterActual | number:'1.0-0'}}</td>
+                        <td class="text-center" style="width: 10%">{{target.thirdQuarterTarget | number:'1.0-0'}}</td>
+                        <td class="text-center" style="width: 10%">{{target.thirdQuarterActual | number:'1.0-0'}}</td>
+                        <td class="text-center" style="width: 10%">{{target.fourthQuarterTarget | number:'1.0-0'}}</td>
+                        <td class="text-center" style="width: 10%">{{target.fourthQuarterActual | number:'1.0-0'}}</td>
+                        <td class="text-center" style="width: 10%">{{target.overallTarget}}</td>
+                        <td class="text-center" style="width: 10%">{{target.actualOverallTarget}}</td>
                     </tr>
                     </tbody>
                 </table>
+
             </div>
         </div>
         <div class="col-lg-6">
             <div class="d-block">
-                <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
-                        [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)">
-
-                </canvas>
+                <canvas id="myChart"></canvas>
             </div>
         </div>
     </div>

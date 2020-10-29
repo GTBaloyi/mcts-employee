@@ -11,12 +11,13 @@
  */
 
 
-export interface ClientInvoiceSummary { 
-    paidInvoices?: number;
-    paidInvoiceAmount?: number;
-    unpaidInvoices?: number;
-    unpaidInvoiceAmount?: number;
-    overdueInvoices?: number;
-    overdueInvoiceAmount?: number;
+export interface ProjectsEntryModel { 
+    quarter?: string | null;
+    mouldingTechProjects?: number;
+    physicalMetallurgyProjects?: number;
+    foundryTechProjects?: number;
+    supportTechProjects?: number;
+    otherProjects?: number;
+    total?: number;
 }
 

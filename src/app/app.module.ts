@@ -24,7 +24,6 @@ import {MessageService} from "./message.service";
 import {PusherService} from "./pusher.service";
 import {ChartsModule, ThemeService} from "ng2-charts";
 import {ConfigActions} from "./ThemeOptions/store/config.actions";
-import {PERFECT_SCROLLBAR_CONFIG} from "ngx-perfect-scrollbar";
 import { PaymentDetailsComponent } from './components/payment-details/payment-details.component';
 import {PdfViewerModule} from "ng2-pdf-viewer";
 import {NgxDocViewerModule} from "ngx-doc-viewer";
@@ -34,6 +33,7 @@ import { QuarterSettingsComponent } from './components/quarter-settings/quarter-
 import { ManageProductsComponent } from './components/manage-products/manage-products.component';
 import {MyAccountComponent} from "./components/my-account/my-account.component";
 import {UpdatePasswordComponent} from "./components/update-password/update-password.component";
+import { TargetSettingsComponent } from './components/target-settings/target-settings.component';
 
 @NgModule({
     imports: [
@@ -67,7 +67,8 @@ import {UpdatePasswordComponent} from "./components/update-password/update-passw
         QuarterSettingsComponent,
         ManageProductsComponent,
         MyAccountComponent,
-        UpdatePasswordComponent
+        UpdatePasswordComponent,
+        TargetSettingsComponent
     ],
     providers: [
         {provide: BASE_API_URL, useValue: environment.BASE_API_URL},

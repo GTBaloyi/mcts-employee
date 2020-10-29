@@ -19,6 +19,7 @@ import { ProjectTodosService } from './api/projectTodos.service';
 import { ProjectsService } from './api/projects.service';
 import { QuartersService } from './api/quarters.service';
 import { QuotationService } from './api/quotation.service';
+import { TargetSettingsService } from './api/targetSettings.service';
 import { UsersService } from './api/users.service';
 
 @NgModule({
