@@ -13,26 +13,26 @@ import {NgbDate} from "@ng-bootstrap/ng-bootstrap";
   styleUrls: ['./add-quotation.component.scss']
 })
 export class AddQuotationComponent implements OnInit {
-  heading = 'Quotation';
+  heading = 'Quotation'
   subheading = 'Create and view all client quotations';
   icon = 'pe-7s-note2 icon-gradient bg-tempting-azure';
 
   isLoading = false;
-  private focusAreas: Array<any> = [];
-  private selectedFocusArea: string;
-  private products: Array<any> = [];
-  private selectedProduct: string;
-  private quotationID: string;
-  private selectedQuantity: number;
-  private selectedNumberOfTest: number = 0;
-  private selectedUnitPrice: number = 0;
-  private selectedProductTotal: number = 0;
-  private newProduct: QuotationItemEntity  = {};
-  private quotation: QuotationModel= <QuotationModel> {};
-  private employeeInformation : EmployeeRequestModel;
-  private date: NgbDate;
+  public focusAreas: Array<any> = [];
+  public selectedFocusArea: string;
+  public products: Array<any> = [];
+  public selectedProduct: string;
+  public quotationID: string;
+  public selectedQuantity: number;
+  public selectedNumberOfTest: number = 0;
+  public selectedUnitPrice: number = 0;
+  public selectedProductTotal: number = 0;
+  public newProduct: QuotationItemEntity  = {};
+  public quotation: QuotationModel= <QuotationModel> {};
+  public employeeInformation : EmployeeRequestModel;
+  public date: NgbDate;
 
-  constructor(private quotationService: QuotationService, private clientService: ClientsService, private productsService: ProductsService, private router: Router,private toastr: ToastrService) {
+  constructor(public quotationService: QuotationService, public clientService: ClientsService, public productsService: ProductsService, public router: Router,public toastr: ToastrService) {
     this.employeeInformation  = JSON.parse(sessionStorage.getItem("userInformation"));
   }
 

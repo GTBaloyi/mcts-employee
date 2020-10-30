@@ -23,24 +23,24 @@ export class ManageProductsComponent implements OnInit {
 
   isLoading = false;
 
-  private config: any;
-  private filter : string;
-  private item: any;
-  private selectedFocusArea: string = "Empty";
-  private focusAreaId: number;
-  private newFocusArea: string;
-  private products: Array<AllProductsResponseModel> = [];
-  private product: string;
-  private ratePerHour: number;
-  private timeStudyPerTest: number;
-  private newProduct: ProductRequestModel = {};
-  private focusAreas: Array<FocusAreaModel> = [];
+  public config: any;
+  public filter : string;
+  public item: any;
+  public selectedFocusArea: string = "Empty";
+  public focusAreaId: number;
+  public newFocusArea: string;
+  public products: Array<AllProductsResponseModel> = [];
+  public product: string;
+  public ratePerHour: number;
+  public timeStudyPerTest: number;
+  public newProduct: ProductRequestModel = {};
+  public focusAreas: Array<FocusAreaModel> = [];
 
-  constructor(private quartersService: QuartersService,
-              private productsService: ProductsService,
-              private router: Router,
-              private toastr: ToastrService,
-              private modalService: NgbModal) {
+  constructor(public quartersService: QuartersService,
+              public productsService: ProductsService,
+              public router: Router,
+              public toastr: ToastrService,
+              public modalService: NgbModal) {
   }
 
   ngOnInit() {

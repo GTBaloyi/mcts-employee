@@ -23,17 +23,17 @@ export class PaymentDetailsComponent implements OnInit {
 
 
   isLoading = new Subject<boolean>();
-  private payment: PaymentResponseModel = {};
-  private newPayment: PaymentResponseModel = {};
-  private invoice: InvoiceResponseModel =<InvoiceResponseModel> '';
-  private employeeInformation : EmployeeRequestModel;
+  public payment: PaymentResponseModel = {};
+  public newPayment: PaymentResponseModel = {};
+  public invoice: InvoiceResponseModel =<InvoiceResponseModel> '';
+  public employeeInformation : EmployeeRequestModel;
 
 
 
-  constructor(private toastr: ToastrService,
-              private modalService: NgbModal,
-              private invoiceService: InvoiceService,
-              private paymentService: PaymentService
+  constructor(public toastr: ToastrService,
+              public modalService: NgbModal,
+              public invoiceService: InvoiceService,
+              public paymentService: PaymentService
               ) {
     this.employeeInformation  = JSON.parse(sessionStorage.getItem("userInformation"));
     this.payment  = JSON.parse(sessionStorage.getItem("paymentDetails"));

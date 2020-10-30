@@ -12,7 +12,7 @@ import {EmployeeRequestModel, EmployeesService} from "../../services";
 export class HeaderComponent {
   public extraParameter: any;
 
-  constructor(public globals: ThemeOptions, private activatedRoute: ActivatedRoute, private employeesService: EmployeesService) {
+  constructor(public globals: ThemeOptions, public activatedRoute: ActivatedRoute, public employeesService: EmployeesService) {
   }
 
   @HostBinding('class.isActive')
@@ -24,11 +24,11 @@ export class HeaderComponent {
 
   @select('config') public config$: Observable<any>;
 
-  private newInnerWidth: number;
-  private innerWidth: number;
+  public newInnerWidth: number;
+  public innerWidth: number;
   activeId = 'dashboardsMenu';
-  private email: string;
-  private employeeInformation : EmployeeRequestModel= <EmployeeRequestModel> {};
+  public email: string;
+  public employeeInformation : EmployeeRequestModel= <EmployeeRequestModel> {};
 
   toggleSidebar() {
     this.globals.toggleSidebar = !this.globals.toggleSidebar;

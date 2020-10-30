@@ -22,12 +22,12 @@ export class MyAccountComponent implements OnInit {
   icon = 'pe-7s-id icon-gradient bg-tempting-azure';
 
   isLoading = new Subject<boolean>();
-  private employeeInformation : EmployeeResponseModel= <EmployeeResponseModel> {};
+  public employeeInformation : EmployeeResponseModel= <EmployeeResponseModel> {};
 
-  constructor(private router: Router,
-              private toastr: ToastrService,
-              private employeesService: EmployeesService,
-              private usersService: UsersService) {
+  constructor(public router: Router,
+              public toastr: ToastrService,
+              public employeesService: EmployeesService,
+              public usersService: UsersService) {
 
     this.employeeInformation  = JSON.parse(sessionStorage.getItem('userInformation'));
 

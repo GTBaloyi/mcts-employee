@@ -18,11 +18,11 @@ export class MCTSKIPReportComponent implements OnInit {
 
   isLoading = new Subject<boolean>();
 
-  private mctsKpiReport : MctsKpiSummaryTile = {}
+  public mctsKpiReport : MctsKpiSummaryTile = {}
 
-  constructor(private router: Router,
-              private mctsKpiReportsService: MctsKpiReportsService,
-              private toastr: ToastrService) {
+  constructor(public router: Router,
+              public mctsKpiReportsService: MctsKpiReportsService,
+              public toastr: ToastrService) {
   }
 
 

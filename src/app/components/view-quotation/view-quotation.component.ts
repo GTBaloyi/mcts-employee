@@ -15,26 +15,26 @@ export class ViewQuotationComponent implements OnInit {
     icon = 'pe-7s-calculator icon-gradient bg-tempting-azure';
 
 
-    private selectedProduct: string;
-    private selectedQuantity: number;
-    private selectedFocusArea: string;
-    private selectedNumberOfTest: number = 0;
-    private selectedUnitPrice: number = 0;
-    private selectedProductTotal: number = 0;
-    private selectedReference: string;
-    private selectedTotal: number = 0;
-    private products: Array<QuotationItemEntity> = [];
-    private focusAreas: Array<any> = [];
-    private isLoading = new Subject<boolean>();
-    private newProduct: QuotationItemEntity  = {};
-    private employeeInformation : EmployeeRequestModel;
-    private quotation: QuotationResponseModel = <QuotationResponseModel>'';
+    public selectedProduct: string;
+    public selectedQuantity: number;
+    public selectedFocusArea: string;
+    public selectedNumberOfTest: number = 0;
+    public selectedUnitPrice: number = 0;
+    public selectedProductTotal: number = 0;
+    public selectedReference: string;
+    public selectedTotal: number = 0;
+    public products: Array<QuotationItemEntity> = [];
+    public focusAreas: Array<any> = [];
+    public isLoading = new Subject<boolean>();
+    public newProduct: QuotationItemEntity  = {};
+    public employeeInformation : EmployeeRequestModel;
+    public quotation: QuotationResponseModel = <QuotationResponseModel>'';
 
-    constructor(private quotationService: QuotationService,
-                private productsService: ProductsService,
-                private router: Router,
-                private toastr: ToastrService,
-                private clientService: ClientsService) {
+    constructor(public quotationService: QuotationService,
+                public productsService: ProductsService,
+                public router: Router,
+                public toastr: ToastrService,
+                public clientService: ClientsService) {
 
         this.employeeInformation  = JSON.parse(sessionStorage.getItem("userInformation"));
         this.quotation = JSON.parse(sessionStorage.getItem("viewQuotation"))

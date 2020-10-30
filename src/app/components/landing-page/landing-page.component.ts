@@ -21,16 +21,16 @@ export interface LoginForm {
 export class LandingPageComponent implements OnInit {
 
     isLoading = new Subject<boolean>();
-    private login: LoginForm = <LoginForm>{};
-    private user: LoginResponseModel;
-    private userInformation : EmployeeRequestModel;
+    public login: LoginForm = <LoginForm>{};
+    public user: LoginResponseModel;
+    public userInformation : EmployeeRequestModel;
 
 
     constructor(config: NgbDropdownConfig,
-                private usersService: UsersService,
-                private authGuard: AuthGuard,
-                private router: Router,
-                private toastr: ToastrService) {
+                public usersService: UsersService,
+                public authGuard: AuthGuard,
+                public router: Router,
+                public toastr: ToastrService) {
         config.placement = 'bottom-right';
     }
 

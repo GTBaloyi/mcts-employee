@@ -60,16 +60,16 @@ export class ProjectDetailsComponent implements OnInit {
      statuses: Array<string> = ['Not Started', 'Ongoing', 'Completed', 'Paused'];
 
 
-    constructor(private router: Router,
-                private toastr: ToastrService,
-                private invoiceService: InvoiceService,
-                private projectTodosService: ProjectTodosService,
-                private projectService: ProjectsService,
-                private employeesService: EmployeesService,
-                private productsService: ProductsService,
-                private projectExpenditureService: ProjectExpenditureService,
-                private projectProgressService: ProjectProgressService,
-                private modalService: NgbModal) {
+    constructor(public router: Router,
+                public toastr: ToastrService,
+                public invoiceService: InvoiceService,
+                public projectTodosService: ProjectTodosService,
+                public projectService: ProjectsService,
+                public employeesService: EmployeesService,
+                public productsService: ProductsService,
+                public projectExpenditureService: ProjectExpenditureService,
+                public projectProgressService: ProjectProgressService,
+                public modalService: NgbModal) {
         this.project = JSON.parse(sessionStorage.getItem("projectDetails"));
     }
 

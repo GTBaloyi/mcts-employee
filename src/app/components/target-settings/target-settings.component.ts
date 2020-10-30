@@ -19,17 +19,17 @@ export class TargetSettingsComponent implements OnInit {
   subheading = 'Set MCTS targets and overall focus area targets.';
   icon = 'pe-7s-graph1 icon-gradient bg-tempting-azure';
 
-  private config: any;
-  private filter : string;
-  private targetsArray: Array<TargetSettingModel> = [];
-  private target: TargetSettingModel = {};
-  private NewTarget: TargetSettingModel = {};
-  private selectedCategory: string = '';
+  public config: any;
+  public filter : string;
+  public targetsArray: Array<TargetSettingModel> = [];
+  public target: TargetSettingModel = {};
+  public NewTarget: TargetSettingModel = {};
+  public selectedCategory: string = '';
 
-  constructor(private targetSettingsService: TargetSettingsService,
-              private router: Router,
-              private toastr: ToastrService,
-              private modalService: NgbModal) {
+  constructor(public targetSettingsService: TargetSettingsService,
+              public router: Router,
+              public toastr: ToastrService,
+              public modalService: NgbModal) {
 
   }
 

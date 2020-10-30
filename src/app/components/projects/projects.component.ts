@@ -31,35 +31,35 @@ export class ProjectsComponent implements OnInit {
     subheading = 'View and manage projects';
     icon = 'pe-7s-hammer icon-gradient bg-tempting-azure';
 
-    private projects: Array<ProjectSummaryModel> = [];
-    private projectProgress: ProjectProgressRequestModel = {};
-    private progressResponseModel: ProjectProgressResponseModel = {};
+    public projects: Array<ProjectSummaryModel> = [];
+    public projectProgress: ProjectProgressRequestModel = {};
+    public progressResponseModel: ProjectProgressResponseModel = {};
     newProject: any = {};
     createProject: ProjectInformationRequestModel= {};
     project: ProjectModel= {};
-    private statuses: Array<string> = ['Not Started', 'Ongoing', 'Completed', "Paused"];
-    private invoices: Array<InvoiceRequestModel> = [];
-    private employees: Array<EmployeeResponseModel> = [];
+    public statuses: Array<string> = ['Not Started', 'Ongoing', 'Completed', "Paused"];
+    public invoices: Array<InvoiceRequestModel> = [];
+    public employees: Array<EmployeeResponseModel> = [];
     clients: ClientRegistrationRequestModel[] = [];
-    private userInformation : EmployeeRequestModel =  <EmployeeRequestModel>'';
-    private username: string;
-    private filter : string;
-    private config: any;
-    private employeeID : string;
-    private invoiceID : string;
+    public userInformation : EmployeeRequestModel =  <EmployeeRequestModel>'';
+    public username: string;
+    public filter : string;
+    public config: any;
+    public employeeID : string;
+    public invoiceID : string;
     reference = 'reference';
     employeeNumber = 'employeeNumber';
     employeeNum = '';
 
 
-    constructor(private projectsService: ProjectsService,
-                private projectsProgressService: ProjectProgressService,
-                private router: Router,
-                private toastr: ToastrService,
-                private modalService: NgbModal,
-                private invoiceService: InvoiceService,
-                private clientService: ClientsService,
-                private employeesService: EmployeesService) {
+    constructor(public projectsService: ProjectsService,
+                public projectsProgressService: ProjectProgressService,
+                public router: Router,
+                public toastr: ToastrService,
+                public modalService: NgbModal,
+                public invoiceService: InvoiceService,
+                public clientService: ClientsService,
+                public employeesService: EmployeesService) {
         this.userInformation  = JSON.parse(sessionStorage.getItem("userInformation"));
         this.username  = JSON.parse(sessionStorage.getItem("username"));
 

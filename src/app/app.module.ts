@@ -20,8 +20,6 @@ import { AddQuotationComponent } from './components/add-quotation/add-quotation.
 import {ViewInvoicePdfComponent} from "./components/view-invoice-pdf/view-invoice-pdf.component";
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
 import {AutocompleteLibModule} from "angular-ng-autocomplete";
-import {MessageService} from "./message.service";
-import {PusherService} from "./pusher.service";
 import {ChartsModule, ThemeService} from "ng2-charts";
 import {ConfigActions} from "./ThemeOptions/store/config.actions";
 import { PaymentDetailsComponent } from './components/payment-details/payment-details.component';
@@ -72,8 +70,6 @@ import { TargetSettingsComponent } from './components/target-settings/target-set
     ],
     providers: [
         {provide: BASE_API_URL, useValue: environment.BASE_API_URL},
-        MessageService,
-        PusherService,
         ConfigActions,
         ThemeService
     ],

@@ -34,10 +34,10 @@ export class EmployeesComponent implements OnInit {
   filter : string;
   config: any;
 
-  constructor(private router: Router,
-              private toastr: ToastrService,
-              private employeesService: EmployeesService,
-              private modalService: NgbModal) {
+  constructor(public router: Router,
+              public toastr: ToastrService,
+              public employeesService: EmployeesService,
+              public modalService: NgbModal) {
     this.employeeInformation  = JSON.parse(sessionStorage.getItem("userInformation"));
   }
   ngOnInit() {

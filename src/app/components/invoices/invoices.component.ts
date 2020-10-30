@@ -25,7 +25,7 @@ export class InvoicesComponent implements OnInit {
    filter : string;
    config: any;
 
-  constructor( private router: Router,private toastr: ToastrService, private invoiceService: InvoiceService) {
+  constructor( public router: Router,public toastr: ToastrService, public invoiceService: InvoiceService) {
     sessionStorage.removeItem('viewInvoice');
   }
 

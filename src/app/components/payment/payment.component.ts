@@ -27,11 +27,11 @@ export class PaymentComponent implements OnInit {
    invoice: InvoiceResponseModel =<InvoiceResponseModel> '';
    payment: PaymentResponseModel = <PaymentResponseModel> '';
 
-  constructor( private router: Router,
-               private toastr: ToastrService,
-               private modalService: NgbModal,
-               private invoiceService: InvoiceService,
-               private paymentService: PaymentService) {
+  constructor( public router: Router,
+               public toastr: ToastrService,
+               public modalService: NgbModal,
+               public invoiceService: InvoiceService,
+               public paymentService: PaymentService) {
 
   }
 

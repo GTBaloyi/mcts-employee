@@ -9,10 +9,10 @@ import {EmployeeRequestModel, EmployeesService} from "../../../../services";
 })
 export class UserBoxComponent implements OnInit {
 
-  private email: string;
-  private employeeInformation : EmployeeRequestModel= <EmployeeRequestModel> {};
+  public email: string;
+  public employeeInformation : EmployeeRequestModel= <EmployeeRequestModel> {};
 
-  constructor(public globals: ThemeOptions, private router: Router, private employeesService: EmployeesService) {
+  constructor(public globals: ThemeOptions, public router: Router, public employeesService: EmployeesService) {
   }
 
   ngOnInit() {

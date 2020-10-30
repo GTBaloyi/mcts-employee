@@ -22,39 +22,39 @@ export class ReportsComponent implements OnInit {
   subheading = 'View and generate reports';
   icon = 'pe-7s-graph1 icon-gradient bg-tempting-azure';
 
-  private config: any;
-  private filter : string;
-  private reportData: Array<any> = [];
-  private category: string = '';
-  private showChart: boolean = false;
-  private  selectedTitle: string = '';
+  public config: any;
+  public filter : string;
+  public reportData: Array<any> = [];
+  public category: string = '';
+  public showChart: boolean = false;
+  public  selectedTitle: string = '';
 
-  private deliveredInTime: Array<PerformanceIndicatorModel> = [];
-  private customerSatisfaction: Array<PerformanceIndicatorModel> = [];
-  private focusAreaFinal: Array<ProjectsEntryModel> = [];
-  private focusAreaFinalTable: Array<ProjectsEntryModel> = [];
+  public deliveredInTime: Array<PerformanceIndicatorModel> = [];
+  public customerSatisfaction: Array<PerformanceIndicatorModel> = [];
+  public focusAreaFinal: Array<ProjectsEntryModel> = [];
+  public focusAreaFinalTable: Array<ProjectsEntryModel> = [];
 
 
-  private generalProjectData: GeneralProjectReportsModel = {};
-  private generalQuotationData: GeneralQuotationReport = {};
+  public generalProjectData: GeneralProjectReportsModel = {};
+  public generalQuotationData: GeneralQuotationReport = {};
 
-  private FocusAreaFinalProjectsData = [];
+  public FocusAreaFinalProjectsData = [];
 
-  private chartActualData: any = [];
-  private chartTargetData: any = [];
+  public chartActualData: any = [];
+  public chartTargetData: any = [];
 
-  private MtechchartTargetData: any = [];
-  private MtechchartActualData: any = [];
-  private FtechchartActualData: any = [];
-  private FtechchartTargetData: any = [];
-  private PtechchartActualData: any = [];
-  private PtechchartTargetData: any = [];
+  public MtechchartTargetData: any = [];
+  public MtechchartActualData: any = [];
+  public FtechchartActualData: any = [];
+  public FtechchartTargetData: any = [];
+  public PtechchartActualData: any = [];
+  public PtechchartTargetData: any = [];
 
-  private OtherchartFocusArea: any = [];
-  private MtechchartFocusArea: any = [];
-  private FtechchartFocusArea: any = [];
-  private PtechchartFocusArea: any = [];
-  private StechchartFocusArea: any = [];
+  public OtherchartFocusArea: any = [];
+  public MtechchartFocusArea: any = [];
+  public FtechchartFocusArea: any = [];
+  public PtechchartFocusArea: any = [];
+  public StechchartFocusArea: any = [];
 
   mixedChart: Chart;
 

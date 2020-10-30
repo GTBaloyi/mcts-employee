@@ -17,19 +17,19 @@ export class QuarterSettingsComponent implements OnInit {
   icon = 'pe-7s-settings icon-gradient bg-tempting-azure';
 
   isLoading = true;
-  private config: any;
-  private filter : string;
-  private quarters: Array<QuarterModel> = [];
-  private quarter: QuarterModel = {};
-  private StartDate: NgbDate;
-  private EndDate: NgbDate;
+  public config: any;
+  public filter : string;
+  public quarters: Array<QuarterModel> = [];
+  public quarter: QuarterModel = {};
+  public StartDate: NgbDate;
+  public EndDate: NgbDate;
 
 
 
-  constructor(private quartersService: QuartersService,
-              private router: Router,
-              private toastr: ToastrService,
-              private modalService: NgbModal) {
+  constructor(public quartersService: QuartersService,
+              public router: Router,
+              public toastr: ToastrService,
+              public modalService: NgbModal) {
 
   }
 

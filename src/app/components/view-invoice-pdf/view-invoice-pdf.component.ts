@@ -22,14 +22,14 @@ export class ViewInvoicePdfComponent implements OnInit {
   isLoading = new Subject<boolean>();
   invoice: InvoiceResponseModel = <InvoiceResponseModel>'';
   quotation: QuotationResponseModel = <QuotationResponseModel>'';
-  private userInformation : EmployeeRequestModel =  <EmployeeRequestModel>'' ;
-  private showModal: boolean;
+  public userInformation : EmployeeRequestModel =  <EmployeeRequestModel>'' ;
+  public showModal: boolean;
 
 
-  constructor(private quotationService: QuotationService,
-              private productsService: ProductsService,
-              private router: Router,
-              private toastr: ToastrService) {
+  constructor(public quotationService: QuotationService,
+              public productsService: ProductsService,
+              public router: Router,
+              public toastr: ToastrService) {
 
       this.invoice = JSON.parse(sessionStorage.getItem("viewInvoice"));
       this.userInformation  = JSON.parse(sessionStorage.getItem("userInformation"));

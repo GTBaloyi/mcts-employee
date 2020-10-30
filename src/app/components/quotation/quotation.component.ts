@@ -26,20 +26,20 @@ export class QuotationComponent implements OnInit {
   icon = 'pe-7s-calculator icon-gradient bg-tempting-azure';
 
   isLoading = true;
-  private config: any;
-  private filter : string;
-  private focusAreas: Array<any> = [];
-  private selectedFocusArea: string;
-  private products: Array<any> = [];
-  private selectedProduct: string;
-  private selectedQuantity: number;
-  private quotations: Array<QuotationResponseModel>= [];
-  private employeeInformation : EmployeeRequestModel;
+  public config: any;
+  public filter : string;
+  public focusAreas: Array<any> = [];
+  public selectedFocusArea: string;
+  public products: Array<any> = [];
+  public selectedProduct: string;
+  public selectedQuantity: number;
+  public quotations: Array<QuotationResponseModel>= [];
+  public employeeInformation : EmployeeRequestModel;
 
-  constructor(private quotationService: QuotationService,
-              private productsService: ProductsService,
-              private router: Router,
-              private toastr: ToastrService) {
+  constructor(public quotationService: QuotationService,
+              public productsService: ProductsService,
+              public router: Router,
+              public toastr: ToastrService) {
     this.employeeInformation  = JSON.parse(sessionStorage.getItem("userInformation"));
   }
   ngOnInit() {

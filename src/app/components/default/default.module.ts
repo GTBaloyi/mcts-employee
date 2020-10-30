@@ -26,10 +26,6 @@ import {PageTitleComponent} from "../../shared/page-title/page-title.component";
 import {HeaderComponent} from "../../shared/header/header.component";
 import {UserBoxComponent} from "../../shared/header/elements/user-box/user-box.component";
 import {ConfigActions} from "../../ThemeOptions/store/config.actions";
-import {MessagesComponent} from "../messages/messages.component";
-import {NewMessageComponent} from "../new-message/new-message.component";
-import {MessageService} from "../../message.service";
-import {PusherService} from "../../pusher.service";
 import {AutocompleteLibModule} from "angular-ng-autocomplete";
 
 
@@ -44,8 +40,6 @@ import {AutocompleteLibModule} from "angular-ng-autocomplete";
       PageTitleComponent,
       HeaderComponent,
       UserBoxComponent,
-      MessagesComponent,
-      NewMessageComponent
   ],
     imports: [
 
@@ -93,8 +87,6 @@ import {AutocompleteLibModule} from "angular-ng-autocomplete";
   providers: [
       ConfigActions,
       DashboardService,
-      MessageService,
-      PusherService
   ]
 })
 export class DefaultModule { }

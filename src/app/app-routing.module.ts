@@ -15,7 +15,6 @@ import {ViewQuotationComponent} from "./components/view-quotation/view-quotation
 import {AddQuotationComponent} from "./components/add-quotation/add-quotation.component";
 import {ViewInvoicePdfComponent} from "./components/view-invoice-pdf/view-invoice-pdf.component";
 import {ProjectDetailsComponent} from "./components/project-details/project-details.component";
-import {MessagesComponent} from "./components/messages/messages.component";
 import {PaymentDetailsComponent} from "./components/payment-details/payment-details.component";
 import {MCTSKIPReportComponent} from "./components/mcts-kip-report/mcts-kip-report.component";
 import {QuarterSettingsComponent} from "./components/quarter-settings/quarter-settings.component";
@@ -52,8 +51,7 @@ const routes: Routes = [
             {path: 'products', component: ManageProductsComponent},
             {path: 'account', component: MyAccountComponent},
             {path: 'updatePassword', component: UpdatePasswordComponent},
-            {path: 'targets', component: TargetSettingsComponent},
-            {path: 'messages', component: MessagesComponent, data: {extraParameter: 'Messages'}},
+            {path: 'targets', component: TargetSettingsComponent}
 
         ],
         canActivate: [AuthGuard]

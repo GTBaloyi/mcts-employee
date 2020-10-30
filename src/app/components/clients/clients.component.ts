@@ -39,12 +39,12 @@ export class ClientsComponent implements OnInit {
      genders: Array<string> = ['Male', 'Female', 'Other'];
      companyProfiles: Array<string> = ['Small', 'Large', 'HEIs/Science Council', 'Techno/Star-Entrepreneur'];
 
-    constructor(private router: Router,
-                private toastr: ToastrService,
-                private clientService: ClientsService,
-                private employeesReportsService: EmployeesReportsService,
-                private modalService: NgbModal,
-                private usersService: UsersService,) {
+    constructor(public router: Router,
+                public toastr: ToastrService,
+                public clientService: ClientsService,
+                public employeesReportsService: EmployeesReportsService,
+                public modalService: NgbModal,
+                public usersService: UsersService,) {
 
     }
 

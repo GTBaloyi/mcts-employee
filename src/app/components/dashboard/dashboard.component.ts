@@ -19,14 +19,14 @@ export class DashboardComponent implements OnInit {
     subheading = 'Summary of available reports';
     icon = 'pe-7s-home icon-gradient bg-tempting-azure';
 
-    private deliveredInTime: Array<PerformanceIndicatorModel> = [];
-    private reportData: Array<any> = [];
-    private MtechchartTargetData: any = [];
-    private MtechchartActualData: any = [];
-    private FtechchartActualData: any = [];
-    private FtechchartTargetData: any = [];
-    private PtechchartActualData: any = [];
-    private PtechchartTargetData: any = [];
+    public deliveredInTime: Array<PerformanceIndicatorModel> = [];
+    public reportData: Array<any> = [];
+    public MtechchartTargetData: any = [];
+    public MtechchartActualData: any = [];
+    public FtechchartActualData: any = [];
+    public FtechchartTargetData: any = [];
+    public PtechchartActualData: any = [];
+    public PtechchartTargetData: any = [];
 
     mixedChart: Chart;
 
@@ -35,11 +35,11 @@ export class DashboardComponent implements OnInit {
     labels = [];
 
 
-    private numberOfActiveClients: number = 0;
-    private numberOfInactiveClients: number = 0;
-    private numberOfClients: number = 0;
-    private email: string;
-    private employeeInformation : EmployeeRequestModel= <EmployeeRequestModel> {};
+    public numberOfActiveClients: number = 0;
+    public numberOfInactiveClients: number = 0;
+    public numberOfClients: number = 0;
+    public email: string;
+    public employeeInformation : EmployeeRequestModel= <EmployeeRequestModel> {};
 
     clientsGeneralReports: ClientsGeneralReportsModel = {};
     quotationGeneralReports: QuotationGeneralReportModel = {};
