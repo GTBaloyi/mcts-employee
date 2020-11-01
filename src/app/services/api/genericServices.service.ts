@@ -28,7 +28,7 @@ import { Configuration }                                     from '../configurat
 })
 export class GenericServicesService {
 
-    protected basePath = 'http://mcts-backend.azurewebsites.net';
+    protected basePath = 'https://mcts-backend.azurewebsites.net';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
