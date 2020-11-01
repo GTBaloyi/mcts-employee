@@ -30,7 +30,7 @@ import { Configuration }                                     from '../configurat
 })
 export class InvoiceService {
 
-    protected basePath = 'https://mcts-backend.herokuapp.com';
+    protected basePath = 'http://mcts-backend.azurewebsites.net';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
