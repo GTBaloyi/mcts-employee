@@ -339,7 +339,7 @@
                         <label>Focus Area</label>
                         <select class="form-control"
                                 [(ngModel)]="item.focusArea"
-                                (ngModelChange)="getProducts(selectedFocusArea)"
+                                (ngModelChange)="getProducts(item.focusArea)"
                                 name="focusArea"
                                 #focusArea="ngModel"
                                 [ngClass]="{ 'is-invalid': editProjectTodoItem.submitted && focusArea.invalid }"

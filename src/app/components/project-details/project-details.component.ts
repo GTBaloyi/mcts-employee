@@ -333,6 +333,8 @@ export class ProjectDetailsComponent implements OnInit {
 
     openModal(value: any, data: any) {
 
+        this.item = {};
+
         if(data !== null){
             var start: any;
             var end: any;
@@ -341,6 +343,7 @@ export class ProjectDetailsComponent implements OnInit {
             end = moment(data.dateEnded).format("yyyy-MM-DD");
 
             this.item = data;
+            this.getProducts(data.focusArea);
             this.assignedEmployees = data.responsibleEmployees;
             this.startedDate = start;
             this.finishDate = end;
