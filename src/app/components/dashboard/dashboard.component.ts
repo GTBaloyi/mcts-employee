@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
     subheading = 'Summary of available reports';
     icon = 'pe-7s-home icon-gradient bg-tempting-azure';
 
-    public deliveredInTime: Array<PerformanceIndicatorModel> = [];
+    public generalProjectData: GeneralProjectReportsModel = {};
     public reportData: Array<any> = [];
     public MtechchartTargetData: any = [];
     public MtechchartActualData: any = [];
@@ -94,138 +94,23 @@ export class DashboardComponent implements OnInit {
             },
             ()=>{
                 this.isLoading = false;
+                this.overallKPI();
             }
         );
-
     }
 
     overallKPI() {
-        this.reportData = this.deliveredInTime;
 
-        for(var i = 0; i < this.deliveredInTime.length ; i++) {
-            if (this.deliveredInTime[i].category == 'Moulding Technology') {
-                this.MtechchartTargetData = [
-                    this.deliveredInTime[i].firstQuarterTarget,
-                    this.deliveredInTime[i].secondQuarterTarget,
-                    this.deliveredInTime[i].thirdQuarterTarget,
-                    this.deliveredInTime[i].fourthQuarterTarget
-                ]
+        this.chartype = 'pie';
+        this.labels = ['Ongoing Projects','Completed Projects','Not Started Projects','Paused Projects'];
+        var data = [
+            {
+                label: '',
+                data: [this.generalProjectData.ongoingProjects, this.generalProjectData.completedProjects, this.generalProjectData.notStartedProjects, this.generalProjectData.pausedProjects],
+                backgroundColor:["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
+            }];
+        this.getChart(data);
 
-                this.MtechchartActualData =  [
-                    this.deliveredInTime[i].firstQuarterActual,
-                    this.deliveredInTime[i].secondQuarterActual,
-                    this.deliveredInTime[i].thirdQuarterActual,
-                    this.deliveredInTime[i].fourthQuarterActual
-                ];
-
-            }else if(this.deliveredInTime[i].category == 'Foundry Technology'){
-                this.FtechchartTargetData = [
-                    this.deliveredInTime[i].firstQuarterTarget,
-                    this.deliveredInTime[i].secondQuarterTarget,
-                    this.deliveredInTime[i].thirdQuarterTarget,
-                    this.deliveredInTime[i].fourthQuarterTarget
-                ]
-
-                this.FtechchartActualData =  [
-                    this.deliveredInTime[i].firstQuarterActual,
-                    this.deliveredInTime[i].secondQuarterActual,
-                    this.deliveredInTime[i].thirdQuarterActual,
-                    this.deliveredInTime[i].fourthQuarterActual
-                ];
-
-            }else if(this.deliveredInTime[i].category == 'Physical Technology'){
-                this.PtechchartTargetData = [
-                    this.deliveredInTime[i].firstQuarterTarget,
-                    this.deliveredInTime[i].secondQuarterTarget,
-                    this.deliveredInTime[i].thirdQuarterTarget,
-                    this.deliveredInTime[i].fourthQuarterTarget
-                ]
-
-                this.PtechchartActualData =  [
-                    this.deliveredInTime[i].firstQuarterActual,
-                    this.deliveredInTime[i].secondQuarterActual,
-                    this.deliveredInTime[i].thirdQuarterActual,
-                    this.deliveredInTime[i].fourthQuarterActual
-                ];
-            }
-        }
-        var dataset = [
-                {
-                    label: 'Moulding Technology Target',
-                    data: this.MtechchartTargetData,
-                    backgroundColor: [
-                        "#3e95cd",
-                        "#3e95cd",
-                        "#3e95cd",
-                        "#3e95cd"
-                    ],
-                    borderWidth: 1,
-                    order: 1
-                },
-                {
-                    label: 'Moulding Technology Actual Target',
-                    data: this.MtechchartActualData,
-                    backgroundColor: [
-                        "#8e5ea2",
-                        "#8e5ea2",
-                        "#8e5ea2",
-                        "#8e5ea2"
-                    ],
-                    borderWidth: 1,
-                    order: 2
-                },
-                {
-                    label: 'Foundry Technology Target',
-                    data: this.FtechchartTargetData,
-                    backgroundColor: [
-                        "#3cba9f",
-                        "#3cba9f",
-                        "#3cba9f",
-                        "#3cba9f"
-                    ],
-                    borderWidth: 1,
-                    order: 1
-                },
-                {
-                    label: 'Foundry Technology Actual Target',
-                    data: this.FtechchartActualData,
-                    backgroundColor: [
-                        "#e8c3b9",
-                        "#e8c3b9",
-                        "#e8c3b9",
-                        "#e8c3b9"
-                    ],
-                    borderWidth: 1,
-                    order: 2
-                },
-                {
-                    label: 'Physical Technology Target',
-                    data: this.PtechchartTargetData,
-                    backgroundColor: [
-                        "#73c450",
-                        "#73c450",
-                        "#73c450",
-                        "#73c450"
-                    ],
-                    borderWidth: 1,
-                    order: 1
-                },
-                {
-                    label: 'Physical Technology Actual Target',
-                    data: this.PtechchartActualData,
-                    backgroundColor: [
-                        "#c45850",
-                        "#c45850",
-                        "#c45850",
-                        "#c45850"
-                    ],
-                    borderWidth: 1,
-                    order: 2
-                }];
-
-        this.chartype = 'bar';
-        this.labels = ['Quarter 1','Quarter 2','Quarter 3','Quarter 4'];
-        this.getChart(dataset);
     }
 
     getChart(dataset) {
@@ -243,7 +128,6 @@ export class DashboardComponent implements OnInit {
             options: {
             }
         });
-
         this.mixedChart.update();
     }
 
@@ -321,15 +205,15 @@ export class DashboardComponent implements OnInit {
 
     getReports(){
 
-        this.mctsKpiReportsService.apiMctsKpiReportsDeliveredInTimeReportGet().subscribe (
+        this.mctsKpiReportsService.apiMctsKpiReportsGeneralProjectsGet().subscribe (
             (data: any) => {
-                this.deliveredInTime = data
+                this.generalProjectData = data
             },
             error => {
                 console.log(error);
             },
             () => {
-                this.overallKPI();
+                this.isLoading = false;
             }
         );
 

@@ -178,7 +178,7 @@
 </div>
 <div class="main-card mb-3 card">
     <div class="card-header">
-        <div class="card-header-title font-size-lg text-capitalize font-weight-normal">Overall Focus Area Report </div>
+        <div class="card-header-title font-size-lg text-capitalize font-weight-normal">Overall Projects Report </div>
     </div>
     <div style="display: flex">
         <div class="col-lg-6">
@@ -186,39 +186,19 @@
                 <table class="align-middle mb-0 table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th class="text-center" style="border: #fcf8e3 solid 1px;"></th>
-                        <th class="text-center text-white" colspan="8" style="border: #fcf8e3 solid 1px; background-color: #727070">Quarters</th>
-                        <th class="text-center" style="border:#fcf8e3 solid 1px;"></th>
-                        <th class="text-center" style="border:#fcf8e3 solid 1px;"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">Title</th>
-                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q1 Target</th>
-                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q1 Actual Value</th>
-                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q2 Target</th>
-                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q2 Actual Value</th>
-                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q3 Target</th>
-                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q3 Actual Value</th>
-                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q4 Target</th>
-                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Q4 Actual Value</th>
-                        <th class="text-center" style="border:#fcf8e3 solid 1px;">Overall Target</th>
-                        <th class="text-center" style="border:#fcf8e3 solid 1px;">Actual Overall Target</th>
+                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Ongoing Projects</th>
+                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Completed Projects</th>
+                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Not Started Projects</th>
+                        <th class="text-center text-white" style="border:#fcf8e3 solid 1px; background-color: #a7a4a4">Paused Projects</th>
                     </tr>
                     </thead>
-                    <tbody *ngIf="reportData.length != 0">
+                    <tbody *ngIf="generalProjectData != null">
 
-                    <tr *ngFor="let target of reportData">
-                        <td class="text-center" style="width: 50%">{{target.title}}</td>
-                        <td class="text-center" style="width: 10%">{{target.firstQuarterTarget | number:'1.0-0'}}</td>
-                        <td class="text-center" style="width: 10%">{{target.firstQuarterActual | number:'1.0-0'}}</td>
-                        <td class="text-center" style="width: 10%">{{target.secondQuarterTarget | number:'1.0-0'}}</td>
-                        <td class="text-center" style="width: 10%">{{target.secondQuarterActual | number:'1.0-0'}}</td>
-                        <td class="text-center" style="width: 10%">{{target.thirdQuarterTarget | number:'1.0-0'}}</td>
-                        <td class="text-center" style="width: 10%">{{target.thirdQuarterActual | number:'1.0-0'}}</td>
-                        <td class="text-center" style="width: 10%">{{target.fourthQuarterTarget | number:'1.0-0'}}</td>
-                        <td class="text-center" style="width: 10%">{{target.fourthQuarterActual | number:'1.0-0'}}</td>
-                        <td class="text-center" style="width: 10%">{{target.overallTarget}}</td>
-                        <td class="text-center" style="width: 10%">{{target.actualOverallTarget}}</td>
+                    <tr >
+                        <td class="text-center" style="font-weight: bolder; font-size: xx-large">{{generalProjectData.ongoingProjects | number:'1.0-0'}}</td>
+                        <td class="text-center" style="font-weight: bolder; font-size: xx-large">{{generalProjectData.completedProjects | number:'1.0-0'}}</td>
+                        <td class="text-center" style="font-weight: bolder; font-size: xx-large">{{generalProjectData.notStartedProjects | number:'1.0-0'}}</td>
+                        <td class="text-center" style="font-weight: bolder; font-size: xx-large">{{generalProjectData.pausedProjects | number:'1.0-0'}}</td>
                     </tr>
                     </tbody>
                 </table>
