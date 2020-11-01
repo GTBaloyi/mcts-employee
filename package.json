@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 7001",
+    "start": "node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -14,6 +14,10 @@
     "swagger:generate": "openapi-generator  generate -i src/app/services/swagger.json -g typescript-angular -o ./src/app/services --config angular.json"
   },
   "private": true,
+  "engines": {
+    "node": "8.12.0",
+    "npm": "6.4.1"
+  },
   "dependencies": {
     "@angular-redux/store": "^9.0.0",
     "@angular/animations": "~8.1.1",
@@ -42,6 +46,7 @@
     "chartjs-plugin-annotation": "^0.5.7",
     "chartjs-plugin-datalabels": "^0.6.0",
     "compass-mixins": "^0.12.10",
+    "express": "^4.17.1",
     "font-awesome": "^4.7.0",
     "html2canvas": "^1.0.0-rc.5",
     "jquery": "^3.4.1",
